@@ -20,22 +20,6 @@
   OpenAPI 에서 권한 신청
   (부동산 거래 웹 서비스 관련 공공API 해당 URL정보 list업 정보자료들..)
 
-## 신청목록 : 
-#### 국토교통부_상업업무용 부동산 매매 신고 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057267#tab_layer_recommend_data
-
-####  국토교통부_아파트매매 실거래 상세 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057511
-
-#### 국토교통부_단독/다가구 매매 실거래 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058022
-
-#### 국토교통부_아파트매매 실거래자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057511
-
-### 국토교통부_아파트 전월세 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058017
-
 - [ ] 웹브라우저에서 할일 -> FrontEnd에 화면 구현 요청
 - [ ] 서버에서 할일 -> BackEnd에 기능 구현 요청
 
