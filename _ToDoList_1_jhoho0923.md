@@ -41,6 +41,11 @@ https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058017
 
 ---
 ## Done
+- [x] 240411(목) vscode 설정
+- [x] 240411(목) api 권한신청 - OpenAPI 부동산
+- [x] 240411(목) api 권한신청 - 외환 거래 송금 서비스 관련
+- [x] 240411(목) 서비스기획 - 외환관련
+- [x] 240411(목) api getRTMSDataSvcNrgTrade 테스트(pytohn)
 - [x] 240409(화) 공통 : 프로젝트 초대 수락
 - [x] 240408(월) React : 복습 시작
 - [x] 240408(월) 공통 : 프로젝트 내 역할 인지
