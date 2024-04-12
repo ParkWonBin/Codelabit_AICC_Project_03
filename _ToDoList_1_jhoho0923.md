@@ -41,7 +41,7 @@ https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058017
 
 ---
 ## Done
-- [x] 20140412(금) 이슈발견 : express-react 통합 관련
+- [x] 20240412(금) 이슈발견 : express-react 통합 관련
   -  현상 : express에서 react 배포한 페이지 깨짐
   -  재현 : static 설정 후 sendFile로 static의 index.html 파일 제공
   -  원인 : 잘 모르겠습니다 ㅠㅠㅠ
