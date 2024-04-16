@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Link } from 'react-router-dom';
+import MapImage from './Map';
+import ChartImage from './ChartImage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState(null);
@@ -19,19 +22,14 @@ function App() {
       <nav className="navbar">
         <h3>AICC 3차 프로젝트 1팀!</h3>
         <ul>
-          <li><a href="/" onClick={handleMAPClick}>MAP</a></li>
-          <li><a href="/about" onClick={handleChartClick}>chart</a></li>
+          <li><Link to="/" onClick={handleMAPClick}>MAP</Link></li>
+          <li><Link to="/about" onClick={handleChartClick}>chart</Link></li>
         </ul>
       </nav>
       <div className="content">
-        {currentPage === 'MAP' && (
-          <img src="/MAP.jpg" alt="MAP" width="700" height="700" />
-        )}
-        {currentPage === 'chart' && (
-          <img src="/chart.png" alt="chart" width="500" height="500" />
-        )}
+        {currentPage === 'MAP' && <Map />}
+        {currentPage === 'chart' && <Chart />}
       </div>
-
       <div className="chatbot-button-container"> 
         <button>챗봇</button>
       </div>
