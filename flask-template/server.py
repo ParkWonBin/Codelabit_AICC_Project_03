@@ -9,4 +9,5 @@ if __name__ == "__main__":
         'port': 4000, 
         'debug': True
     }
+    print( f"서버 실행 |  http://localhost:{serverConfig['port']}")
     app.run(**serverConfig)
