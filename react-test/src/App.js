@@ -1,39 +1,40 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Link } from 'react-router-dom';
-import MapImage from './Map';
-import ChartImage from './ChartImage';
+
+import MapImage from './commponent/MapImage';
+import ChartImage from './commponent/ChartImage';
+import Chatbot from './commponent/chatbot';
+import LoginForm from './commponent/LoginForm'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(null);
 
-  const handleMAPClick = (event) => {
-    event.preventDefault();
-    setCurrentPage('MAP');
-  };
-
-  const handleChartClick = (event) => {
-    event.preventDefault();
-    setCurrentPage('chart');
-  };
 
   return (
-    <div className="App">
-      <nav className="navbar">
-        <h3>AICC 3차 프로젝트 1팀!</h3>
-        <ul>
-          <li><Link to="/" onClick={handleMAPClick}>MAP</Link></li>
-          <li><Link to="/about" onClick={handleChartClick}>chart</Link></li>
-        </ul>
-      </nav>
-      <div className="content">
-        {currentPage === 'MAP' && <Map />}
-        {currentPage === 'chart' && <Chart />}
+    <Router>
+      <div className="App">
+        {/* 네비게이션 */}
+        <nav className="navbar">
+          <h3>AICC 3차 프로젝트 1팀!</h3>
+          <ul>
+            <li><Link to="/map">MAP</Link></li>
+            <li><Link to="/chart">chart</Link></li>
+            <li><Link to="/login">Login</Link></li>
+          </ul>
+        </nav>
+
+        {/* 메뉴별 화면 나오는곳 */}
+        <Routes>
+          <Route path="/map" element={ <MapImage/> } />
+          <Route path="/chart" element={ <ChartImage/>} />
+          <Route path="/login" element={<LoginForm/>} />
+        </Routes>
+         
+         {/* 쳇봇 나오는곳 */}
+        <Chatbot/>
+
       </div>
-      <div className="chatbot-button-container"> 
-        <button>챗봇</button>
-      </div>
-    </div>
+    </Router>
   );
 }
 
