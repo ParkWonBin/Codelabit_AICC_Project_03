@@ -94,4 +94,48 @@ https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058017
 - [x] 240417(수) 오늘 작업한 내용: flask 서버를 구동 하기위해 템플릿을 가지고 소스파일 구조를 파악해 봄, 다량의 나누어 져있는 파일들을 한개의 .py 파이썬 파일로 취합해서 flask 서버를 테스트 해보니 결과 값을 바로 반환 받을 수 있었음. 그 밖에 클래스를 선언하여 Resorce 클래스인지 함수인지 객체 인지는 알수 없는 요소를 상속받아 
 원하는 문자열 데이터를 return 받을수 있어서 결과는 아주 흡족했음.
 - [x] 240417(수) 오늘 작업한 내용: 정해진 스케줄에 맞게 게획대로 알맞게 진행되어 가고 있는것을 느낄 수 있었습니다. 배운다는 자세로 목표한 할당량을 감당할 수 있게 되길 현재 희망하고 있음.
+- [X] 240417(수) flask API 를 실행하기 위한 작업 절차들:
+  1. 파이썬 안에서 파일분리 과정 
+ -> from (패키지명or폴더명.파일명or파일명) import (클래스명 or 함수명)
+
+2. 클래스 정의, 함수 정의 내용
+-> 클래스가 다른 클래스를 상속받음.
+-> 클래스 안에 함수를 정의하는 방법.
+
+3. Flask 서버사용 방법
+-> Flask 작동시키는 법
+-> 외부에서 내 PC에 작동시킨 Flask 진입하는 방법
+
+```python
+# init 에서 설정한 Flask 객체 가져오기
+from flask import Flask
+from flask_cors import CORS
+from flask_restful import Api
+from flask_restful import Resource
+
+class index(Resource):
+    def get(self):
+        return {
+            '성공여부':'성공', 
+            '데이터':[1,2,3,4]
+        }
+
+# Flask 객체 초기화
+app = Flask(__name__)
+
+# CORS 적용
+CORS(app)  
+
+# 라우터 설정
+api = Api(app)
+
+# 경로없이 들어오면 정적 파일 보여주기
+api.add_resource(index, '/')
+
+# app.run : Flask 서버 구동, 기본 포트 5000번
+if __name__ == "__main__":
+    port = 4000
+    print( f"서버 실행 |  http://localhost:{port}")
+    app.run(host='localhost', port=port, debug=True)
+```
  
