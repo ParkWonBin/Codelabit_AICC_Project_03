@@ -1,8 +1,8 @@
 import React from 'react';
 
-function MapImage({src}) {
+function MapImage({props}) {
   return (
-    <img src={src} alt="이미지 없음 ㅠㅠ" width="700" height="700" />
+    <img src={props.src} alt="이미지 없음 ㅠㅠ" width="700" height="700" />
   );
 }
 
