@@ -16,6 +16,12 @@ Role : FrontEnd
 - [x] 240418(목) React : 컴퍼넌트를 만들어서 props로 데이터 연동해보기
 - [x] 240418(목) React : 컴퍼넌트를 파일을 분리해서 관리해보기
 - [x] 240418(목) React : React 공부
+- [x] 240417(수) React : map, chart 옆에 login 버튼 추가  
+- [x] 240417(수) React : map, chart, login 화면 개선 
+- [x] 240417(수) React : react route 써서 화면 구분해보기 
+- [x] 240417(수) React : a 태그 대신 link 써서 화면이동 해보기 
+- [x] 240417(수) React : 각 화면을 컴포넌트로 정의해서 사용해보기
+- [x] 240417(수) React : 정의한 컴포터넌트를 다른 js 파일로 분리해보기
 - [x] 240411(목) React : 프로젝트 생성
 - [x] 240411(목) React : 컴포넌트 생성
 - [x] 240411(목) React : 컴포넌트 스타일 적용
