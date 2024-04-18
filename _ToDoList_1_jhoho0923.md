@@ -123,3 +123,162 @@ if __name__ == "__main__":
     app.run(host='localhost', port=port, debug=True)
 ```
  
+- [x] 240418(목) 오늘 작업한 내용: flask 프레임워크로 
+  서버구조를 분석하고, 분리되어있는 파일조각들을 각각 함수별, 클래스별로 모아서 통합하여 하나의 파일로 서버를 작성함.
+- [x] 240418(목) 오늘 작업한 내용: get 함수로 address 값을    받아와 우리가 원하는 주소를 가지고 지도정보를 즉 위, 경도를 
+값을 json 타입으로 브라우저 화면 창에 가지고 오는 것을 성공하였음. 
+- [x] 240418(목) 오늘 작업한 내용: 가지고 온 속성정보를 
+  알려드립니다. 
+  ```js
+  {
+    "data": [
+        {
+            "name": "경북지방경찰청",
+            "위도": 36.09518431,
+            "경도": 128.46654156
+        }
+    ]
+}
+```
+ - [x] 240418(목) 오늘 작업한 내용: 금일 작업 할당 목록 보여드립니다. (수행완료 한 부분 V쳌므) 1. 플라스크 구조 복습해보기 (V)
+2. '/getData' 로 get요청 들어오면 json 반환하도록 만들어보기.(V)
+3. 플라스크에 '/api'로 get 요청 보내면. 공공데이터에서 가져온 데이터 그대로 전달해주기 (V)
+(쥬피터노트북으로 부동산 거래api 관련 데이터 추출해보기(V))
+- [x] 240418(목) 오늘 작업한 내용: /testAPI 로 get요청 보내 
+api 데이터 정보 응답 받는데 성공 responese.text 로 결과값을 
+return 받는것이 중요한 포인트 부분이라고 생각함. 
+- [x] 240418(목) 오늘 작업한 내용: 팀원 PC에서 나의 flask 서버
+ip주쇼를 연결하려고 했지만, 인바운드 규칙 설정을 해도 처음엔 연결이 실패 하였으나, host=localhost에서 0.0.0.0으로 초기화? 인지 아닌지는 모르겠으나 아무튼 변경하니? ip주소를 전부 연결할 수 있었음. 
+- [x] 240418(목) 오늘 작업한 내용: 금일 작업한 소스코드를 올립니다. 
+```python 
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from flask_restful import Api, Resource, reqparse
+from flask import current_app
+import requests
+import json
+
+class testAPI(Resource):
+    def get(self):
+        # 0. 기본 변수 가져오기
+        apiKey = 'http://apis.data.go.kr/5080000/polcsttnCctvSttuService/getPolcsttnCctvSttu'
+        access_key = '3eOGOAEPOiPqau/C6kf/oHmEnfPCHl13BZoim0o1ruznUU/CNzVrcIBXINoMdMz05a2lcyoAG0EuBsjlaLRHSA=='
+
+        # 1. 요청정보 만들기
+        url = apiKey
+        params = {
+            'serviceKey': access_key,
+            '_type': 'json',
+            'instl_place': '구미시 인동가산로(신동) 임시검문소 앞 (가산→구미)',
+            'la': 36.09518431,
+            'lo' : 128.46654156,
+            'mgc_rspnber': '경북지방경찰청',
+            'telno' : '054-824-2452'
+        }
+
+        # 2. 해당 요청정보로 데이터를 가져온다.
+        dataOpenAPI =  json.loads(requests.get(url, params=params).text)
+
+        # 3. 가져온 데이터를 사용해서 결과물을 만든다.
+        resultJson ={'data':[]}
+        for i in range(len(dataOpenAPI['body'])):
+            resultJson['data'].append({
+            'name' : dataOpenAPI['body'][i]['mgc_rspnber'],
+            '위도' : dataOpenAPI['body'][i]['la'],
+            '경도' : dataOpenAPI['body'][i]['lo']
+        })
+
+        # 4. 결과물을 고객?에게 전달해준다. (리턴)
+        return resultJson
+
+
+class GeocordResource(Resource):
+    def get(self):
+        return searchAddress(request.args.get('address'))
+
+def searchAddress(address):
+    apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+    apiurl = "https://api.vworld.kr/req/search?"
+    params = {
+        "service": "search",
+        "request": "search",
+        "crs": "EPSG:4326",
+        "query": address,
+        "type": "address",
+        "category": "road",
+        "format": "json",
+        "key": apikey,
+    }
+    
+    response = requests.get(apiurl, params=params)
+    print(response)
+
+    data = response.json()
+    print(data)
+
+
+    result = {'data':[]}
+    if data.get('response') and data['response'].get('result') and data['response']['result'].get('items'):
+        for x in data['response']['result']['items']:
+            result['data'].append({
+                '주소': x['address']['road'],
+                '위도': x['point']['y'],
+                '경도': x['point']['x']
+            })
+    else:
+        result['error'] = 'No results found'
+
+    return result
+
+
+def route_app(app):
+    api = Api(app)
+
+    # 경로없이 들어오면 정적 파일 보여주기
+    api.add_resource(testAPI,'/')
+    api.add_resource(GeocordResource, '/getGeocord')
+
+def create_app():
+    # Flask 객체 초기화
+    app = Flask(__name__)
+
+    # 정적 파일 디렉토리 설정
+    app.static_folder = 'public'
+    
+    # URL 경로의 prefix 제거
+    app.static_url_path = ''
+
+    # CORS 적용
+    CORS(app)  
+
+    return app
+
+
+app = create_app()
+route_app(app)
+
+
+# app.run : Flask 서버 구동, 기본 포트 5000번
+if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
+    port = 4000
+    print( f"서버 실행 |  http://localhost:{port}")
+    app.run(host= '0.0.0.0',
+        port= port, 
+        debug= True)
+
+
+```
+ - [x] 240418(목) 명일 작업 에정인 사항:
+   oracle 과 연결 진행 예정
+   개인 pc의 오라클 사용해서 연결
+   잘 되면 정훈씨 pc와 연결 시도 할 계획임
+   버튼을 클릭하면 falsk에서 data 받아서 출력 작업 계획 예정
+   버튼을 클릭하면 express 에서 data 받아서 출력 ''
+
+   
