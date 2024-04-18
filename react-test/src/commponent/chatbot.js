@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
 
-function Chatbot() { // Changed the component name to start with an uppercase letter
-
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false); 
+function Chatbot() {
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   const toggleChatbot = () => {
-    setIsChatbotOpen(!isChatbotOpen); 
+    setIsChatbotOpen(!isChatbotOpen);
   };
 
   return (
-    <div className="chatbot-button-container"> 
+    <div className="chatbot-container">
+      <div className="chatbot-button-container">
         <button onClick={toggleChatbot}>챗봇</button>
+      </div>
+
+      {isChatbotOpen && (
+        <div className="chatbot-chat-container" style={chatbotStyle}>
+  
+          <p>챗봇</p>
+        </div>
+      )}
     </div>
   );
 }
 
-export default Chatbot; // Updated the export name to match the component name
+const chatbotStyle = {
+  width: '300px',
+  height: '400px',
+  border: '1px solid #ccc',
+  borderRadius: '8px',
+  padding: '16px',
+  position: 'fixed',
+  bottom: '20px',
+  right: '20px',
+  backgroundColor: '#fff',
+  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+};
+
+export default Chatbot;
