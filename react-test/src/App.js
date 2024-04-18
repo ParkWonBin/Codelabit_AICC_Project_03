@@ -24,7 +24,7 @@ function App() {
 
         {/* 메뉴별 화면 나오는곳 */}
         <Routes>
-        <Route path="/map" element={<MapImage src={'/MAP.jpg'} />} />
+          <Route path="/map" element={<MapImage src={'/MAP.jpg'} />} />
 <Route path="/chart" element={<ChartImage src={'/chart.png'} />} />
           {/* <Route path="/chart" element={<ChartImage data={chartData} src={imgSrc} />} />  */}
           <Route path="/login" element={<LoginForm />} />
