@@ -1,8 +1,8 @@
 import React from 'react';
 
-function MapImage() {
+function MapImage({src}) {
   return (
-    <img src="/MAP.jpg" alt="MAP" width="700" height="700" />
+    <img src={src} alt="이미지 없음 ㅠㅠ" width="700" height="700" />
   );
 }
 

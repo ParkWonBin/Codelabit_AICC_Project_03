@@ -5,11 +5,10 @@ import './App.css';
 import MapImage from './commponent/MapImage';
 import ChartImage from './commponent/ChartImage';
 import Chatbot from './commponent/chatbot';
-import LoginForm from './commponent/LoginForm'
+import LoginForm from './commponent/LoginForm';
+
 
 function App() {
-
-
   return (
     <Router>
       <div className="App">
@@ -25,14 +24,15 @@ function App() {
 
         {/* 메뉴별 화면 나오는곳 */}
         <Routes>
-          <Route path="/map" element={ <MapImage/> } />
-          <Route path="/chart" element={ <ChartImage/>} />
-          <Route path="/login" element={<LoginForm/>} />
+        <Route path="/map" element={<MapImage src={'/MAP.jpg'} />} />
+<Route path="/chart" element={<ChartImage src={'/chart.png'} />} />
+          {/* <Route path="/chart" element={<ChartImage data={chartData} src={imgSrc} />} />  */}
+          <Route path="/login" element={<LoginForm />} />
         </Routes>
          
          {/* 쳇봇 나오는곳 */}
+        
         <Chatbot/>
-
       </div>
     </Router>
   );

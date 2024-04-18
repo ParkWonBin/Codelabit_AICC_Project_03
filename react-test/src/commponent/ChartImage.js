@@ -1,8 +1,10 @@
 import React from 'react';
 
-function ChartImage() {
+function ChartImage( { src }) {
   return (
-    <img src="/chart.png" alt="chart" width="700" height="700" />
+    <div>
+      <img src={src} alt="이미지 없음 ㅠㅠ" width="700" height="700" />
+    </div>
   );
 }
 
