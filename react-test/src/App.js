@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import './App.css';
+import axios from 'axios'
 
 import MapImage from './commponent/MapImage';
 import ChartImage from './commponent/ChartImage';
