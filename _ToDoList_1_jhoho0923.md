@@ -297,4 +297,158 @@ if __name__ == "__main__":
    버튼을 클릭하면 falsk에서 data 받아서 출력 작업 계획 예정
    버튼을 클릭하면 express 에서 data 받아서 출력 ''
 
+
+- [x] 240418(금) 오늘 작업한 내용:
+  부동산 데이터를 분석 후, 매매 거래 데이터에 위도 경도 데이터를 붙여오는 작업을 합니다. 
+- [x] 240418(금) 오늘 작업한 내용: 
+  리엑트 안에서 카카오 맵을 이용하여 가능하다면 마커랑 텍스트까지 띄워보기 작업을 진행합니다. 
+ - [x] 240418(금) 오늘 작업한 내용: 
+  아니면 카카오 맵이라도 띄워보기를 진행합니다.
+ - [x] 240418(금) 오늘 작업한 내용: 
+  flask 서버에서 공공데이터에서 제공하는 부동산 거래 현황 데이터를 
+  json 데이터로 변환해서 받아오는 것의 일련의 작업을 진행함. 처음엔 JSONDecoder Error가 발생해 인코딩 문제인가 하고 GPT를 콩해 검색해보니, json 티입을 가지고 오지 못해 타입에러가 발생한다고 함 그래서 가지고 온 api 타입을 check 했더니, type=json이 아니라, '_type' 이런식으로 표기해와야 한다는 것을 알게 되었다, 다시 서버를 돌렸더니, 디코드 에러는 사라졌는데, 갑자기 TypeError 가 발생 이것도 GPT의 도움으로 수소문 끝에 json.dumps(resultJson, ensure_ascii=False)를 썼더니 이상하게 표기되어, 다시 jsonify() 함수를 적용했더니, 데이터가 이쁘게 출력되었음. 첫번째 임무는 완료되어 상당히 흡족했음.
+ - [x] 240418(금) 오늘 작업한 내용: 
+   json 부동산 데이터를 가지고 오는데 성공을 하니, 지도데이터를 표현하는데 필요한 위도, 경도를 데이터 붙이는 작업을 진행하려고 시도함. 그래서 구글 검색 해보니 주소 값으로 위 경도 데이터를 반환값을 반환받을 수 있는 파이썬에서 제공해주는 geopy라는 라이브러리가 있었음. pip install geopy 명령어로 설치를 하고 import로 Nominatim 클래스로 명시하며 코드를 구현하였더니,  아주 순조롭게 원하는 json 데이터만을 추출해서 추가로 해당 위도, 경도 데이터를 다행히 잘 받아올 수 있음.
+   이것은 구현 완성된 코드입니다. 
+   ```python
+from flask import Flask, request, jsonify
+from geopy.geocoders import Nominatim
+from flask_cors import CORS
+from flask_restful import Api, Resource, reqparse
+from flask import current_app
+import requests
+import json
+
+class testAPI(Resource):
+    def get(self):
+        # 0. 기본 변수 가져오기
+        url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
+        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
+        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+
+        # 1. 요청정보 만들기
+        url = url
+        params = {
+           'serviceKey': access_key, 
+           'LAWD_CD': '11110', 
+           'DEAL_YMD': '202305',
+           '_type': 'json'
+        }
+
+        # 2. 해당 요청정보로 데이터를 가져온다.
+        
+        response = requests.get(url, params=params)
+        dataOpenAPI =  json.loads(requests.get(url, params=params).text)
+        # dataOpenAPI =  json.loads(response.text)
+        # return response.text
+
+        print(response)
+
+        data = response.json()
+        print(data)
+
+        # 3. 가져온 데이터를 사용해서 결과물을 만든다.
+        # resultJson ={'data':[]}
+        # for i in range(len(dataOpenAPI['response']['body']['items']['item'])):
+        #     resultJson['data'].append({
+        #     # '건물면적' : dataOpenAPI['response']['body']['items']['item'][i]['건물면적'],
+        #     '주소' : dataOpenAPI['response']['body']['items']['item']['법정동'],
+        #     '주소지역' : dataOpenAPI['response']['body']['items']['item'][i]['시군구'],
+        #     '용도지역' : dataOpenAPI['response']['body']['items']['item'][i]['용도지역']
+        # })
+
+        # 4. 결과물을 고객?에게 전달해준다. (리턴)
+        # return resultJson
+
+        resultJson ={'data':[]}
+        items = dataOpenAPI.get('response', {}).get('body', {}).get('items', {}).get('item', [])
+        
+        geolocator = Nominatim(user_agent='chiricuto')
+        for item in items:
+            location = geolocator.geocode(item.get('시군구'))
+
+            # print(f'AAAAAAA:',addr)  
+            # latitude = location.latitude
+            # longitude = location.longitude 
+            # print(f'위도:',latitude)  
+            # print(f'경도:',longitude)  
+        
+            # try:
+            resultJson['data'].append({
+                '건물면적': item.get('건물면적'),
+                '주소': item.get('법정동'),
+                '주소지역': item.get('시군구'),
+                '용도지역': item.get('용도지역'),
+                '위도':location.latitude,
+                '경도':location.longitude
+            })
+            # except KeyError as e:
+                # continue  # 또는 로그 찍기 등의 예외 처리
+        # 결과를 JSON 문자열로 변환하여 반환
+        # return json.dumps(resultJson, ensure_ascii=False)
+        return jsonify(resultJson)
+
+        def route_app(app):
+    api = Api(app)
+
+    # 경로없이 들어오면 정적 파일 보여주기
+    api.add_resource(testAPI,'/')
+    # api.add_resource(GeocordResource, '/getGeocord')
+
+def create_app():
+    # Flask 객체 초기화
+    app = Flask(__name__)
+
+    # 정적 파일 디렉토리 설정
+    app.static_folder = 'public'
+    
+    # URL 경로의 prefix 제거
+    app.static_url_path = ''
+
+    # CORS 적용
+    CORS(app)  
+
+    return app
+
+
+app = create_app()
+route_app(app)
+
+
+# app.run : Flask 서버 구동, 기본 포트 5000번
+if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
+    port = 4000
+    print( f"서버 실행 |  http://localhost:{port}")
+    app.run(host= '0.0.0.0',
+        port= port, 
+        debug= True) 
+   ```
+이상임.   
+- [x] 240418(금) 오늘 작업한 내용:    
+지난번 실패햤던 <script src='?'> 로 api 가지고 와서 지도를 브라우저화면에 출력하는 작업이 스크립트가 로드가 안되면서 연달이
+실행에 실패하였는데, 동일한 소스를 파이썬 내장서버를 사용하여 url을
+호춯하였더니 카카오 지도를 출력하는 작업을 성공하였다.(성공한 호스트 주소: http://localhost:8000/map.html) 이유는 아마도
+서버 보안 문제로 알맞는 서버를 사용하여 api 데이터를 가져와야먼 하는것이 아닐까 추측해봄. (이유를 아직도 잘 모르겠다..)
+- [x] 240418(금) 오늘 작업한 내용:
+카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
+이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 안전하게 작업을 수행완료할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
+- [x] 240418(금) 오늘 작업한 내용:
+React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
+- [x] 240418(금) 오늘 작업한 내용:
+구글에 문의하니 스크립트 로드전에 window 객체에 먼저 접근하라고 함.. 에러는 없어졌는데 지도는 확인이 안됨. 월요일에 다시 시도해 봐야겠다. 
+
+
+
+
+
+
+
+
+
    
