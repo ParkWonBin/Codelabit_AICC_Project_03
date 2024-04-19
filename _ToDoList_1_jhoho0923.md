@@ -421,7 +421,73 @@ if __name__ == "__main__":
 서버 보안 문제로 알맞는 서버를 사용하여 api 데이터를 가져와야먼 하는것이 아닐까 추측해봄. (이유를 아직도 잘 모르겠다..)
 - [x] 240418(금) 오늘 작업한 내용:
 카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
-이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 안전하게 작업을 수행완료할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
+이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 이벤트까지도 안전하게 작업을 수행할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
+적용한 소스코드이다. 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps Example</title>
+    <!-- <script type="text/javascript" src="./kakaoAPI.js"></script> -->
+    <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
+    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={여기에인증키들어감}"></script> -->
+
+
+   
+</head>
+<body>
+    <h1>Kakao Maps in Action</h1>
+    <div id="map" style="width:500px;height:400px;"></div>
+    
+    <script type="text/javascript">
+
+
+        // 자동 로드를 비활성화하고 API가 준비된 후 지도를 초기화합니다.
+        kakao.maps.load( function() {
+		//window.onload = function() {
+            var container = document.getElementById('map');
+            var options = {
+                // 37.576851,   126.973191
+                //center: new kakao.maps.LatLng(33.450701, 126.570667),
+                center: new kakao.maps.LatLng(37.576851, 126.973191),
+                level: 3
+            };
+            var map = new kakao.maps.Map(container, options);
+
+            var marker = new kakao.maps.Marker({ 
+            // 지도 중심좌표에 마커를 생성합니다 
+            position: map.getCenter() 
+          }); 
+        // 지도에 마커를 표시합니다
+        marker.setMap(map);
+
+        // 지도에 클릭 이벤트를 등록합니다
+        // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        
+        // 클릭한 위도, 경도 정보를 가져옵니다 
+        var latlng = mouseEvent.latLng; 
+    
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);    
+        
+        var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        message += '경도는 ' + latlng.getLng() + ' 입니다~!!';
+        
+        var resultGeoposition = document.getElementById('result'); 
+        resultGeoposition.innerHTML = message;
+    
+    });
+        });
+    </script>
+    <div id="result" style="width:500px;height:400px;">여기에 지도 위치 정보를 표시합니다.</div>
+</body>
+</html>
+
+
+```
+
 - [x] 240418(금) 오늘 작업한 내용:
 React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
 - [x] 240418(금) 오늘 작업한 내용:
