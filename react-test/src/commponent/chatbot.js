@@ -10,7 +10,7 @@ function Chatbot() {
   return (
     <div className="chatbot-container">
       <div className="chatbot-button-container">
-        <button onClick={toggleChatbot}>챗봇</button>
+        <button1 onClick={toggleChatbot}>챗봇</button1>
       </div>
 
       {isChatbotOpen && (
