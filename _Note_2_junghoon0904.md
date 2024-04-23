@@ -1,4 +1,21 @@
+--------------------
+#### 2024.04.23.(화)
+- [x] express | app.js > router 파일분리
+- [ ] express | crud.js > db관련된 부분 파일 분리. 
+      ( CRUD할 때, DB관련된 코드만 따로 파일분리 -> 2차PJ DB폴더)
+- [ ] req 연습
+  - [ ] req.body
+  - [ ] req.query
+  - [ ] req.params
+  - [ ] req.session 
+- [ ] res 연습
+  - [ ] res.render 
+  - [ ] res.redirect
+  - [ ] res.send
+  - [ ] res.sendFile
+  - [ ] res.json
 
+--------------------
 #### 2024.04.22.(월)
 ##### 주요내용 :
 1. 오라클 관련
