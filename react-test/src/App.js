@@ -17,11 +17,12 @@ function App() {
   
   const fetchData = () => {
     axios.get('http://apis.data.go.kr/5080000/polcsttnCctvSttuService/getPolcsttnCctvSttu')
-      .then((결과) => {
-        console.log(결과.data);
+      .then((response) => {
+        // 받아온 데이터를 state에 저장
+        setApiData(response.data);
       })
       .catch((error) => {
-        console.log('실패함', data);
+        console.log('실패함', error);
       });
   };
 
