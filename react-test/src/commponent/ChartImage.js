@@ -2,11 +2,15 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2'; 
 
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function ChartImage({ labels, dataProp }) {
   console.log('차트 이미지 로드 시작!');
+  console.log('labels:', labels);
+  console.log('dataProp:', dataProp);
 
+  // 차트에 표시될 데이터
   const chartData = {
     labels: labels || ['Red', 'Blue', 'Yellow'],
     datasets: [{
@@ -29,19 +33,18 @@ function ChartImage({ labels, dataProp }) {
       height: '100vh', // 화면 높이에 맞추기 위한 설정
     }}>
       <div style={{ 
-        width: '850px',  // 부모 div의 너비를 850px로 조절
-        height: '850px', // 부모 div의 높이를 850px로 조절
+        width: '400px',  // 너비 조정
+        height: '400px', // 높이 조정
         position: 'relative', 
-        margin: 'auto' // 가운데 정렬을 위한 설정
+        margin: 'auto', // 가운데 정렬을 위한 설정
+        overflow: 'hidden' // 차트가 부모 div를 넘어가지 않도록 overflow 설정
       }}>
-        <h2>도너츠 차트</h2>
+        {/* <h2>도너츠 차트</h2> */}
+        {/* react-chartjs-2의 Pie 컴포넌트를 사용하여 도너츠 차트를 렌더링*/}
         <Pie 
           data={chartData} 
           options={{ 
-            maintainAspectRatio: false,
-            responsive: false,
-            width: 1500, // 차트 너비를 800px로 조절
-            height: 1500, // 차트 높이를 800px로 조절
+            maintainAspectRatio: false, // false로 변경하여 비율 고정
             plugins: {
               legend: {
                 display: false
@@ -53,5 +56,6 @@ function ChartImage({ labels, dataProp }) {
     </div>
   );
 }
+
 
 export default ChartImage;
