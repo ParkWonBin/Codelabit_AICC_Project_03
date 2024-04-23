@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps Example</title>
+    <script type="text/javascript" src="kakaoMap.js"></script>   
+</head>
+<body>
+    <h1>Kakao Maps in Action</h1>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="result" style="width:500px;height:400px;">여기에 지도 위치 정보를 표시합니다.</div>
+</body>
+
+<script type="text/javascript">
+kakao.maps.load( function() {
+    // 지도 생성
+    const map = new kakao.maps.Map(
+        document.getElementById('map'), {
+        center: new kakao.maps.LatLng(37.576851, 126.973191),
+        level: 3
+    });
+
+    // 지도 중심좌표에 마커를 생성합니다 
+    const marker = new kakao.maps.Marker({ position: map.getCenter() }); 
+      
+    // 지도에 마커를 표시합니다
+    marker.setMap(map);
+
+    // 지도에 클릭 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        // 클릭한 위도, 경도 정보를 가져옵니다 
+        var latlng = mouseEvent.latLng; 
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        marker.setPosition(latlng);    
+        
+        document.getElementById('result').innerHTML = 
+            `클릭한 위치 : <br>{위도: ${latlng.getLat()}, 경도: ${latlng.getLng()}}`;
+
+    });
+});
+</script>
+
+</html>
