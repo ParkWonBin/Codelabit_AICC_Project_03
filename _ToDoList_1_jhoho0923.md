@@ -294,7 +294,7 @@ if __name__ == "__main__":
  - [x] 240418(금) 오늘 작업한 내용: 
    json 부동산 데이터를 가지고 오는데 성공을 하니, 지도데이터를 표현하는데 필요한 위도, 경도를 데이터 붙이는 작업을 진행하려고 시도함. 그래서 구글 검색 해보니 주소 값으로 위 경도 데이터를 반환값을 반환받을 수 있는 파이썬에서 제공해주는 geopy라는 라이브러리가 있었음. pip install geopy 명령어로 설치를 하고 import로 Nominatim 클래스로 명시하며 코드를 구현하였더니,  아주 순조롭게 원하는 json 데이터만을 추출해서 추가로 해당 위도, 경도 데이터를 다행히 잘 받아올 수 있음.
    이것은 구현 완성된 코드입니다. 
-   ```python
+```python
 from flask import Flask, request, jsonify
 from geopy.geocoders import Nominatim
 from flask_cors import CORS
@@ -413,6 +413,7 @@ if __name__ == "__main__":
         port= port, 
         debug= True) 
    ```
+
 이상임.   
 - [x] 240418(금) 오늘 작업한 내용:    
 지난번 실패햤던 <script src='?'> 로 api 가지고 와서 지도를 브라우저화면에 출력하는 작업이 스크립트가 로드가 안되면서 연달이
@@ -423,6 +424,8 @@ if __name__ == "__main__":
 카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
 이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 이벤트까지도 안전하게 작업을 수행할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
 적용한 소스코드이다. 
+
+
 ```html
 <!DOCTYPE html>
 <html lang="ko">
@@ -435,8 +438,8 @@ if __name__ == "__main__":
 
 
    
-</head>
-<body>
+ </head>
+ <body>
     <h1>Kakao Maps in Action</h1>
     <div id="map" style="width:500px;height:400px;"></div>
     
@@ -485,11 +488,10 @@ if __name__ == "__main__":
 </body>
 </html>
 
-
-```
+ ```
 
 - [x] 240418(금) 오늘 작업한 내용:
-React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
+ React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
 - [x] 240418(금) 오늘 작업한 내용:
 구글에 문의하니 스크립트 로드전에 window 객체에 먼저 접근하라고 함.. 에러는 없어졌는데 지도는 확인이 안됨. 월요일에 다시 시도해 봐야겠다. 
 
@@ -515,6 +517,233 @@ React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변�
   두번째 작업을 완료한 후 flask 에서 요청 받은 문자열 데이터를 버튼을 이용해서 새페이지를 호출하여 문자 데이터열을 잘 받아오는지 확인을 했는데 버튼을 입력했더니 응답 데이터가 잘 들어오는 것을 확인하여 이후 Rect로 적용시 flask 에서 요청 받은 데이터를 잘 처리할수 있는 전단계 작업을 완료 할수 있었습니다. 
 - [x] 240423(화) 오늘 작업한 내용:
   플라스크 에서 OpenAPI값을 잘 받아와 이후 오라클에서 DB를 적재하고 백엔드 데이터를 넘겨주는 구조를 파악을 해볼 예정입니다.
+- [x] 240423(수) 오늘 작업한 내용:
+  map.html 에서 부동산 관련 정보를 데이터열인 data =[{}] 에 저장해두고 
+  버튼을 이용해 클릭하면 해당 URL주소와 +?파라미터 GET 요청으로 데이터를 전달 받을수 있나 javaScript 소스코드를 구현을 해보았다. 소스코드를 참고자료로 업데이트 해 놓겠다.
+  하위 내용은 자바스크립트 와 관련 html 코드다.
+-- map.html --
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps Example</title>
+    <!-- <script type="text/javascript" src="./kakaoAPI.js"></script> -->
+    <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
+    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=98e28395f82f8f50d2ed0c0b19e10e18"></script> -->
+</head>
+<body>
+    <h1>Kakao Maps in Action</h1>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="budongInfo" style="width:500px;height:400px;">여기에 부동산 정보를 표시합니다.
+
+        <table border="3" id="dataTable" >
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>건물면적</th>
+                <th>용도지역</th>
+                <th>위도</th>
+                <th>경도</th>
+                <th>주소</th>
+                <th>주소지역</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JavaScript를 통해 여기에 데이터가 삽입 -->
+            </tbody>
+        </table>
+    </div><br>
+    <div id="result3" style="width:500px;height:400px;"><input id="sending" type="button" onclick="sendData()" value="Send Data" /></div>
+    <script type="text/javascript">
+
+        // 자동 로드를 비활성화하고 API가 준비된 후 지도를 초기화합니다.
+        kakao.maps.load( function () {
+            //window.onload = function() {
+            var container = document.getElementById('map');
+            var options = {
+                // 37.576851,   126.973191
+                //center: new kakao.maps.LatLng(33.450701, 126.570667),
+                center: new kakao.maps.LatLng(37.576851, 126.973191),
+                level: 3
+            };
+            var map = new kakao.maps.Map(container, options);
+
+            var marker = new kakao.maps.Marker({
+                // 지도 중심좌표에 마커를 생성합니다
+                position: map.getCenter()
+            });
+            // 지도에 마커를 표시합니다
+            marker.setMap(map);
+
+            // 지도에 클릭 이벤트를 등록합니다
+            // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+            kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+                // 클릭한 위도, 경도 정보를 가져옵니다
+                var latlng = mouseEvent.latLng;
+
+                // 마커 위치를 클릭한 위치로 옮깁니다
+                marker.setPosition(latlng);
+
+                var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+                message += '경도는 ' + latlng.getLng() + ' 입니다~!!';
+
+                var resultGeoposition = document.getElementById('result');
+                resultGeoposition.innerHTML = message;
+
+            });
+        });
+
+        // 예제 데이터 배열
+        const data = [
+            {번호: 1, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" },
+            {번호: 2, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" },
+            {번호: 3, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" }
+
+        ];
+
+
+        // "건물면적": 680.83,
+        //     "경도": 126.9827989,
+        //     "용도지역": "제1종일반주거",
+        //     "위도": 37.5806949,
+        //     "주소": " 통의동",
+        //     "주소지역": "종로구"
+
+        // 테이블의 tbody 요소를 선택
+        const tbody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+        // 데이터 배열을 순회하면서 테이블 행을 추가
+        data.forEach(function (item) {
+            const row = tbody.insertRow(); // 새 행 추가
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+            const cell7 = row.insertCell(5);
+
+
+            cell1.innerHTML = item.번호;   // 번호
+            cell2.innerHTML = item.건물면적; // 건물면적
+            cell3.innerHTML = item.용도지역;  // 용도지역
+            cell4.innerHTML = item.위도;  // 위도
+            cell5.innerHTML = item.경도;  // 경도
+            cell6.innerHTML = item.주소;  // 주소
+            cell7.innerHTML = item.주소지역;  // 주소지역
+        });
+        
+         
+       function directToUrl() {
+        // 여기에 이동하고 싶은 URL을 입력하세요.
+           var url = "http://localhost:4000/budong_info";
+           // var url = "http://localhost:4000/";
+           console.log(url);
+        // var button = document.getElementById('inputInfo');
+        // 페이지 리디렉션
+        window.location.href = url;
+    }
+
+
+        function createURL(item) {
+            const baseURL = "http://localhost:4000/search";
+
+            const urls = data.map( item => {
+            const queryParams = new URLSearchParams({
+                    number: item.번호,
+                    area: item.건물면적,
+                    usage: item.용도지역,
+                    latitude: item.위도,
+                    longitude: item.경도,
+                    address: item.주소,
+                    region: item.주소지역
+            });
+            console.log( "queryParams  ====> {}", queryParams.toString());
+            const sendUrl = `${baseURL}?${queryParams.toString()}`;
+            return sendUrl;
+            });
+            return urls;
+        }
+
+        // 사용 예
+        // console.log(createURL(data));
+
+        function sendData() {
+            console.log( "data{} ===> ",data);
+            document.getElementById('sending').addEventListener('click', function(event) {
+                const request = "http://localhost:4000/search";
+
+                data.forEach(item => {
+                    const sendingURL = createURL(item);
+                    fetch(sendingURL, { method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }) // GET 메소드를 사용하며, 서버가 이를 처리할 수 있어야 함
+                        .then(response => response.json())
+                        .then(data => {console.log(`Data sent successfully: ${JSON.stringify(data)}`);return data})
+                        .catch(error => console.error('Error sending data:', error));
+                });
+                window.location.href = "http://localhost:4000?sendData=" + JSON.stringify(data);
+                event.stopPropagation();
+            });
+
+        }
+
+    </script>
+    <div id="result" style="width:500px;height:400px;">여기에 지도 위치 정보를 표시합니다.</div>
+    <div id="result2" style="width:500px;height:400px;"><input type="button" onclick="directToUrl()" value="데이터넘기기" >
+    </div>
+
+</body>
+</html>
+```
+
+- [x] 240423(수) 오늘 작업한 내용:
+  소스코드를 구현중에 한가지 의문점이 든것은, fetch() 라는 함수였는데 GPT에 검색해서 알아보니, 서버와 비동기적으로 통신할 수 있게 하는 함수라고 한다. 
+  fetch 함수를 이용해서 http 요청을 보내고 받는 기술인것 같은데, 문제는 json을 설정을 해놓아도 문자열로 반환을 해주는지 에 대한 부분에서 기억은 안나는데 Type Error 가 발생했는데 다시 페이지를 열러고 하니 보안 문제 때문에 url 주소에 json 데이터 타입의 문자열로 ?sendData= 이런식을 값은 반환이 되는데 이건 claen한 소스코드 구현은 아닌것 같아 자꾸 의문점이 든다..
+- [x] 240423(수) 오늘 작업한 내용:
+  아마도 반환 받는 값이 문자열로 변경해야 타입이 알맞게 들어갈꺼 같아, JSON.stringify(data)를 반환해서 결과 값을 리턴 받는것을 시도하였는데, 데이터는 잘받아오나, 타입이 클릭 이벤트 발생시 적어도 한번은 Type Error 를 출력하는데, 우선 데이터는 무사히 잘 넘어오는 것을 확인 할수 있었다. 
+- [x] 240423(수) 오늘 작업한 내용:
+  sendData() 함수를 호출할때 뭔가 이벤트가 함께 발생 되는것 같아, 이벤트 버블링 현상을 막기 위해 event.stopPropagation(); 함수를 사용해서 이벤르 버블링 현상을 막는것을 소스를 수정,보완하여 시도하였다.
+- [x] 240423(수) 오늘 작업한 내용:
+  detail.html을 만들어 HTML 새 페이지를 호출하려고 javaScript로 만들려고 했지만, fetch를 사용했으나 url을 문자열로만 인식하고, 해당 웹 페이지가 존재하지 않기 때문에 값을 detail.html 페이지에 뿌릴수 없었다. 그럼 flask쪽에서 서버가 구현되어 있으니깐, 플라스크로 요청을 시도해볼까 라는 
+  라는 의심으로 python flask 서버에서 class Detail(Resource): 리소스 클래스를 상속받아 add_resource(Detail, "/detail") 을 호출해 웹 페이지를 달라고 요청하니 map.html 파일에서 fetch 가 구현되었고 url주소상에서 파라미터 값으로 해당 부동산정보 데이터를 전부 가지고 오는것을 확인하였다.
+- [x] 240423(수) 오늘 작업한 내용:
+  flask 서버에서 데이터 정보들을 가지고와 detail.html 파일을 불러오는데 어떤 필요한 것이 있을까 찾아보니 render_template() 라는 함수를 이용하면 html 파일을 찾아서 반환해준다는 것을 확인하였다. 사용방법은 import render_template 모듈을 선언하여 사용하니 html파일을 불러올수 있었다. 다만, 스크립트 소스코드로 인식해서 파일 원본 소스코드 전체 반환되니 테스트는 성공하였으나, html 태그를 브라우저에서 화면을 랜더링하는 것은 할수없었다.
+- [x] 240423(수) 오늘 작업한 내용:
+  flask 에서 html 태그를 그릴수 없었던 이유는 make_reponse() 함수를 import 플라스크에 make_response를 선언하여 response = make_response(html 파일명) 을 가지고 와  ['Content-Type'] = 'text/html' 을 정의하지 않았기 때문에 해당 파일이 html태그를 인식하지 못하기에 발생한 문제였다. 소스를 수정하고 return response 를 호출하니 url주소로 string JSON 문자열을 가지고 오고 detail.html 파일을 출력 할수 있었다. 
+  참고차 추가딘 소스코드를 올린다. 
+
+  ```python 
+  class Detail(Resource):
+    def get(self):
+
+        data = [
+            {"번호": 1, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+            {"번호": 2, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+            {"번호": 3, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" }
+        ]
+        # return {"data": data}, 200
+        html = render_template('detail.html')
+        # make_response를 사용하여 응답 객체 생성
+        response = make_response(html)
+
+        response.headers['Content-Type'] = 'text/html'
+        
+        return response
+
+  ```
+  다만 스크립트에서 html 태그를 그릴수 없어서 해당 데이터 열들을 화면에 그릴수 가 없었는데 이부분은 
+  이후 찾아보고 고쳐보겠다. (원빈씨가 방법을 찾았는데 화면에 데이터를 받아올수 없었던 이유는 render_template('detail.html',data=data) 2두번째 인수에 data를 딕셔니리 타입으로 명시하지 않았기에 데이터를 불러 올수 없었던 이슈 였다. 해당 데이터를 페이지에서 값을 잘 담아올수 있는 것을 확인하고 오늘 작업 수행을 완료한다.)
+
+
+
+
+
 
 
 
