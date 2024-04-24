@@ -13,6 +13,8 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240424(수) React : axios로 데이터 받아와서 lask에서 받은 데이터를 state에 집어넣는 공부 코딩애플 영상보고 이해 하기
+- [x] 240424(수) React : React Effect공부하기
 - [x] 240423(화) React : React Effect공부하기
 - [x] 240423(화) React : 차트 메뉴 눌렀을때 파이 차트 나오게 파이차트 그리기
 - [x] 240423(화) React : 다른 서버에서 api 가져와 사용해보기(이해하기)
