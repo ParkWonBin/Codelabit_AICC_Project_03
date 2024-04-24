@@ -1,3 +1,5 @@
+// LoginForm.js
+
 import React, { useState } from 'react';
 import './LoginForm.css';
 
@@ -8,7 +10,7 @@ function LoginForm() {
   const handleLogin = () => {
     // 로그인 로직을 여기에 작성합니다.
     console.log('로그인 시도:', getId, getPassword);
-    alert(`${getId}\n ${getPassword}`)
+    alert(`${getId}\n ${getPassword}`);
   };
 
   const handleSignUp = () => {
@@ -16,7 +18,6 @@ function LoginForm() {
     console.log('회원가입 페이지로 이동');
   };
 
-  
   return (
     <div>
       <div>

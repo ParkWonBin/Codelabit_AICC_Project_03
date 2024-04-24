@@ -17,12 +17,12 @@ function App() {
   
   const fetchData = () => {
     axios.get('http://apis.data.go.kr/5080000/polcsttnCctvSttuService/getPolcsttnCctvSttu')
-      .then((response) => {
+      .then((결과) => {
         // 받아온 데이터를 state에 저장
-        setApiData(response.data);
+        setApiData(결과.data);
       })
-      .catch((error) => {
-        console.log('실패함', error);
+      .catch((data) => {
+        console.log('실패함', data);
       });
   };
 
@@ -39,17 +39,18 @@ function App() {
           </ul>
         </nav>
 
-        {/* 메뉴별 화면 나오는곳 */}
-        <Routes>
+         {/* 메뉴별 화면 나오는곳 */}
+         <Routes>
           <Route path="/map" element={<MapImage src="/MAP.jpg" />} />
           <Route path="/chart" element={<ChartImage labels={labels} dataProp={data} />} />
-          <Route path="/login" element={<LoginForm />} />
+          {/* LoginForm에 fetchData와 apiData 전달 */}
+          <Route path="/login" element={<LoginForm fetchData={fetchData} apiData={apiData} />} />
         </Routes>
 
-        {/* 데이터 받아오는 버튼 */}
+        {/* 데이터 받아오는 버튼 (LoginForm으로 옮기지 않음) */}
         <button onClick={fetchData}>데이터 받아오기</button>
         
-        {/* 받아온 데이터를 출력 */}
+        {/* 받아온 데이터를 출력 (LoginForm으로 옮기지 않음) */}
         {apiData && (
           <div>
             <h4>받아온 데이터:</h4>
