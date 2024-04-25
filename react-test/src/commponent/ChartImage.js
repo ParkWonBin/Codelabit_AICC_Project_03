@@ -5,7 +5,8 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ChartImage({ labels, dataProp }) {
+function ChartImage(props) {
+  const { labels, dataProp } = props
   console.log('차트 이미지 로드 시작!');
   console.log('labels:', labels);
   console.log('dataProp:', dataProp);
