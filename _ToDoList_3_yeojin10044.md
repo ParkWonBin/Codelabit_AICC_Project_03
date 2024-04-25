@@ -13,6 +13,12 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240425(목) React : React Redux 전체 영상 보고 메모 정리 하기
+- [x] 240425(목) React : express 서버가 외부의 요청을 받게 하는 방법
+- [x] 240425(목) React : json으로 데이터 받게 설정
+- [x] 240425(목) React : 데이터 받기(완료)
+- [x] 240425(목) React : Redux store 보관하는법
+- [x] 240425(목) React : Redux store에 있던 state 가져다쓰는법
 - [x] 240424(수) React : axios로 데이터 받아와서 lask에서 받은 데이터를 state에 집어넣는 공부 코딩애플 영상보고 이해 하기
 - [x] 240424(수) React : React Effect공부하기
 - [x] 240423(화) React : React Effect공부하기
