@@ -12,8 +12,16 @@ function LoginForm() {
   const [getId, setId] = useState('');
   const [getPassword, setPassword] = useState('');
 
- 
+ // 제목 : 로그인 처리용 함수 생성
+ // 요약 : id, pw받아서 성공여부를 true false로 리턴함.
+ // 비고 : 비동기 함수(async)라서 사용 시 await을 써줘야함.
 const tryLogin = async (id, pw) => {
+
+  // 특이사항: axios에서 get, post로 넣으면 요청이 들어갔는데. 여기에서는 create를 썼다.
+  // 접근방법: creat된 애가 뭐냐? 라고하면, 서버의 baseURL을 갖고, 요청의 구조(서식)을 정의한 것.
+  // 접근예시: 정체가 뭐냐???? => 뭐하는 녀석이냐?? => 그 녀석과 관련된 것들이 뭐냐?? => 그 쓰임세를 모아서 하나의 개념으로 묶으면 그녀석이다.
+  // 파악된것: 입력값 들어가는거 보니 서버 설정이고, 실제 사용되는거 보니 instance.get, instance.post를 하더라
+  // 기억할것: 그렇다면 instance라는 녀석은. 미리 설정값을 세팅해두는 녀석이고. 세팅된 녀석에다가 get, post를 쓰도록 사용하면 되겠구나.
   const instance = axios.create({
     baseURL: 'http://localhost:4000/',
     // baseURL: 'http://192.168.0.6:3000/',
