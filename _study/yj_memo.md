@@ -82,4 +82,47 @@ function Cart(){
 
   return (생략)
 }
+ ```
+
+ - Redux store 변경하는법
+```js
+let user = createSlice({
+  name : 'user',
+  initialState : 'kim',
+  reducers : {
+    changeName(state){
+      return 'john ' + state
+    }
+  }
+}) 
+// user.actions // state 변경함수들 남음
+export let {changeName} = user.actions // 만든 함수 export 해야함
+  ```
+
+
+  # Redux statwe가 object/array일 경우 변경하는법
+  ```js
+  let user = createSlice({
+  name : 'user',
+  initialState : {name : 'kim', age : 20}
+  reducers : {
+    changeName(state){
+      state.name = 'park'
+    },
+    increase(state){
+      state.age += 1
+    },
+  }
+}) 
 ```
+
+- cart.js에서
+```js
+return(
+
+  <h6>{state.user.name}{state.user.age}의 장바구니</h6> // 버튼 누르면 age가 +1이 되는 기능
+  <button onClick={()=>{dispatch(increase())}}>버튼</button>   
+  //  state가 object/array면 return 없이 직접 수정 가능
+)
+```
+
