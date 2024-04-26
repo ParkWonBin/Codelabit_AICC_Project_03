@@ -13,6 +13,8 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240425(금) React : React Redux 전체 영상 보고 메모 정리 하기
+- [x] 240425(금) React : Redux 공부하고, 관리하기
 - [x] 240425(목) React : React Redux 전체 영상 보고 메모 정리 하기
 - [x] 240425(목) React : express 서버가 외부의 요청을 받게 하는 방법
 - [x] 240425(목) React : json으로 데이터 받게 설정
