@@ -191,7 +191,7 @@ let stock = createSlice({ // useState 만들듯이 하나 만들면 됨
     initialState : [
         {'id':0, 'name':'상품A', 'amount':2},
         {'id':1, 'name':'상품B', 'amount':4},
-    ]
+    ],
     reducer:{ // 수정 필요시 setter 함수를 여기에 넣어놓는다. setter 여러개 만들 수 있음.
         increse(state, action){
             // 첫째 인수는 해당 State의 값.(this같은 느낌)
@@ -224,7 +224,7 @@ export default configureStor({
 import React from 'react'
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BorowerRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
