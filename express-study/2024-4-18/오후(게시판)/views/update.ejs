@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>게시판</h1>
+<!-- 새로운 글 작성 폼 -->
+<form action="/update" method="post">
+    <input type="hidden" id="postid" name="postId" value="<%= postId %>" >
+
+    <label>title:</label><br>
+    <input type="text" id="title" name="title" value="<%= title %>"><br>
+
+    <label>content:</label><br>
+    <textarea id="content" name="content" ><%= content %></textarea>
+    <button type="submit">글 수정</button>
+</form>
+
+</body>
+</html>

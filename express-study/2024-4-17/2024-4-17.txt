@@ -1,0 +1,5 @@
+- [x] 지도 정보 넣을 테이블 만들어보기
+  - [x] 테이블명은 자유, 컬럼은 (name, latitude, longitude) 포함할 것
+  - [x] 더미데이터 만들어보기 (카카오 지도에서 아무 장소나 검색하면 위도경도 나옴)
+- [x] express 로 api 만들어보기
+  - [x] '/getPlace' 로 get요청 보내면 위에서 넣은 더미데이터가 json return 되도록 해보기
