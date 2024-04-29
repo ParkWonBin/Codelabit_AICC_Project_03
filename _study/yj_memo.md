@@ -29,23 +29,33 @@ export default configureStore({
 ```
 
 - index.js
+
+
+<!-- state들을 보관하는 파일 -->
+```js 
+import { configureStore } from '@reduxjs/toolkit'
+
+export default configureStore({
+  reducer: { }
+}) 
+``` 
+- index.js가서
 <!-- <Provider store={store}> 쓰기 -->
 
- <!-- index.js -->
 ```js
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 import store from './store.js'
-import { QueryClient, QueryClientProvider } from "react-query"
-const root = ReactDom.createRoot(document.getElementById('root'));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <QueryClientProvier client={QueryClient}>
-    <Provider store ={store}>
+  <React.StrictMode>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </QueryClientProvier>
-)
+  </React.StrictMode>
+); 
 ```
 
 # 리덕스는 왜 쓰는가?
@@ -55,9 +65,11 @@ root.render(
 # Redux state 보관하는법
 
 ```js
-let user = createSlice({
-  name : 'user'
-  initialState : 'kim'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+let user = createSlice({ // userState() 역할임
+  name : 'user',
+  initialState : 'kim' // state하나를 slice라고 부름
 })
 
 
@@ -115,6 +127,45 @@ export let {changeName} = user.actions // 만든 함수 export 해야함
   }
 }) 
 ```
+
+
+# 데이터 바인딩
+- state만들고 <Cart>보여주기
+  
+```js
+
+let cart = createSlice({
+  name : 'cart',
+  initialState : [
+    {id : 0, name : 'White and Black', count : 2},
+    {id : 2, name : 'Grey Yordan', count : 1}
+  ]
+})
+
+export default configureStore({
+  reducer: {
+    user : user.reducer,
+    cart : cart.reducer
+  }
+}) 
+```
+
+```js
+<tbody>
+  {
+    state.cart.map((a, i)=>
+      <tr key={i}>
+        <td>1</td>
+        <td>{state.cart[i].name}</td>
+        <td>{state.cart[i].count}</td>
+        <td>안녕</td>
+      </tr>
+     )
+   }
+</tbody> 
+```
+
+# state가 array/object인 경우 변경방법
 
 - cart.js에서
 ```js
