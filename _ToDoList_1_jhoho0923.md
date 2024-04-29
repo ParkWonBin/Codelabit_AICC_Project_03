@@ -901,7 +901,146 @@ map
 ```
 
 - [x] 240429(월) 오늘 작업한 내용:
+  부동산 년도별 허가 처리 정보를 기존의 데이터에는 위도 경도 데이터가 존재하지 않아 방법을 고민해 본 결과 python에서 제공하는 geopy.geocoder 맵 라이브러리를 사용하여 '주소', '시도명', '시군구명'으로 위도, 경도 정보를 json_data데이터 열에 먼저 키,값으로 데이터를 담고, 
+  그 해당하는 '지역' 및 '주소'로 반환되는 결과 데이터 정보를 새로운 resultJson이라는 빈 배열 변수를 선언하여 for반복문을 통해 각각 json으로 받아온 데이터 배열을 resultJson열에 담아 온 후 geocoder 에서 받아온 해당 위치정보(위도, 경도) 데이터를 맞 바꾸어 '지역'으로 
+  정의 해 놓은 위치 위도, 경도 위치 수치 데이터를 반환받았다. 결과를 출력해 보니, 와우 부동산 년도 별 허가처리 정보에 대한 위도,경도 정보가 정확히 출력 되었다. 
+  구현왼료 된 소스코드도 참고 자료차 올린다.
+```python
+import folium
+from folium.plugins import MarkerCluster
+import json
+
+# JSON 데이터
+json_data = '''
+{
+    "data": [
+        {"허가면적": 120, "법정동": "서울특별시 강남구 역삼동", "시도명": "서울특별시", "시군구명": "강남구", "위도": 37.497, "경도": 127.027},
+        {"허가면적": 150, "법정동": "서울특별시 서초구 서초동", "시도명": "서울특별시", "시군구명": "서초구", "위도": 37.483, "경도": 127.032},
+        {"허가면적": 100, "법정동": "서울특별시 종로구 종로1가", "시도명": "서울특별시", "시군구명": "종로구", "위도": 37.570, "경도": 126.980},
+        {"허가면적": 90, "법정동": "서울특별시 동작구 신대방동", "시도명": "서울특별시", "시군구명": "동작구", "위도": 37.487, "경도": 126.913}
+    ]
+}
+'''
+
+# JSON 데이터 파싱
+parsed_data = json.loads(json_data)
+
+# 데이터프레임 생성
+df1 = pd.DataFrame(parsed_data['data'])
+
+# 카테고리 조건 설정
+conditions = [
+    (df1['허가면적'] >= 120),
+    (df1['허가면적'] >= 100) & (df1['허가면적'] < 120),
+    (df1['허가면적'] >= 90) & (df1['허가면적'] < 100),
+    (df1['허가면적'] < 90)
+]
+
+# 카테고리 선택
+categories = ['A', 'B', 'C', 'D']
+
+# 카테고리 열 추가
+df1['카테고리'] = pd.cut(df1['허가면적'], bins=[0, 90, 100, 120, float('inf')], labels=categories, right=False)
+
+# 데이터프레임 출력
+print(df1)
+
+# 임의의 JSON 데이터를 가지고 데이터 허가면적에 해당하는 등급을 카테고리 
+# A,B,C,D 등급으로 나누어 '카테고리' 데이터를 추가해 출력한다.
+
+# 데이터프레임에서 JSON 데이터로 변환하여 출력한다.
+json_result = df1.to_json(orient='records', force_ascii=False)
+
+# 결과 출력
+print(json_result)
+
+
+# 지도 정보 위도.경도 데이터 정보를 반환
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent='chiricuto')
+
+# JSON 데이터
+json_data = '''
+{
+    "data": [
+        {"허가면적":120,"법정동":"서울특별시 강남구 역삼동","시도명":"서울특별시","시군구명":"강남구","위도":37.497,"경도":127.027,"카테고리":"D"},
+        {"허가면적":150,"법정동":"서울특별시 서초구 서초동","시도명":"서울특별시","시군구명":"서초구","위도":37.483,"경도":127.032,"카테고리":"D"},
+        {"허가면적":100,"법정동":"서울특별시 종로구 종로1가","시도명":"서울특별시","시군구명":"종로구","위도":37.57,"경도":126.98,"카테고리":"C"},
+        {"허가면적":90,"법정동":"서울특별시 동작구 신대방동","시도명":"서울특별시","시군구명":"동작구","위도":37.487,"경도":126.913,"카테고리":"B"}
+    ]
+}
+'''
+
+dataOpenAPI = json.loads(json_data)
+items = dataOpenAPI.get('data', [])
+
+# geolocator = Nominatim(user_agent="myGeocoder")
+
+resultJson ={'data':[]}
+
+# items = dataOpenAPI.get('data', {})
+# print(items)
+
+for item in items:
+    location = geolocator.geocode(item['시군구명'])
+    # print(location)
+    if location:
+        resultJson['data'].append({
+            '허가면적': item.get('허가면적'),
+            '법정동': item.get('법정동'),
+            '시도명': item.get('시도명'),
+            '시군구명': item.get('시군구명'),
+            '위도': location.latitude,
+            '경도': location.longitude,
+            '카테고리': item.get('카테고리')
+        })
+    else:
+        print(f"위치를 찾을 수 없습니다: {item['시군구명']}")
+
+mapData = json.dumps(resultJson, ensure_ascii=False)
+print(mapData)
+
+
+parsed_data = json.loads(mapData)
+
+# 데이터프레임 생성
+df = pd.DataFrame(parsed_data['data'])
+
+
+# 기본 지도 생성
+map = folium.Map(location=[37.56, 126.97], zoom_start=12)
+
+# MarkerCluster 객체 생성
+marker_cluster = MarkerCluster().add_to(map)
+
+# 데이터프레임을 반복하여 각 데이터에 대한 마커 생성
+for idx, row in df.iterrows():
+    tooltip = f"<strong>카테고리: {row['카테고리']}</strong>"  # HTML 형태의 툴팁 내용
+    folium.Marker(
+        location=[row['위도'], row['경도']],
+        popup=f"카테고리: {row['카테고리']}",  # 팝업에 표시될 텍스트
+        tooltop=tooltip,
+        icon=folium.Icon(icon='ok', color='blue')
+    ).add_to(marker_cluster)
+
+
+# 지도를 HTML 파일로 저장
+map.save('map_with_tooltips.html')
+
+# 지도 출력 (주피터 노트북이나 콜랩에서 실행하는 경우)
+map
+
+```
+이렇게 위도,경도 정보를 추가해 지도에서 마커 정보와 원하는 데이터 값을
+출력하였다. 
+
+
+- [x] 240429(월) 오늘 작업한 내용: 
+  react-sdk 라는 kakao Maps API가 존재했는데 일반 JavaScript 파일보다 좀더 확실한 구현 방법인것 같다고 생각이 들어 해당 사이트의 튜토리얼 페이지를 보고 TypeScript로 생성된 지도 화면을 출력하기 위한
+  새 프로잭트를 생성하였다. 초기 React.js 화면은 App.js 를 통하여 불러오는 것을 확인하였으나, 스크립트 코드를 추가하니 화면이 하얀색 바탕만 나오고 카카오 지도 생성하는 것에는 실패 하였다. 내일 오전에 시도해봐야 겠지만 아마도 가능성이 없을 듯 하다..이상 금일 업무 일지를 
+  마치겠다..
   
+
 
 
 
