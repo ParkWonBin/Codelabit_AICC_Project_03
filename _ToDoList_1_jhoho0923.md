@@ -20,22 +20,6 @@
   OpenAPI 에서 권한 신청
   (부동산 거래 웹 서비스 관련 공공API 해당 URL정보 list업 정보자료들..)
 
-## 신청목록 : 
-#### 국토교통부_상업업무용 부동산 매매 신고 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057267#tab_layer_recommend_data
-
-####  국토교통부_아파트매매 실거래 상세 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057511
-
-#### 국토교통부_단독/다가구 매매 실거래 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058022
-
-#### 국토교통부_아파트매매 실거래자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057511
-
-### 국토교통부_아파트 전월세 자료
-https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15058017
-
 - [ ] 웹브라우저에서 할일 -> FrontEnd에 화면 구현 요청
 - [ ] 서버에서 할일 -> BackEnd에 기능 구현 요청
 
@@ -310,7 +294,7 @@ if __name__ == "__main__":
  - [x] 240418(금) 오늘 작업한 내용: 
    json 부동산 데이터를 가지고 오는데 성공을 하니, 지도데이터를 표현하는데 필요한 위도, 경도를 데이터 붙이는 작업을 진행하려고 시도함. 그래서 구글 검색 해보니 주소 값으로 위 경도 데이터를 반환값을 반환받을 수 있는 파이썬에서 제공해주는 geopy라는 라이브러리가 있었음. pip install geopy 명령어로 설치를 하고 import로 Nominatim 클래스로 명시하며 코드를 구현하였더니,  아주 순조롭게 원하는 json 데이터만을 추출해서 추가로 해당 위도, 경도 데이터를 다행히 잘 받아올 수 있음.
    이것은 구현 완성된 코드입니다. 
-   ```python
+```python
 from flask import Flask, request, jsonify
 from geopy.geocoders import Nominatim
 from flask_cors import CORS
@@ -429,6 +413,7 @@ if __name__ == "__main__":
         port= port, 
         debug= True) 
    ```
+
 이상임.   
 - [x] 240418(금) 오늘 작업한 내용:    
 지난번 실패햤던 <script src='?'> 로 api 가지고 와서 지도를 브라우저화면에 출력하는 작업이 스크립트가 로드가 안되면서 연달이
@@ -439,6 +424,8 @@ if __name__ == "__main__":
 카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
 이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 이벤트까지도 안전하게 작업을 수행할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
 적용한 소스코드이다. 
+
+
 ```html
 <!DOCTYPE html>
 <html lang="ko">
@@ -451,8 +438,8 @@ if __name__ == "__main__":
 
 
    
-</head>
-<body>
+ </head>
+ <body>
     <h1>Kakao Maps in Action</h1>
     <div id="map" style="width:500px;height:400px;"></div>
     
@@ -501,17 +488,561 @@ if __name__ == "__main__":
 </body>
 </html>
 
-
-```
+ ```
 
 - [x] 240418(금) 오늘 작업한 내용:
-React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
+ React로 map.html 카카오 지도 데이터 소스를 리엑트 코드로 변환하여 React 서버에서 수행을 해보니, 글자는 출력되는 듯하는데 src= 의 api key 정보를 받아올수 없는 듯한 에러를 발생시켰다. GPT에게 물어봤지만, 딱히 명확한 수확이 없었고, kakao api로드가 정의 되있지 않다고 하는 Error문구를 계속해서 확인할 수 있었다.. 혹시 서버보안 문제나 데이터를 정확히 가지고 오지는 못하는 뭔가 내부적인 오류가 있는것이 분명하다.. 역시 kakao api를 기지고 올때 중요한건 satae문제가인가? 싶다.. 뭔가 시원한 해결 방법론은 없을까? 구글애 물어봐야겠다.
 - [x] 240418(금) 오늘 작업한 내용:
 구글에 문의하니 스크립트 로드전에 window 객체에 먼저 접근하라고 함.. 에러는 없어졌는데 지도는 확인이 안됨. 월요일에 다시 시도해 봐야겠다. 
 
 
 
+- [x] 240422(월) 오늘 작업한 내용:
+  map.html 파일은 지도 데이터 및 각 장소를 마커하면 위도, 경도도 함께 확인할수 있는데, React로 적용시 스크립트 내부의 로드로 추측돠는 그러한 오류가 발생한다. 구글 검색을 통하여 해결방법을 찾아본다.. 
+- [x] 240422(월) 오늘 작업한 내용:
+  여진씨 요청으로 차트를 화면에서 출력하는데 어떤 의미를 알수 없는 
+  내부 arc 라는 속성을 찾을수 없다, 정의가 안되어있다. 라는 내부 코어
+  (라이브러리 오류라고 추측이 됨.)오류 문구가 발생되어짐. GPT에 문의해보니 react-chart 무슨무슨 버젼오류다 차트라이브러리가 설치가 잘못되어 그런 현상이 발생되어진것 같다고 해서 npm으로 차트를 다시 재설치를 하였지만, 이미 패키지가 설치 되어있어서 그 부분에 대한 오류는 아닌것으로 판단됨, 그래서 구글에 검색해보고 차트 컴포넌트를 다시 그리는 코드를 찾아 테스트 해보았더니 그래도 오류가 발생, 다시 자세히 보니 import 에서 변수명이 뭔가 잘못되어진 것인가 생각이들어 
+  변수면을 소문자로 변경해서 다시 실행해보니 해당 arc에 관한 오류는 사려졌다. 차트는 아무래도 data 불러오는 데 값을 가지고 오지 못해서 콤포넌트가 실행이 안되었던 듯하다. 전단계는 해결되었다. 이상이다. 
+- [x] 240422(월) 오늘 작업한 내용:
+  React로 소스를 통째로 받아 apiKey 값을 대입하여 가지고 오려니 process.env 의 환경변수라는 값의 세팅을 받아 관련 apiKey={{apiKey}} 값을 파라메터 데이터로 넘겨주면 지도가 로드가 되어 카카오 멥이 실행되어질까? 아직 구조를 파악하지 못해 난해한 부분이 있어 원빈PM께서 도움을 요청했다. 흔쾌히 수락하였고, 본인도 로딩하는 부분을 값을 제대로 받아서 가지고 올려면 어느정도 연구는 해봐야 한다고 한다. 내일 중으로 관련 이슈는 해결될듯 싶다. 나는 거래와 위치정보가 함께 나올수 있는 화면 출력 서비스를 한번 구현해보기로 하였다. 
 
+
+- [x] 240423(화) 오늘 작업한 내용:
+  flask 서버에서 api를 가지고 오기위한 카카오 맵 화면에서 백엔드 쪽 데이터서버에서 데이터를 받아와 
+  요청 값을 처리하는데 필요한 데이터를 처리하기 위한 첫 단계로 단계적 테스트를 진행하였다. map.html 파일에서 javaScript로 해당 서버 url을 요청했고, flask 백엔드 서버에서 get(self): 함수로 임의 문자열 배열 데이터를 정의하여 그 해당값을 info라는 key 이름으로 받아 배열 데이터를 불러 들이는데 flask 테이터서버 서비스를 이용하여 해당 데이터열을 /budong_info 요청 주소로 값을 응답받는 것을 확인 할수 있었다.
+- [x] 240423(화) 오늘 작업한 내용:
+  이를 React로 구현하기에는 아직 기술을 충분히 습득하지 못했기 때문에 차후작업으로 미루고, 우선 먼저 map.html 파일에서 카카오 데이터를 실행한뒤 부동산 매매 정보를 임의 값으로 넣어놓고 화면을 스크립트로 구현하는 작업을 수행하였고, 데이터는 const data = {키: "값",키: "값",키: "값",키: "값"...} 이런식으로 데이터가 출력되는 것을 확인 할수 가 있었다.   
+- [x] 240423(화) 오늘 작업한 내용:
+  두번째 작업을 완료한 후 flask 에서 요청 받은 문자열 데이터를 버튼을 이용해서 새페이지를 호출하여 문자 데이터열을 잘 받아오는지 확인을 했는데 버튼을 입력했더니 응답 데이터가 잘 들어오는 것을 확인하여 이후 Rect로 적용시 flask 에서 요청 받은 데이터를 잘 처리할수 있는 전단계 작업을 완료 할수 있었습니다. 
+- [x] 240423(화) 오늘 작업한 내용:
+  플라스크 에서 OpenAPI값을 잘 받아와 이후 오라클에서 DB를 적재하고 백엔드 데이터를 넘겨주는 구조를 파악을 해볼 예정입니다.
+
+
+- [x] 240424(수) 오늘 작업한 내용:
+  map.html 에서 부동산 관련 정보를 데이터열인 data =[{}] 에 저장해두고 
+  버튼을 이용해 클릭하면 해당 URL주소와 +?파라미터 GET 요청으로 데이터를 전달 받을수 있나 javaScript 소스코드를 구현을 해보았다. 소스코드를 참고자료로 업데이트 해 놓겠다.
+  하위 내용은 자바스크립트 와 관련 html 코드다.
+-- map.html --
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps Example</title>
+    <!-- <script type="text/javascript" src="./kakaoAPI.js"></script> -->
+    <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
+    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=98e28395f82f8f50d2ed0c0b19e10e18"></script> -->
+</head>
+<body>
+    <h1>Kakao Maps in Action</h1>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="budongInfo" style="width:500px;height:400px;">여기에 부동산 정보를 표시합니다.
+
+        <table border="3" id="dataTable" >
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>건물면적</th>
+                <th>용도지역</th>
+                <th>위도</th>
+                <th>경도</th>
+                <th>주소</th>
+                <th>주소지역</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JavaScript를 통해 여기에 데이터가 삽입 -->
+            </tbody>
+        </table>
+    </div><br>
+    <div id="result3" style="width:500px;height:400px;"><input id="sending" type="button" onclick="sendData()" value="Send Data" /></div>
+    <script type="text/javascript">
+
+        // 자동 로드를 비활성화하고 API가 준비된 후 지도를 초기화합니다.
+        kakao.maps.load( function () {
+            //window.onload = function() {
+            var container = document.getElementById('map');
+            var options = {
+                // 37.576851,   126.973191
+                //center: new kakao.maps.LatLng(33.450701, 126.570667),
+                center: new kakao.maps.LatLng(37.576851, 126.973191),
+                level: 3
+            };
+            var map = new kakao.maps.Map(container, options);
+
+            var marker = new kakao.maps.Marker({
+                // 지도 중심좌표에 마커를 생성합니다
+                position: map.getCenter()
+            });
+            // 지도에 마커를 표시합니다
+            marker.setMap(map);
+
+            // 지도에 클릭 이벤트를 등록합니다
+            // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+            kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+                // 클릭한 위도, 경도 정보를 가져옵니다
+                var latlng = mouseEvent.latLng;
+
+                // 마커 위치를 클릭한 위치로 옮깁니다
+                marker.setPosition(latlng);
+
+                var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+                message += '경도는 ' + latlng.getLng() + ' 입니다~!!';
+
+                var resultGeoposition = document.getElementById('result');
+                resultGeoposition.innerHTML = message;
+
+            });
+        });
+
+        // 예제 데이터 배열
+        const data = [
+            {번호: 1, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" },
+            {번호: 2, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" },
+            {번호: 3, 건물면적: 680.83, 용도지역: "제1종일반주거", 위도: 37.5806949 ,경도: 126.9827989 , 주소: "통의동"  , 주소지역: "종로구" }
+
+        ];
+
+
+        // "건물면적": 680.83,
+        //     "경도": 126.9827989,
+        //     "용도지역": "제1종일반주거",
+        //     "위도": 37.5806949,
+        //     "주소": " 통의동",
+        //     "주소지역": "종로구"
+
+        // 테이블의 tbody 요소를 선택
+        const tbody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+        // 데이터 배열을 순회하면서 테이블 행을 추가
+        data.forEach(function (item) {
+            const row = tbody.insertRow(); // 새 행 추가
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+            const cell7 = row.insertCell(5);
+
+
+            cell1.innerHTML = item.번호;   // 번호
+            cell2.innerHTML = item.건물면적; // 건물면적
+            cell3.innerHTML = item.용도지역;  // 용도지역
+            cell4.innerHTML = item.위도;  // 위도
+            cell5.innerHTML = item.경도;  // 경도
+            cell6.innerHTML = item.주소;  // 주소
+            cell7.innerHTML = item.주소지역;  // 주소지역
+        });
+        
+         
+       function directToUrl() {
+        // 여기에 이동하고 싶은 URL을 입력하세요.
+           var url = "http://localhost:4000/budong_info";
+           // var url = "http://localhost:4000/";
+           console.log(url);
+        // var button = document.getElementById('inputInfo');
+        // 페이지 리디렉션
+        window.location.href = url;
+    }
+
+
+        function createURL(item) {
+            const baseURL = "http://localhost:4000/search";
+
+            const urls = data.map( item => {
+            const queryParams = new URLSearchParams({
+                    number: item.번호,
+                    area: item.건물면적,
+                    usage: item.용도지역,
+                    latitude: item.위도,
+                    longitude: item.경도,
+                    address: item.주소,
+                    region: item.주소지역
+            });
+            console.log( "queryParams  ====> {}", queryParams.toString());
+            const sendUrl = `${baseURL}?${queryParams.toString()}`;
+            return sendUrl;
+            });
+            return urls;
+        }
+
+        // 사용 예
+        // console.log(createURL(data));
+
+        function sendData() {
+            console.log( "data{} ===> ",data);
+            document.getElementById('sending').addEventListener('click', function(event) {
+                const request = "http://localhost:4000/search";
+
+                data.forEach(item => {
+                    const sendingURL = createURL(item);
+                    fetch(sendingURL, { method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }) // GET 메소드를 사용하며, 서버가 이를 처리할 수 있어야 함
+                        .then(response => response.json())
+                        .then(data => {console.log(`Data sent successfully: ${JSON.stringify(data)}`);return data})
+                        .catch(error => console.error('Error sending data:', error));
+                });
+                window.location.href = "http://localhost:4000?sendData=" + JSON.stringify(data);
+                event.stopPropagation();
+            });
+
+        }
+
+    </script>
+    <div id="result" style="width:500px;height:400px;">여기에 지도 위치 정보를 표시합니다.</div>
+    <div id="result2" style="width:500px;height:400px;"><input type="button" onclick="directToUrl()" value="데이터넘기기" >
+    </div>
+
+</body>
+</html>
+```
+
+- [x] 240424(수) 오늘 작업한 내용:
+  소스코드를 구현중에 한가지 의문점이 든것은, fetch() 라는 함수였는데 GPT에 검색해서 알아보니, 서버와 비동기적으로 통신할 수 있게 하는 함수라고 한다. 
+  fetch 함수를 이용해서 http 요청을 보내고 받는 기술인것 같은데, 문제는 json을 설정을 해놓아도 문자열로 반환을 해주는지 에 대한 부분에서 기억은 안나는데 Type Error 가 발생했는데 다시 페이지를 열러고 하니 보안 문제 때문에 url 주소에 json 데이터 타입의 문자열로 ?sendData= 이런식을 값은 반환이 되는데 이건 claen한 소스코드 구현은 아닌것 같아 자꾸 의문점이 든다..
+- [x] 240424(수) 오늘 작업한 내용:
+  아마도 반환 받는 값이 문자열로 변경해야 타입이 알맞게 들어갈꺼 같아, JSON.stringify(data)를 반환해서 결과 값을 리턴 받는것을 시도하였는데, 데이터는 잘받아오나, 타입이 클릭 이벤트 발생시 적어도 한번은 Type Error 를 출력하는데, 우선 데이터는 무사히 잘 넘어오는 것을 확인 할수 있었다. 
+- [x] 240424(수) 오늘 작업한 내용:
+  sendData() 함수를 호출할때 뭔가 이벤트가 함께 발생 되는것 같아, 이벤트 버블링 현상을 막기 위해 event.stopPropagation(); 함수를 사용해서 이벤르 버블링 현상을 막는것을 소스를 수정,보완하여 시도하였다.
+- [x] 240424(수) 오늘 작업한 내용:
+  detail.html을 만들어 HTML 새 페이지를 호출하려고 javaScript로 만들려고 했지만, fetch를 사용했으나 url을 문자열로만 인식하고, 해당 웹 페이지가 존재하지 않기 때문에 값을 detail.html 페이지에 뿌릴수 없었다. 그럼 flask쪽에서 서버가 구현되어 있으니깐, 플라스크로 요청을 시도해볼까 라는 
+  라는 의심으로 python flask 서버에서 class Detail(Resource): 리소스 클래스를 상속받아 add_resource(Detail, "/detail") 을 호출해 웹 페이지를 달라고 요청하니 map.html 파일에서 fetch 가 구현되었고 url주소상에서 파라미터 값으로 해당 부동산정보 데이터를 전부 가지고 오는것을 확인하였다.
+- [x] 240424(수) 오늘 작업한 내용:
+  flask 서버에서 데이터 정보들을 가지고와 detail.html 파일을 불러오는데 어떤 필요한 것이 있을까 찾아보니 render_template() 라는 함수를 이용하면 html 파일을 찾아서 반환해준다는 것을 확인하였다. 사용방법은 import render_template 모듈을 선언하여 사용하니 html파일을 불러올수 있었다. 다만, 스크립트 소스코드로 인식해서 파일 원본 소스코드 전체 반환되니 테스트는 성공하였으나, html 태그를 브라우저에서 화면을 랜더링하는 것은 할수없었다.
+- [x] 240424(수) 오늘 작업한 내용:
+  flask 에서 html 태그를 그릴수 없었던 이유는 make_reponse() 함수를 import 플라스크에 make_response를 선언하여 response = make_response(html 파일명) 을 가지고 와  ['Content-Type'] = 'text/html' 을 정의하지 않았기 때문에 해당 파일이 html태그를 인식하지 못하기에 발생한 문제였다. 소스를 수정하고 return response 를 호출하니 url주소로 string JSON 문자열을 가지고 오고 detail.html 파일을 출력 할수 있었다. 
+  참고차 추가딘 소스코드를 올린다. 
+
+  ```python 
+  class Detail(Resource):
+    def get(self):
+
+        data = [
+            {"번호": 1, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+            {"번호": 2, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+            {"번호": 3, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" }
+        ]
+        # return {"data": data}, 200
+        html = render_template('detail.html')
+        # make_response를 사용하여 응답 객체 생성
+        response = make_response(html)
+
+        response.headers['Content-Type'] = 'text/html'
+        
+        return response
+
+  ```
+  다만 스크립트에서 html 태그를 그릴수 없어서 해당 데이터 열들을 화면에 그릴수 가 없었는데 이부분은 
+  이후 찾아보고 고쳐보겠다. (원빈씨가 방법을 찾았는데 화면에 데이터를 받아올수 없었던 이유는 render_template('detail.html',data=data) 2두번째 인수에 data를 딕셔니리 타입으로 명시하지 않았기에 데이터를 불러 올수 없었던 이슈 였다. 해당 데이터를 페이지에서 값을 잘 담아올수 있는 것을 확인하고 오늘 작업 수행을 완료한다.)그리고 개발자 도구에서 네트워크 탭을 열어 관련 데이터 값을 가지고 오는지를 확인하는 방법에대한것도 피드백을 받아 앞으로는 네트워크 쪽을 보는 습관도 가져야 겠다라고 생각했다.
+
+
+- [x] 240425(목) 오늘 작업한 내용:
+  공공데이터 포털을 이용하여 부동산 년도별 허가거래 관련한 api정보를 
+  인증키의 받아 openAPI를 호출하여 해당 데이터 정보들을 result_type=json
+  으로 불러와 api를 응답받고, 해당 ETL 관련한 작업을 수행하기 전에 필요한 정보들을 추출하여 데이터를 전처리하고 분석하는 작업을 수행하기위해 pandas 에서 작업을 진행하기로 하였다. 필요한 작업을 수행하기 위해 년도별 부동산 허가거래 관련 정보를 csv 파일로 불러와 read_csv()로 데이터프레임(DataFrame)으로 변경하여 데이터 가공처리를 편리하기 위해 사전작업을 진행하였고 데이터를 불러오니 우선 데이터베이스처럼 데이터프레임이 잘 출력 되었는데 원하는 정보들을 모아서 필요한 요소들만 가지고 오는것이 기술적 한계를 느껴 고민을 해본후 원빈씨에게 요청에 데이터 가공처리를 도움을 받았다. 나는 년도별로 각지역으로 합산을 해서 나눠 데이터를 분류하게 되면 해당 데이터를 가지고 올수 있겠다고 생각했는데, 결과값이 주소와 지역정보가 전부 문자가 합쳐진 이상한 출력결과가 나왔다. 피드백을 받았는데 허가면적,전체면적을 각각 합산하여 데이터를 출력했더니 한개의 행만 검색이 되었는데, 물어보니 df['허가면적비율']이란 컬럼명을 하나 추가해서 그것을 백분율로 나누고, 100* 
+  df['허가면적'] /['전체면적'] 으로 비율을 계산하여 그 결과 값을 ['허가면적비율']에 대입하여 조건을 주는데 식을 이렇게 적용하였다. 
+  'User
+  df2022.loc[:, '허가면적비율']가 
+  90 이상이면 'A'
+  70~90 사이면 B
+  30~70 사이면 C
+  30보다 낮으면 D'     
+  이런식으로 조건을 추가 해주었더니 GPT에서 적용할수 있는 코드를 출력해주었는데 관련 python pandas 적용 예시코드를 업데이트하겠다. 
+
+  ```python
+  df2022 = df[df['년도']==2022]   # 2022년도 부동산 거래 년도별 허가처리 정보만을 검색하여 출력한다.
+  df2022.loc[:, '허가면적비율'] = 100*df2022['허가면적'] / df2022['전체면적'] 
+
+ # 조건에 따라 카테고리 열 할당
+ conditions = [
+    df2022['허가면적비율'] >= 90,
+    df2022['허가면적비율'].between(70, 90, inclusive="both"),
+    df2022['허가면적비율'].between(30, 70, inclusive="both"),
+    df2022['허가면적비율'] < 30
+ ]
+
+ # 해당 조건에 맞는 카테고리 레이블
+ choices = ['A', 'B', 'C', 'D']
+
+ # np.select를 사용하여 카테고리 열 생성
+ df2022.loc[:, '카테고리'] = np.select(conditions, choices, default='NAN')
+ df2022
+
+```
+해당 정보는 이렇게 카테고리 컬럼을 추가하여 각각을 등급별로 나누어 필요한 데이터들을 추출할수 있었다.
+- [x] 240425(목) 오늘 작업한 내용:
+오전엔 부동산 데이터를 분석하기위한 물밑작업으로 지난번 미세먼지농도 원인분석을 한 다른조의 실습 데이터로 분석을 진행하고, 오후엔 샘플 데이터를 토대로 부동산 api를 요청하고 데이터를 받아와 데이터 추출을 위한 전처리 분석 가공 작업을 진행하였다. 한가지 이슈사항은 df['카데고리']별로 A,B,C,D 등급을 나누어 값을 가지고 와 총합을 카운트 해보았는데, 그중 3개의 행 데이터가 NaN데이터 가 있었다. 데이터를 가지고 오기위한 사전 작업으로 분명 결측치데이터를 삭제하고, 가지고 왔는데, NaN값이 왜 3개가 남았지? 라고 의문이 들어 특정열에서 NaN값을 이런식으로 nan_rows = 
+df2022[df2022['카테고리'].isna()]
+print(nan_rows) 조회해 보았는데.. 결국은 아무것도 출력되지 않았다. 원인은 내일 분석을 진행해 봐야겠다.
+
+
+- [x] 240426(금) 오늘 작업한 내용:
+금요일 개인사정으로 결석함.
+
+
+- [x] 240429(월) 오늘 작업한 내용:
+dataframe을 통계와 집계함수로 출력된 결과값을 가지고 그래프를 시각화라이브러리를 사용하여 통계 그래프를 생성한다.
+우선 matplolib 모듈을 적용하여 import로 선언한후 ['카테고리] 별 데이터를
+배열로 받아온 후 category_data 라는 객체의 kind='bar'  타입으로 x.label, y.label 을 정의한 후 legend(title='카테고리') 로 설정한후 plt.show()함수로 호출하여 막대 그래프를 그린다.
+아래는 pandas 사용하여 소스로 구현한 예시코드이다. 
+
+```python
+  # 카테고리별 데이터만 선택
+  category_data = monthly_data[['A', 'B', 'C', 'D']]
+
+  # 그래프 그리기
+  fig, ax = plt.subplots(figsize=(10, 7))
+  category_data.plot(kind='bar', ax=ax)
+  ax.set_title('2022년 A,B,C,D등급별 카테고리별 데이터')
+  ax.set_xlabel('년도')
+  ax.set_ylabel('개수')
+  ax.legend(title='카테고리')
+  plt.xticks(rotation=0)  # x축 레이블을 가로로 표시
+  plt.show()
+
+```
+- [x] 240429(월) 오늘 작업한 내용:
+  그래프를 그린후 출력한 그래프가 너무 딱 붙어서 나오길래 여기에 그래프
+  를 ax.bar()함수를 사용하여 그래프 간격을 조정했다. (chat GPT에 문의를 해봄..) 예를 들면 ax.bar(x - width*1.5, category_data['A'], width, label='A') 이런 형식의 값을 설정할 수 있었고, 결과는 간격이 일정하게 적용되는 '각 카테고리별 데이터'를 가지고 올 수 있었댜. 
+  아래는 바 그래프의 넓이 간격을 조정한 pyhton 그래프 소스코드이다. 
+
+```python 
+ # 데이터 준비
+category_data = monthly_data[['A', 'B', 'C', 'D']]
+
+# 그래프 크기 설정
+fig, ax = plt.subplots(figsize=(10, 7))
+
+# 바 간격 조절
+width = 0.2  # 바의 너비
+x = np.arange(len(category_data))  # 카테고리 수 만큼의 x 위치 배열 생성
+
+# 각 카테고리별로 바 플롯 생성
+ax.bar(x - width*1.5, category_data['A'], width, label='A')
+ax.bar(x - width*0.5, category_data['B'], width, label='B')
+ax.bar(x + width*0.5, category_data['C'], width, label='C')
+ax.bar(x + width*1.5, category_data['D'], width, label='D')
+
+# 각 카테고리별로 바 플롯 생성, 여기서 바 간 간격을 조정
+# ax.bar(x - width*2, category_data['A'], width, label='A')
+# ax.bar(x - width, category_data['B'], width, label='B')
+# ax.bar(x, category_data['C'], width, label='C')
+# ax.bar(x + width, category_data['D'], width, label='D')
+
+# 축 설정
+ax.set_xlabel('년도')
+ax.set_ylabel('개수')
+ax.set_title('2022년 A, B, C, D등급별 카테고리별 데이터')
+ax.set_xticks(x)
+ax.set_xticklabels(category_data.index)  # x축 라벨 설정, monthly_data의 인덱스를 사용
+ax.legend(title='카테고리')
+
+# x축 레이블 회전
+plt.xticks(rotation=0)
+
+# 그래프 표시
+plt.show()
+
+```
+
+- [x] 240429(월) 오늘 작업한 내용:
+  이후 해당 막대 그래프를 가지고, 카테고리 A,B,C,D 등급별 데이터를 지도에 표시하는 예시 코드를 작성하여 출력하는 소스코드를 작성하였다.
+  참조한 부동산 년도별 허가처리 정보에는 지도데이터인 위도, 경도 데이터가 없는 관계로 인위적으로 위도, 경도 데이터를 삽입해 folium 라이브러리 모듈을 사용하여 지도 데이터를 그려왔다. 
+  이와 관련한 소스코드도 참고자료로 올린다. 
+```python 
+
+  data = {
+    '카테고리': ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'D'],
+    '위도': [37.57, 37.55, 37.56, 37.54, 37.57, 37.56, 37.55, 37.54, 37.57, 37.56],
+    '경도': [126.97, 126.96, 126.98, 126.99, 126.95, 126.97, 126.96, 126.98, 126.99, 126.95]
+}
+df = pd.DataFrame(data)
+
+# 기본 지도 생성
+map = folium.Map(location=[37.56, 126.97], zoom_start=12)
+
+# MarkerCluster 객체 생성
+marker_cluster = MarkerCluster().add_to(map)
+
+# 데이터프레임을 반복하여 각 데이터에 대한 마커 생성
+for idx, row in df.iterrows():
+    tooltip = f"<strong>카테고리: {row['카테고리']}</strong>"  # HTML 형태의 툴팁 내용
+    folium.Marker(
+        location=[row['위도'], row['경도']],
+        popup=f"카테고리: {row['카테고리']}",  # 팝업에 표시될 텍스트
+        tooltop=tooltip,
+        icon=folium.Icon(icon='ok', color='blue')
+    ).add_to(marker_cluster)
+
+    #  마커에 표시될 HTML 코드 작성
+    # html = f"<div style='display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10pt; text-align:center; font-weight:bold;'>{route}<br>{int(route_data['교통량'].mean())}</div>"
+    
+    # 마커 생성하여 지도에 추가
+    # folium.Marker(location=[latitude, longitude],
+    #               icon=folium.DivIcon(html=html)).add_to(map)
+
+# 지도 출력
+# map
+
+
+# 지도를 HTML 파일로 저장
+map.save('map_with_tooltips.html')
+
+# 지도 출력 (주피터 노트북이나 콜랩에서 실행하는 경우)
+map
+
+```
+
+- [x] 240429(월) 오늘 작업한 내용:
+  부동산 년도별 허가 처리 정보를 기존의 데이터에는 위도 경도 데이터가 존재하지 않아 방법을 고민해 본 결과 python에서 제공하는 geopy.geocoder 맵 라이브러리를 사용하여 '주소', '시도명', '시군구명'으로 위도, 경도 정보를 json_data데이터 열에 먼저 키,값으로 데이터를 담고, 
+  그 해당하는 '지역' 및 '주소'로 반환되는 결과 데이터 정보를 새로운 resultJson이라는 빈 배열 변수를 선언하여 for반복문을 통해 각각 json으로 받아온 데이터 배열을 resultJson열에 담아 온 후 geocoder 에서 받아온 해당 위치정보(위도, 경도) 데이터를 맞 바꾸어 '지역'으로 
+  정의 해 놓은 위치 위도, 경도 위치 수치 데이터를 반환받았다. 결과를 출력해 보니, 와우 부동산 년도 별 허가처리 정보에 대한 위도,경도 정보가 정확히 출력 되었다. 
+  구현왼료 된 소스코드도 참고 자료차 올린다.
+```python
+import folium
+from folium.plugins import MarkerCluster
+import json
+
+# JSON 데이터
+json_data = '''
+{
+    "data": [
+        {"허가면적": 120, "법정동": "서울특별시 강남구 역삼동", "시도명": "서울특별시", "시군구명": "강남구", "위도": 37.497, "경도": 127.027},
+        {"허가면적": 150, "법정동": "서울특별시 서초구 서초동", "시도명": "서울특별시", "시군구명": "서초구", "위도": 37.483, "경도": 127.032},
+        {"허가면적": 100, "법정동": "서울특별시 종로구 종로1가", "시도명": "서울특별시", "시군구명": "종로구", "위도": 37.570, "경도": 126.980},
+        {"허가면적": 90, "법정동": "서울특별시 동작구 신대방동", "시도명": "서울특별시", "시군구명": "동작구", "위도": 37.487, "경도": 126.913}
+    ]
+}
+'''
+
+# JSON 데이터 파싱
+parsed_data = json.loads(json_data)
+
+# 데이터프레임 생성
+df1 = pd.DataFrame(parsed_data['data'])
+
+# 카테고리 조건 설정
+conditions = [
+    (df1['허가면적'] >= 120),
+    (df1['허가면적'] >= 100) & (df1['허가면적'] < 120),
+    (df1['허가면적'] >= 90) & (df1['허가면적'] < 100),
+    (df1['허가면적'] < 90)
+]
+
+# 카테고리 선택
+categories = ['A', 'B', 'C', 'D']
+
+# 카테고리 열 추가
+df1['카테고리'] = pd.cut(df1['허가면적'], bins=[0, 90, 100, 120, float('inf')], labels=categories, right=False)
+
+# 데이터프레임 출력
+print(df1)
+
+# 임의의 JSON 데이터를 가지고 데이터 허가면적에 해당하는 등급을 카테고리 
+# A,B,C,D 등급으로 나누어 '카테고리' 데이터를 추가해 출력한다.
+
+# 데이터프레임에서 JSON 데이터로 변환하여 출력한다.
+json_result = df1.to_json(orient='records', force_ascii=False)
+
+# 결과 출력
+print(json_result)
+
+
+# 지도 정보 위도.경도 데이터 정보를 반환
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent='chiricuto')
+
+# JSON 데이터
+json_data = '''
+{
+    "data": [
+        {"허가면적":120,"법정동":"서울특별시 강남구 역삼동","시도명":"서울특별시","시군구명":"강남구","위도":37.497,"경도":127.027,"카테고리":"D"},
+        {"허가면적":150,"법정동":"서울특별시 서초구 서초동","시도명":"서울특별시","시군구명":"서초구","위도":37.483,"경도":127.032,"카테고리":"D"},
+        {"허가면적":100,"법정동":"서울특별시 종로구 종로1가","시도명":"서울특별시","시군구명":"종로구","위도":37.57,"경도":126.98,"카테고리":"C"},
+        {"허가면적":90,"법정동":"서울특별시 동작구 신대방동","시도명":"서울특별시","시군구명":"동작구","위도":37.487,"경도":126.913,"카테고리":"B"}
+    ]
+}
+'''
+
+dataOpenAPI = json.loads(json_data)
+items = dataOpenAPI.get('data', [])
+
+# geolocator = Nominatim(user_agent="myGeocoder")
+
+resultJson ={'data':[]}
+
+# items = dataOpenAPI.get('data', {})
+# print(items)
+
+for item in items:
+    location = geolocator.geocode(item['시군구명'])
+    # print(location)
+    if location:
+        resultJson['data'].append({
+            '허가면적': item.get('허가면적'),
+            '법정동': item.get('법정동'),
+            '시도명': item.get('시도명'),
+            '시군구명': item.get('시군구명'),
+            '위도': location.latitude,
+            '경도': location.longitude,
+            '카테고리': item.get('카테고리')
+        })
+    else:
+        print(f"위치를 찾을 수 없습니다: {item['시군구명']}")
+
+mapData = json.dumps(resultJson, ensure_ascii=False)
+print(mapData)
+
+
+parsed_data = json.loads(mapData)
+
+# 데이터프레임 생성
+df = pd.DataFrame(parsed_data['data'])
+
+
+# 기본 지도 생성
+map = folium.Map(location=[37.56, 126.97], zoom_start=12)
+
+# MarkerCluster 객체 생성
+marker_cluster = MarkerCluster().add_to(map)
+
+# 데이터프레임을 반복하여 각 데이터에 대한 마커 생성
+for idx, row in df.iterrows():
+    tooltip = f"<strong>카테고리: {row['카테고리']}</strong>"  # HTML 형태의 툴팁 내용
+    folium.Marker(
+        location=[row['위도'], row['경도']],
+        popup=f"카테고리: {row['카테고리']}",  # 팝업에 표시될 텍스트
+        tooltop=tooltip,
+        icon=folium.Icon(icon='ok', color='blue')
+    ).add_to(marker_cluster)
+
+
+# 지도를 HTML 파일로 저장
+map.save('map_with_tooltips.html')
+
+# 지도 출력 (주피터 노트북이나 콜랩에서 실행하는 경우)
+map
+
+```
+이렇게 위도,경도 정보를 추가해 지도에서 마커 정보와 원하는 데이터 값을
+출력하였다. 
+
+
+- [x] 240429(월) 오늘 작업한 내용:
+
+
+
+
+
+
+  
 
 
 
