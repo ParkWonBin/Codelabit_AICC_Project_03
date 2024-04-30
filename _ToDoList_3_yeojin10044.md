@@ -13,10 +13,12 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240426(월) React : Redux store의 state 변경하는 법
 - [x] 240426(월) React : Redux 필요한 부분 메모하고, 관리해보기
-- [x] 240426(월) React : Redux store 보관하는법
-- [x] 240426(월) React : Redux store에 있던 state 가져다쓰는법
-- [x] 240426(월) React : store의 state 변경하는 법
+- [x] 240429(월) React : Redux 필요한 부분 메모하고, 관리해보기
+- [x] 240429(월) React : Redux store 보관하는법
+- [x] 240429(월) React : Redux store에 있던 state 가져다쓰는법
+- [x] 240429(월) React : store의 state 변경하는 법
 - [x] 240426(금) React : React Redux 전체 영상 보고 메모 정리 하기
 - [x] 240425(금) React : Redux 공부하고, 관리하기
 - [x] 240425(목) React : React Redux 전체 영상 보고 메모 정리 하기
