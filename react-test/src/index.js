@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store.js';
 import { Provider } from "react-redux";
+import { BrowserRouter } from 'react-router-dom';// 사용한 컴퍼넌트는 꼭 정의 있는지 보기
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

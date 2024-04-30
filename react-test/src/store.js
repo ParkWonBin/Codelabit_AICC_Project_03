@@ -2,16 +2,17 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 
 let user =  createSlice({
-    name : 'user', // userState() 역할임
-    initialState : 'kim', // state하나를 slice라고 부름
-    reducers : {
-        changeName(state){
-          return 'john ' + state
-        }
-      }
-    }) 
+    name : 'user1', // userState() 역할임
+    initialState : {userId : 'kim'}, // state하나를 slice라고 부름
+      reducers : {
+    changeName(state, action){
+      const userId = action.payload
+      return {userId : userId}
+    }
+  }
+})
 
-    export let { changeName } = user.actions  
+    export let { changeName } = user.actions  // user.actions  state 변경함수들 남음
 
 // state 만들고 등록 
 export default configureStore({

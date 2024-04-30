@@ -1,12 +1,19 @@
-// LoginForm.js
+
 
 import React, { useState } from 'react';
 import axios from 'axios'
 import './LoginForm.css';
 
+import {useSelector, useDispatch} from 'react-redux'
+import {changeName} from './../store.js';
+
 function LoginForm() {
   // 리덕스로 getLoginUserName,setLoginUserName 요거 넣어서 관리해보기!!! (이번주 목표!!!)
-  const [getLoginUserName,setLoginUserName] = useState('');
+  // const [getLoginUserName,setLoginUserName] = useState('');
+  let reduxState = useSelector((state) => {return state})
+  console.log(reduxState)
+
+  let dispatch = useDispatch()
 
 
   const [getId, setId] = useState('');
@@ -60,12 +67,14 @@ const handleLogin = async () => {
 
   if(isSucceed){
     //로그인 성공시 처리
-    setLoginUserName('getId')
+    // setLoginUserName('getId')
+    dispatch(changeName(getId))
 
   }else{
     // 로그인 실패시 처리
     alert(`${getId} 로그인에 실패했습니다.`);
-    setLoginUserName('')
+    // setLoginUserName('')
+    dispatch(changeName(''))
   }
 
 };
@@ -76,11 +85,11 @@ const handleLogin = async () => {
   };
 
   return (
-    <div>
+    <div className='login-form-container'>
       {/* getLoginUserName 값이 있는 경우 */}
-      {getLoginUserName ? (
+      {reduxState.user.userId ? (
         <div>
-          <div>{getLoginUserName}님 환영합니다.</div>
+          <div>{reduxState.user.userId}님 환영합니다.</div>
         </div>
       ) : (
         // getLoginUserName 값이 없는 경우
@@ -113,5 +122,7 @@ const handleLogin = async () => {
   );
   
 }
+
+
 
 export default LoginForm;
