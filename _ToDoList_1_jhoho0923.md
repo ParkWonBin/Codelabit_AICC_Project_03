@@ -1388,8 +1388,306 @@ map
 
 ```
 
+- [x] 240430(화) 오늘 작업한 내용: 
+  결국 flask 에서 데이터를 파리미터 형식으로 불러와 사용하는 소스코드 구현이 요청하는 해당 json 문자열 값을 가지고 오지 못해 고민을 하던 중 원빈PM의 도움을 요청해 코드 분석을 의뢰했고, 답변을 받았는데, 파리터 값을 가지고 옰 없었는데 flask 서버 코드에서 class getData(Resource): 를 선언하고 get(self): 함수를 생성하여 필요한 정보를 data 변수로 dict{} 타입으로 각각의 데이터 행을 추가하여 배열로 감싸고, 그 값을 return data 로 인위적으로 반환 받아 자바스크립트에서 
+  async 함수를 선언하여 fetch()함수에 인자로 'http://localhost:4000/getData'를 넣고 응답받는 데이터를 담아오기 위해 reponse.json() 을 호출하여 비동기를 명시하기 위한 await 를 fetch() 메소드 앞에 추가하여 data는 배열 형태의 값을 가지므로 forEach 반복문을 돌려 각각의 키 정보를 동적으로 데이터 행을 추가함으로써 html tbody 태그에 삽입하여
+  리스트를 출력 시켰다. 콘솔에서 확인 결과 Promise 형식으로 값이 배열 형태로 잘 넘어오는 것을 확인할 수 있었으며 detail.html 화면에서 부동산 거래 허가 정보를 테이블 화면에서 리스트로 잘 출력할수 있었다.
+  개선된 소스코드를 참고자료차 이곳에 업데이트 한다.
+
+```python
+
+from flask import Flask, request, jsonify, render_template, make_response
+from geopy.geocoders import Nominatim
+from flask_cors import CORS
+from flask_restful import Api, Resource, reqparse
+from flask import current_app
+import requests
+import json
+import random  # random 모듈 추가
 
 
+class testAPI(Resource):
+    def get(self):
+        # 0. 기본 변수 가져오기
+        url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
+        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
+        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+
+        # 1. 요청정보 만들기
+        url = url
+        params = {
+           'serviceKey': access_key, 
+           'LAWD_CD': '11110', 
+           'DEAL_YMD': '202305',
+           '_type': 'json'
+        }
+
+        # 2. 해당 요청정보로 데이터를 가져온다.
+        
+        response = requests.get(url, params=params)
+        dataOpenAPI =  json.loads(requests.get(url, params=params).text)
+        # dataOpenAPI =  json.loads(response.text)
+        # return response.text
+
+        print(response)
+
+        data = response.json()
+        print(data)
+
+        # 3. 가져온 데이터를 사용해서 결과물을 만든다.
+        # resultJson ={'data':[]}
+        # for i in range(len(dataOpenAPI['response']['body']['items']['item'])):
+        #     resultJson['data'].append({
+        #     # '건물면적' : dataOpenAPI['response']['body']['items']['item'][i]['건물면적'],
+        #     '주소' : dataOpenAPI['response']['body']['items']['item']['법정동'],
+        #     '주소지역' : dataOpenAPI['response']['body']['items']['item'][i]['시군구'],
+        #     '용도지역' : dataOpenAPI['response']['body']['items']['item'][i]['용도지역']
+        # })
+
+        # 4. 결과물을 고객?에게 전달해준다. (리턴)
+        # return resultJson
+
+        resultJson ={'data':[]}
+        items = dataOpenAPI.get('response', {}).get('body', {}).get('items', {}).get('item', [])
+        
+        geolocator = Nominatim(user_agent='chiricuto')
+        for item in items:
+            location = geolocator.geocode(item.get('시군구'))
+
+            # print(f'AAAAAAA:',addr)  
+            # latitude = location.latitude
+            # longitude = location.longitude 
+            # print(f'위도:',latitude)  
+            # print(f'경도:',longitude)  
+        
+            # try:
+            resultJson['data'].append({
+                '건물면적': item.get('건물면적'),
+                '주소': item.get('법정동'),
+                '주소지역': item.get('시군구'),
+                '용도지역': item.get('용도지역'),
+                '위도':location.latitude,
+                '경도':location.longitude
+            })
+            # except KeyError as e:
+                # continue  # 또는 로그 찍기 등의 예외 처리
+        # 결과를 JSON 문자열로 변환하여 반환
+        # return json.dumps(resultJson, ensure_ascii=False)
+        return jsonify(resultJson)
+        
+
+
+# class GeocordResource(Resource):
+#     def get(self):
+#         return searchAddress(request.args.get('address'))
+
+# def searchAddress(address):
+#     apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+#     apiurl = "https://api.vworld.kr/req/search?"
+#     params = {
+#         "service": "search",
+#         "request": "search",
+#         "crs": "EPSG:4326",
+#         "query": address,
+#         "type": "address",
+#         "category": "road",
+#         "format": "json",
+#         "key": apikey,
+#     }
+    
+#     response = requests.get(apiurl, params=params)
+#     print(response)
+
+#     data = response.json()
+#     print(data)
+
+
+#     result = {'data':[]}
+#     if data.get('response') and data['response'].get('result') and data['response']['result'].get('items'):
+#         for x in data['response']['result']['items']:
+#             result['data'].append({
+#                 '주소': x['address']['road'],
+#                 '위도': x['point']['y'],
+#                 '경도': x['point']['x']
+#             })
+#     else:
+#         result['error'] = 'No results found'
+
+#     return result
+
+class BudongInfo(Resource):
+           
+    def get(self):
+        
+        item = ["청운동", "통의동", "체부동", "당주동", "신문로1가", "청진동", "수송동", "삼청동", "계동", "돈의동"]
+        result = {'info': item}  # 모든 이름을 'info' 키에 리스트로 저장
+        return result
+
+        # temp =  ["상철", "영희", "철수", "미자", "준호", "수진", "태영", "지원", "민수", "서연"]
+        # result ={'info':[]}
+        # for i in temp:
+
+            # 랜덤하게 이름 선택
+            # budong_info = random.choice(i)
+            # Api(app).add_resource(BudongInfo,'/budong_info')
+            #  top_product = i
+        # return {"name": top_product}
+        #    info = {"name": i}
+        # return info
+
+class getData(Resource):
+    def get(self):
+        data =  [
+           {"번호": 1, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+           {"번호": 2, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+           {"번호": 3, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+           {"번호": 4, "건물면적": 345.28, "용도지역": "제2종일반주거", "위도": 37.5806949, "경도": 126.9827989,  "주소": "체부동",   "주소지역": "종로구" },
+           {"번호": 5, "건물면적": 14.34,  "용도지역": "일반상업",      "위도": 37.5806949, "경도": 126.9827989,  "주소": "당주동",   "주소지역": "종로구" },
+           {"번호": 6, "건물면적": 26.04,  "용도지역": "일반상업",      "위도": 37.5806949,  "경도": 126.9827989, "주소": "당주동",    "주소지역": "종로구"},
+           {"번호": 7, "건물면적": 728.18, "용도지역": "일반상업",      "위도": 37.5806949,  "경도": 126.9827989, "주소": "신문로1가",  "주소지역": "종로구"}
+        ]
+        return data
+
+class Detail(Resource):
+    def get(self):
+        # return {"data": data}, 200
+        html = render_template('detail.html')
+        
+        # make_response를 사용하여 응답 객체 생성
+        response = make_response(html)
+
+        response.headers['Content-Type'] = 'text/html'
+        
+        return response
+
+
+def route_app(app):
+   
+    # 경로없이 들어오면 정적 파일 보여주기
+    Api(app).add_resource(testAPI,'/')
+    # api.add_resource(GeocordResource, '/getGeocord')
+    Api(app).add_resource(BudongInfo,'/budong_info')
+    Api(app).add_resource(getData,'/getData')
+    Api(app).add_resource(Detail,'/detail')
+    
+    
+def create_app():
+    # Flask 객체 초기화
+    app = Flask(__name__, template_folder='templates')
+
+    # 정적 파일 디렉토리 설정
+    app.static_folder = 'public'
+    
+    # URL 경로의 prefix 제거
+    app.static_url_path = ''
+
+    # CORS 적용
+    CORS(app)  
+
+    return app
+
+
+app = create_app()
+route_app(app)
+
+
+# app.run : Flask 서버 구동, 기본 포트 5000번
+if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
+    port = 4000
+    print( f"서버 실행 |  http://localhost:{port}")
+    app.run(host= '0.0.0.0',
+        port= port, 
+        debug= True)
+
+```
+
+---detail.html---
+```html
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Receiver</title>
+</head>
+<body>
+
+<!--<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력" >-->
+<div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다. </div>
+<!--<div id="dataContainer1">여기에 div 컨데이너2 = {{ dict1 }}</div>-->
+<h1>부동산 거래 허가 정보</h1>
+<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력">
+<table id="dataTable" border="1">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>건물면적</th>
+        <th>용도지역</th>
+        <th>위도</th>
+        <th>경도</th>
+        <th>주소</th>
+        <th>주소지역</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+async function getAndDisplayData() {
+    try {
+        // 쿼리 스트링의 'data' 값을 JSON 객체로 파싱합니다.
+        const response = await fetch('http://localhost:4000/getData');
+        const data = await response.json();
+
+        
+        // 기존 행을 삭제
+        const tableBody = document
+            .getElementById('dataTable')
+            .getElementsByTagName('tbody')[0];
+
+            // JSON 데이터를 테이블 행으로 변환
+        tableBody.innerHTML = '';
+        data.forEach(item => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = item.번호;
+            row.insertCell(1).textContent = item.건물면적;
+            row.insertCell(2).textContent = item.용도지역;
+            row.insertCell(3).textContent = item.위도;
+            row.insertCell(4).textContent = item.경도;
+            row.insertCell(5).textContent = item.주소;
+            row.insertCell(6).textContent = item.주소지역;
+        });
+
+        const dataContainer = document.getElementById('dataContainer')
+        dataContainer.innerText = dataContainer.innerText + " " + JSON.stringify(data)
+        
+
+    } catch (error) {
+        console.error("Error parsing JSON from URL:", error);
+    }
+}
+
+ 
+
+</script>
+
+</body>
+</html>
+
+
+```
+또한 dataContainer 변수를 하나 추가하여, div 태그에 
+.innerText 로 해당 데이터가 값이 잘 나오는지 출력 해보았다.
 
 
 
