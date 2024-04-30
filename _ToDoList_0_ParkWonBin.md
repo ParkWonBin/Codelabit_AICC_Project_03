@@ -16,6 +16,7 @@ Role : PM, PL, QA, Tester, AWS Cloud 배포 및 운영관리
 
 API - 카카오 지도
 API - 카카오 로그인
+API - 포트원 결제모듈
 React - 쳇봇 적용
 React - 리엑트 라우트
 React - 리엑트 리턱스(스테이트 공유)
