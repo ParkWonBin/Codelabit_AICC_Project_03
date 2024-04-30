@@ -9,17 +9,17 @@ router.get('/', async (req, res) => {
     const result = await db.executeQuery(sql, {});
     console.log(result)
     let resultJson = { data:[]};
-    for (let i = 0; i < result.rows.length; i++) {
+    for (let i = 0; i < result.length; i++) {
         const data = {
-            id : result.rows[i][0],
-            title : result.rows[i][1],
-            content : result.rows[i][2],
-            author : result.rows[i][3]
+            id : result[i][0],
+            title : result[i][1],
+            content : result[i][2],
+            author : result[i][3]
         };
         resultJson.data.push(data);
     }
 
-    await conn.close();
+    // await conn.close();
 
     const bind = {
         resultJson : resultJson,
