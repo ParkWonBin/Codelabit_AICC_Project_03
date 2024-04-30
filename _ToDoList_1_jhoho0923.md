@@ -1041,6 +1041,353 @@ map
   마치겠다.
 
 
+- [x] 240430(화) 오늘 작업한 내용: 
+  부동산 거래 데이터 정보를 가지고 온것을 오전엔 분명 확인 했는데, 데이터 오류인지 아니면 kakao 지도 API문제인지 확인을 해봐야 할것 같지만 랜더링 오류가 발생하여 스크립트 소스가 전부 실행이 안되는 불상사가 발생하였음. 중간 보고 날이라고 들었는데, 하는데 까지 해보고 
+  아니면 소스 원상복귀를 해야 하갰음.
+
+- [x] 240430(화) 오늘 작업한 내용: 
+  다행히 어제 집에 귀가전 소스자료를 백업해 둔 것이 있어서 재빨리 원상 복귀를 하였고, 스크립트가 실행이되어 이상없이
+  이벤트가 실행되어지니 지도를 불러왔고, 해당 정보를 화면에
+  테이블 형태 리스트로 출력할 수 있었다. 단, flask 에서 잘 받아오는 데이터라 생각했었는데, 알고보니 스크립트에서 가지고
+  오는 데이터 배열정보라는 것을 확인 할수 가 있었다. 
+  관련 소스를 이곳에 업데이트 해둔다. 
+
+ --map.html--
+  ```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps Example</title>
+    <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
+<!--     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=47f9e7b6d72ee7474cfd1025a55fb11a"></script>-->
+</head>
+<body>
+<h1>Kakao Maps in Action</h1>
+<div id="result">여기에 지도 위치 정보를 표시합니다.</div><br>
+<div id="map" style="width:500px;height:400px;"></div>
+<div id="budongInfo" style="width:500px;height:400px;">여기에 부동산 정보를 표시합니다.
+
+    <table border="3" id="dataTable" >
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>건물면적</th>
+            <th>용도지역</th>
+            <th>위도</th>
+            <th>경도</th>
+            <th>주소</th>
+            <th>주소지역</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- JavaScript를 통해 여기에 데이터가 삽입 -->
+        </tbody>
+    </table>
+</div><br>
+<div id="result3" style="width:500px;height:150px;"><input id="sending" type="button" onclick="sendData()" value="JSON데이터로 값 넘겨주기 Send Data" /></div>
+<script type="text/javascript">
+
+    // 자동 로드를 비활성화하고 API가 준비된 후 지도를 초기화합니다.
+    kakao.maps.load( function () {
+        //window.onload = function() {
+        var container = document.getElementById('map');
+        var options = {
+            // 37.576851,   126.973191
+            //center: new kakao.maps.LatLng(33.450701, 126.570667),
+            center: new kakao.maps.LatLng(37.576851, 126.973191),
+            level: 3
+        };
+        var map = new kakao.maps.Map(container, options);
+
+        var marker = new kakao.maps.Marker({
+            // 지도 중심좌표에 마커를 생성합니다
+            position: map.getCenter()
+        });
+        // 지도에 마커를 표시합니다
+        marker.setMap(map);
+
+        // 지도에 클릭 이벤트를 등록합니다
+        // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+        kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+            // 클릭한 위도, 경도 정보를 가져옵니다
+            var latlng = mouseEvent.latLng;
+
+            // 마커 위치를 클릭한 위치로 옮깁니다
+            marker.setPosition(latlng);
+
+            var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+            message += '경도는 ' + latlng.getLng() + ' 입니다~!!';
+
+            var resultGeoposition = document.getElementById('result');
+            resultGeoposition.innerHTML = message;
+
+        });
+    });
+
+    // 예제 데이터 배열
+    const data = [
+        {"번호": 1, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+        {"번호": 2, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" },
+        {"번호": 3, "건물면적": 680.83, "용도지역": "제1종일반주거", "위도": 37.5806949 ,"경도": 126.9827989 , "주소": "통의동"  , "주소지역": "종로구" }
+        // {"번호": 4, "건물면적": 345.28, "용도지역": "제2종일반주거", "위도": 37.5806949, "경도": 126.9827989,  "주소": "체부동",   "주소지역": "종로구" },
+        // {"번호": 5, "건물면적": 14.34,  "용도지역": "일반상업",      "위도": 37.5806949, "경도": 126.9827989,  "주소": "당주동",   "주소지역": "종로구" },
+        // {"번호": 6, "건물면적": 26.04,  "용도지역": "일반상업",      "위도": 37.5806949,  "경도": 126.9827989, "주소": "당주동",    "주소지역": "종로구"},
+        // {"번호": 7, "건물면적": 728.18, "용도지역": "일반상업",      "위도": 37.5806949,  "경도": 126.9827989, "주소": "신문로1가",  "주소지역": "종로구"}
+
+    ];
+
+
+    // "건물면적": 680.83,
+    //     "경도": 126.9827989,
+    //     "용도지역": "제1종일반주거",
+    //     "위도": 37.5806949,
+    //     "주소": " 통의동",
+    //     "주소지역": "종로구"
+
+    // 테이블의 tbody 요소를 선택
+    const tbody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+    // 데이터 배열을 순회하면서 테이블 행을 추가
+    data.forEach(function (item) {
+        const row = tbody.insertRow(); // 새 행 추가
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+        const cell5 = row.insertCell(4);
+        const cell6 = row.insertCell(5);
+        const cell7 = row.insertCell(5);
+
+
+        cell1.innerHTML = item.번호;   // 번호
+        cell2.innerHTML = item.건물면적; // 건물면적
+        cell3.innerHTML = item.용도지역;  // 용도지역
+        cell4.innerHTML = item.위도;  // 위도
+        cell5.innerHTML = item.경도;  // 경도
+        cell6.innerHTML = item.주소;  // 주소
+        cell7.innerHTML = item.주소지역;  // 주소지역
+    });
+
+
+    function directToUrl() {
+        // 여기에 이동하고 싶은 URL을 입력하세요.
+        var url = "http://localhost:4000/budong_info";
+        // var url = "http://localhost:4000/";
+        console.log(url);
+        // var button = document.getElementById('inputInfo');
+        // 페이지 리디렉션
+        window.location.href = url;
+    }
+
+
+    function createURL(item) {
+        const baseURL = "http://localhost:4000/search";
+
+        const urls = data.map( item => {
+            const queryParams = new URLSearchParams({
+                number: item.번호,
+                area: item.건물면적,
+                usage: item.용도지역,
+                latitude: item.위도,
+                longitude: item.경도,
+                address: item.주소,
+                region: item.주소지역
+            });
+            console.log( "queryParams  ====> {}", queryParams.toString());
+            const sendUrl = `${baseURL}?${queryParams.toString()}`;
+            return sendUrl;
+        });
+        return urls;
+    }
+
+    // 사용 예
+    // console.log(createURL(data));
+
+    function sendData() {
+
+        console.log( "data{} ===> ",data);
+        document.getElementById('sending').addEventListener('click', function(event) {
+            // const request = "http://localhost:4000/search";
+            data.forEach(item => {
+                const sendingURL = createURL(item);
+                fetch(sendingURL, { method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }) // GET 메소드를 사용하며, 서버가 이를 처리할 수 있어야 함
+                    .then(response => response.json())
+                    .then(data => {console.log(`Data sent successfully: ${JSON.stringify(data)}`);return data})
+                    .catch(error => console.error('Error sending data:', error));
+            });
+            window.location.href = "http://localhost:4000?sendData=" + JSON.stringify(data);
+            event.stopPropagation();
+        });
+
+    }
+
+    function sendDetail() {
+        console.log("JSON.stringify(data)====> ", encodeURIComponent(JSON.stringify(data)));
+        const dataJSON = encodeURIComponent(JSON.stringify(data));
+        var pageUrl = 'http://localhost:4000/detail';
+        fetch(pageUrl, {
+            method: 'HEAD'  // HEAD 메소드는 문서의 헤더만 가져옵니다.
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 페이지가 존재하면 해당 URL로 이동
+                    // window.location.href = pageUrl + '?dataJSON=' + dataJSON ;
+                    window.location.href = 'http://localhost:4000/detail?data=' + dataJSON;
+                } else {
+                    // 페이지가 존재하지 않으면 대체 URL로 이동
+                    window.location.href = 'http://localhost:4000/fallback.html';
+                }
+            })
+            .catch(error => {
+                // 네트워크 오류 처리
+                console.error('Network error:', error);
+                window.location.href = 'http://localhost:4000/fallback.html';
+            });
+    }
+
+    // window.onload = sendDetail;
+
+
+</script>
+
+<div id="result2"><input type="button" onclick="directToUrl()" value="데이터넘기기" ></div>
+<button onclick="sendDetail()">Send Data to Details Page => flask </button>
+
+</body>
+</html>
+
+```
+
+이건 페이지 하나를 생성해서 url주소로 (route)라우팅 해온 페이지 화면인 detail.html 구현 화면이다. 
+
+```html 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Receiver</title>
+</head>
+<body>
+
+<!--<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력" >-->
+<div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다.  </div>
+<!--<div id="dataContainer1">여기에 div 컨데이너2 = {{ dict1 }}</div>-->
+<h1>부동산 거래 허가 정보</h1>
+<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력">
+<table id="dataTable" border="1">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>건물면적</th>
+        <th>용도지역</th>
+        <th>위도</th>
+        <th>경도</th>
+        <th>주소</th>
+        <th>주소지역</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // 페이지 로드 시 바로 데이터를 추출하고 표시
+    //     displayDataFromQueryString();
+    // });
+
+    function getAndDisplayData() {
+        // URL에서 쿼리 파라미터 'data' 추출
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        // const dataString = urlParams.get(encodeURIComponent(JSON.stringify(JSON.parse('{{ data | tojson | safe }}'))));
+        const dataString = urlParams.get('data');
+        console.log('Received queryString:', queryString);
+        console.log('Received urlParams:', urlParams);
+        console.log('Received dataString:', dataString);
+        if (dataString) {
+            try {
+                // 쿼리 스트링의 'data' 값을 JSON 객체로 파싱합니다.
+                const data = JSON.parse(decodeURIComponent(dataString));
+                const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+                // 기존 행을 삭제
+                tableBody.innerHTML = '';
+
+                // JSON 데이터를 테이블 행으로 변환
+                data.forEach(item => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = item.번호;
+                    row.insertCell(1).textContent = item.건물면적;
+                    row.insertCell(2).textContent = item.용도지역;
+                    row.insertCell(3).textContent = item.위도;
+                    row.insertCell(4).textContent = item.경도;
+                    row.insertCell(5).textContent = item.주소;
+                    row.insertCell(6).textContent = item.주소지역;
+                });
+            } catch (error) {
+                console.error("Error parsing JSON from URL:", error);
+            }
+        } else {
+            console.error("No data parameter found in URL");
+        }
+    }
+    // 페이지 로딩 완료 시 데이터 표시 함수 실행
+    //  window.onload = displayDataFromQueryString;
+
+    // function getAndDisplayData() {
+    //     // URL에서 쿼리 파라미터 'data' 추출
+    //     const queryString = new URLSearchParams(window.location.search);
+    //     const dataString = queryString.get('data');
+    //
+    //     // 추출한 데이터를 디코드하고 JSON으로 파싱
+    //     // const data = JSON.parse(decodeURIComponent(dataString));
+    //     try {
+    //         const data = JSON.parse(decodeURIComponent(dataString));
+    //         console.log(" dataString:", data);
+    //     } catch (error) {
+    //         console.error("Parsing error:", error);
+    //     }
+    //     console.log("QueryString:", window.location.search);
+    //
+    //     // 화면에 데이터 표시
+    //     const container = document.getElementById('dataContainer');
+    //     data.forEach(item => {
+    //         const content =   `number: ${item.번호},
+    //                 area: ${item.건물면적},
+    //                 usage: ${item.용도지역},
+    //                 latitude: ${item.위도},
+    //                 longitude: ${item.경도},
+    //                 address: ${item.주소},
+    //                 region: ${item.주소지역}`;
+    //
+    //         const element = document.createElement('p');
+    //         element.textContent = content;
+    //         container.appendChild(element);
+    //     });
+    //
+    //
+    // }
+
+    // 페이지 로딩 완료 시 데이터 표시 함수 실행
+    // window.onload = getAndDisplayData;
+
+</script>
+
+</body>
+</html>
+
+```
+
 
 
 
