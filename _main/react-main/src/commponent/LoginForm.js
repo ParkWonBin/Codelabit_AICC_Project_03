@@ -76,7 +76,7 @@ const handleLogin = async () => {
   };
 
   return (
-    <div>
+    <div className='login-form-container'>
       {/* getLoginUserName 값이 있는 경우 */}
       {getLoginUserName ? (
         <div>
