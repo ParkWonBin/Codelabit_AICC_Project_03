@@ -2,13 +2,15 @@ const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
 // 로그인 체크
-const db_userLogin = async(username, password)=>{
+const db_userLogin = async(userId, userPw)=>{
     // db연결
     const conn = await oracledb.getConnection(dbconfig);
 
     // 명령 생성 및 실행
-    const sql = 'select username, password from users where username = :username and password = :password'
-    const bind = {username, password}
+    const sql = `
+    select user_id, user_pw from users 
+    where user_id = :userId and user_pw = :userPw`
+    const bind = {userId, userPw}
     const result = await conn.execute(sql,bind)
     
     // db 연결 종료

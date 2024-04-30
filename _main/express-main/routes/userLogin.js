@@ -6,15 +6,16 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) =>{
-    const {username, password} = req.body;
+    const {userId, userPw} = req.body;
+    console.log({userId, userPw})
 
-    result = await db_userLogin(username, password)
+    result = await db_userLogin(userId, userPw)
 
     if(result.isSucceed){
-        req.session.username = username;
-        res.json({msg:'로그인 성공'});
+        req.session.userId = userId;
+        res.json({isSuccess:true, msg:'로그인 성공'});
     }else{
-        res.json({msg:'로그인 실패'})
+        res.json({isSuccess:false, msg:'로그인 실패'})
     }
 });
 
