@@ -2,13 +2,13 @@ const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
 // id 중복여부 체크
-const db_userCheckExist = async(userid)=>{
+const db_userCheckExist = async(userId)=>{
     // db연결
     const conn = await oracledb.getConnection(dbconfig);
 
     // 명령 생성 및 실행
-    const sql = `SELECT COUNT(*) FROM users WHERE userid = :userid`
-    const bind = {userid}
+    const sql = `SELECT COUNT(*) FROM users WHERE user_id = :userId`
+    const bind = {userId}
     const result = await conn.execute(sql,bind)
     
     // db 연결 종료

@@ -20,12 +20,22 @@ GRANT dba TO open_api;
 ### SQL Developer
 테이블 생성
 ```sql
+DROP TABLE posts;
+DROP TABLE users;
+DROP SEQUENCE user_seq;
+
+
 CREATE TABLE users (
-    userid NUMBER PRIMARY KEY,
-    username VARCHAR2(100),
-    password VARCHAR2(255)
+    idx NUMBER PRIMARY KEY,
+    user_id VARCHAR2(100),
+    user_pw VARCHAR2(255)
 );
 
+CREATE SEQUENCE user_seq
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
 
 CREATE TABLE posts (
     id NUMBER PRIMARY KEY,
@@ -34,7 +44,11 @@ CREATE TABLE posts (
     author NUMBER,
     CONSTRAINT fk_author
         FOREIGN KEY (author)
-        REFERENCES users(userid)
-        ON DELETE SET NULL  -- 사용자가 삭제되면 관련 게시물의 author를 NULL로 설정
+        REFERENCES users(idx)
+        ON DELETE SET NULL  
+        -- 사용자가 삭제되면 관련 게시물의 author를 NULL로 설정
 );
+
+select * from users;
+select * from posts;
 ```
