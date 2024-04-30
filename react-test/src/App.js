@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import './App.css';
 import axios from 'axios'
 
@@ -11,7 +11,7 @@ import LoginForm from './commponent/LoginForm';
 
 function App() {
   return (
-    <Router>
+
       <div className="App">
         {/* 네비게이션 */}
         <nav className="navbar">
@@ -35,7 +35,7 @@ function App() {
         
         <Chatbot/>
       </div>
-    </Router>
+    // </Router>
   );
 }
 
