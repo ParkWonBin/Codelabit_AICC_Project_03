@@ -1,3 +1,17 @@
+#### 2024.04.30.(화)
+주요내용
+1. React Redux 전체 영상 보고 메모 정리 하기
+2. Redux 공부하기
+3. Redux store의 state 변경하는 법
+
+세부내용
+1. Redux store 보관하는법
+2. Redux store에 있던 state 가져다쓰는법
+3. Redux 관리하기
+4. store의 state 변경하는 법
+5. 이해할때까지 영상 반복하기
+
+
 #### 2024.04.29.(월)
 주요내용
 1. React Redux 전체 영상 보고 메모 정리 하기
