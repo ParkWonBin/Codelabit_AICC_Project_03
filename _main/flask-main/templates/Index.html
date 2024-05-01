@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Receiver</title>
+    <!-- 해당 파일에서 버튼 기능 구현함 -->
+    <script src="{{ url_for('static', filename='js/getAndDisplayData.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/getAndDisplayGeoData.js') }}"></script>
+
+    <style>
+        #dataTable{border-collapse: collapse}
+        #dataTable * {border:1px solid black;}
+    </style>
+</head>
+
+
+<body>
+
+<div>
+    <h1>새주소 위도 경도 검색</h1>
+    <input type="text" id="geoquery" placeholder="주소를 입력하세요">
+    <button onclick="getAndDisplayGeoData()">새주소 검색 가져오기</button>
+    <div id="result"></div>
+    <br><br><br><hr>
+</div>
+
+<div>
+    <h1>부동산 거래 허가 정보</h1>
+    <input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력">
+    <br><br>
+    <table id="dataTable" >
+        <thead><tr><th>번호</th><th>건물면적</th><th>용도지역</th><th>위도</th><th>경도</th><th>주소</th><th>주소지역</th></tr></thead>
+        <tbody></tbody>
+    </table>
+    <br>
+    <div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다. </div>
+</div>
+    
+
+</body>
+</html>
