@@ -1675,6 +1675,7 @@ async function getAndDisplayData() {
     } catch (error) {
         console.error("Error parsing JSON from URL:", error);
     }
+
     
 }
 
