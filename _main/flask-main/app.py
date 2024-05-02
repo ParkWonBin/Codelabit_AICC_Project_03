@@ -2,6 +2,10 @@
 from appInitSetting import create_app
 from appRoute import route_app
 
+# .env 파일 로드
+from dotenv import load_dotenv
+load_dotenv()  
+
 app = create_app()
 api = route_app(app)
 

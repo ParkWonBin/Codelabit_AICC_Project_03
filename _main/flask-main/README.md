@@ -9,6 +9,8 @@ pip install python-dotenv
 # geopy 패키지 설치(새주소->위경도 변환)
 pip install geopy
 ```
+### 환경변수 가져오기
+
 
 ### 파일분리 관련
 render_template으로 public 폴더의 파일 참조시 이렇게 설정
