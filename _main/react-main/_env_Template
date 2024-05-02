@@ -1,0 +1,3 @@
+# create-react-app을 사용하면 dotenv가 내장되어 있다.
+# react에서 환경변수 불러오려면, 환경변수명이 "REACT_APP_"로 시작해야한다.
+REACT_APP_API_KEY_KAKAO_JS=

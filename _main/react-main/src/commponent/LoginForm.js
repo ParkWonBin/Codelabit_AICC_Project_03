@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import axios from 'axios'
 import './LoginForm.css';
 
+import KakaoSocialLogin from './KakaoSocialLogin';
+
+
 // 서버설정 관련
 const serverBaseURL = 'http://localhost:4000'
 
@@ -68,6 +71,7 @@ function LoginInputForm({ setLoginUserName}){
     <div>
       <button onClick={handleLogin}>로그인</button>
       <button onClick={handleSignUp}>회원가입</button>
+      <KakaoSocialLogin/>
     </div>
 </div>
 }

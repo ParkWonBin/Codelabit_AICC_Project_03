@@ -2,11 +2,14 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2'; 
 
-
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ChartImage(props) {
-  const { labels, dataProp } = props
+
+function ChartImage() {
+  const labels = ['데이터1', '데이터2', '데이터3'];
+  const dataProp = [1, 2, 3];
+
+
   console.log('차트 이미지 로드 시작!');
   console.log('labels:', labels);
   console.log('dataProp:', dataProp);
