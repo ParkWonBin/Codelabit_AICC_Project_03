@@ -1914,9 +1914,148 @@ if __name__ == "__main__":
 
 ```
 
-  
+  - [x] 240502(목) 오늘 작업한 내용: 
+  이번엔 화면에서 선택박스를 클릭하여 JSON 데이터로 응답 받은
+  부동산 허가면적, 용도지역, 위도, 경도, 주소, 주소지역에 관련한 정보를 원하는 데이터만 택하여 정보를 출력 할수 있게 끔 기능을 추가했다. 지난번 원빈씨가 알려준 콜백함수, promise 객체, then 함수등, 해당 개념과 제어순서에 관해 파악을 하였고, 또한 서버에 요청하는 함수들 중에서 Fetch(), AJAX(jQuery), Axi(React) 이 함수들의 수행기능등 비동기 방식으로 요청 정보를 수행할 수 있는 통신방식에 대하여 분석하였고, fetch()함수와 awit를 함께 사용하여 비동기 방식으로 Json 정보를 불러와  이벤르리스너 호출 실행시 콜백함수?로 콜하여 익명함수에 async를 정의해 fetch() 에서 받은 서버요청 주소를 response로 받아 response.json()을 호출하여 해당정보를 이상없이 출력하였다. 그리고 이에 따른  소스 코드를 개선 하였다. 변경된 해당 소스 코드도 함께 업데이트하여 올린다. 
+
+  ---detail.html ---
+  ```html 
+
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Data Receiver</title>
+</head>
+<body>
+
+<!--<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력" >-->
+<div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다. </div>
+<!--<div id="dataContainer1">여기에 div 컨데이너2 = {{ dict1 }}</div>-->
+<h1>부동산 거래 허가 정보</h1>
+<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력">
+<table id="dataTable" border="1">
+<thead>
+<tr>
+    <th>번호</th>
+    <th>건물면적</th>
+    <th>용도지역</th>
+    <th>위도</th>
+    <th>경도</th>
+    <th>주소</th>
+    <th>주소지역</th>
+</tr>
+</thead>
+<tbody>
+<!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+
+</tbody>
+</table>
+
+<script type="text/javascript">
+// 비동기 프로그래밍 키워드 : (async, await)
+// 서버에 요청하는 함수(모듈) : Fetch(JS) , AJAX(jquery) , Axios(React) | 전처리 편하게 해주는 정도의 차이. 기타 세부기능의 차이
+// => 본질 : 다른 서버에 뭔가를 요청하고. 응답을 받아오는 함수. (서버가 계산해서 던져주면 받음.)
+// 키워드 : 콜백함수, promise 객체, then 함수
+
+// function 더하기(x,y){
+//     return x+y
+// }
+//
+// function abc(a,b,c){
+//    return c(a,b);
+// }
+//
+// const test = abc(1,2,더하기)
+//
+
+async function getAndDisplayData() {
+try {
+    // 쿼리 스트링의 'data' 값을 JSON 객체로 파싱합니다.
+    const response = await fetch('http://localhost:5000/getData');
+    const data = await response.json();
+
+
+    // 기존 행을 삭제
+    const tableBody = document
+        .getElementById('dataTable')
+        .getElementsByTagName('tbody')[0];
+
+        // JSON 데이터를 테이블 행으로 변환
+    tableBody.innerHTML = '';
+    data.forEach(item => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = item.번호;
+        row.insertCell(1).textContent = item.건물면적;
+        row.insertCell(2).textContent = item.용도지역;
+        row.insertCell(3).textContent = item.위도;
+        row.insertCell(4).textContent = item.경도;
+        row.insertCell(5).textContent = item.주소;
+        row.insertCell(6).textContent = item.주소지역;
+    });
+
+    const dataContainer = document.getElementById('dataContainer')
+    dataContainer.innerText = dataContainer.innerText + " " + JSON.stringify(data)
+
+
+    } catch (error) {
+        console.error("Error parsing JSON from URL:", error);
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', async function() {
+
+try {
+    const response = await fetch('http://localhost:5000/getData');
+    const jsonData = await response.json();
+    console.log('jsonData Array ==>', jsonData );
+
+    document.getElementById('filterButton').addEventListener('click', function() {
+    let selectedColumns = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    checkboxes.forEach(chk => {
+        selectedColumns.push(chk.value);
+    });
+
+    const filteredData = jsonData.map(item => {
+        let filteredItem = {};
+        selectedColumns.forEach(key => {
+            if (item.hasOwnProperty(key)) {
+                filteredItem[key] = item[key];
+            }
+    });
+        return filteredItem;
+    });
+
+document.getElementById('output').textContent = JSON.stringify(filteredData, null, 2);
+
+    });
+        } catch (error) {
+    console.error("Error parsing JSON from URL:", error);
+    }
+});
+</script>
+
+<h1> 부동산 건물면적, 용도별 처리정보를 체크박스로 선택하여 원하는 정보를 출력(JSON타입)</h1>
+<div>
+<label><input type="checkbox" value="건물면적"> 건물면적</label>
+<label><input type="checkbox" value="용도지역"> 용도지역</label>
+<label><input type="checkbox" value="주소"> 법정동</label>
+<label><input type="checkbox" value="주소지역"> 주소지역</label>
+</div>
+<button id="filterButton">선택 정보 조회</button>
+<pre id="output"></pre>
+</body>
+</html>
+
+
+  ```
 
   
+   - [x] 240502(목) 오늘 작업한 내용: 
+   
 
 
 
