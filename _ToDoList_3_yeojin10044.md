@@ -13,6 +13,8 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240426(월) React : 로그인폼 css 수정하기
+- [x] 240501(목) React : 챗봇 만들기
 - [x] 240426(월) React : Redux store의 state 변경하는 법
 - [x] 240426(월) React : Redux 필요한 부분 메모하고, 관리해보기
 - [x] 240429(월) React : Redux 필요한 부분 메모하고, 관리해보기
