@@ -162,7 +162,7 @@ class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
         apiKey = 'http://apis.data.go.kr/5080000/polcsttnCctvSttuService/getPolcsttnCctvSttu'
-        access_key = '3eOGOAEPOiPqau/C6kf/oHmEnfPCHl13BZoim0o1ruznUU/CNzVrcIBXINoMdMz05a2lcyoAG0EuBsjlaLRHSA=='
+        access_key = '이곳에 인증키'
 
         # 1. 요청정보 만들기
         url = apiKey
@@ -533,7 +533,7 @@ if __name__ == "__main__":
     <title>Kakao Maps Example</title>
     <!-- <script type="text/javascript" src="./kakaoAPI.js"></script> -->
     <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
-    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=98e28395f82f8f50d2ed0c0b19e10e18"></script> -->
+    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={이곳에 인증키}"></script> -->
 </head>
 <body>
     <h1>Kakao Maps in Action</h1>
@@ -1060,7 +1060,7 @@ map
     <meta charset="UTF-8">
     <title>Kakao Maps Example</title>
     <script type="text/javascript" src="kakao/kakaoAPI.js"></script>
-<!--     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=47f9e7b6d72ee7474cfd1025a55fb11a"></script>-->
+<!--     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={이곳에 인증키}"></script>-->
 </head>
 <body>
 <h1>Kakao Maps in Action</h1>
@@ -1410,8 +1410,8 @@ class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
         url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
-        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
-        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+        access_key = '이곳에 인증키'
+        # access_key2 = '이곳에 인증키'
 
         # 1. 요청정보 만들기
         url = url
@@ -1675,6 +1675,8 @@ async function getAndDisplayData() {
     } catch (error) {
         console.error("Error parsing JSON from URL:", error);
     }
+
+    
 }
 
  
