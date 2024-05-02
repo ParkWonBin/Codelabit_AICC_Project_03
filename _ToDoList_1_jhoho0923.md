@@ -1914,7 +1914,7 @@ if __name__ == "__main__":
 
 ```
 
-  - [x] 240502(목) 오늘 작업한 내용: 
+ - [x] 240502(목) 오늘 작업한 내용: 
   이번엔 화면에서 선택박스를 클릭하여 JSON 데이터로 응답 받은
   부동산 허가면적, 용도지역, 위도, 경도, 주소, 주소지역에 관련한 정보를 원하는 데이터만 택하여 정보를 출력 할수 있게 끔 기능을 추가했다. 지난번 원빈씨가 알려준 콜백함수, promise 객체, then 함수등, 해당 개념과 제어순서에 관해 파악을 하였고, 또한 서버에 요청하는 함수들 중에서 Fetch(), AJAX(jQuery), Axi(React) 이 함수들의 수행기능등 비동기 방식으로 요청 정보를 수행할 수 있는 통신방식에 대하여 분석하였고, fetch()함수와 awit를 함께 사용하여 비동기 방식으로 Json 정보를 불러와  이벤르리스너 호출 실행시 콜백함수?로 콜하여 익명함수에 async를 정의해 fetch() 에서 받은 서버요청 주소를 response로 받아 response.json()을 호출하여 해당정보를 이상없이 출력하였다. 그리고 이에 따른  소스 코드를 개선 하였다. 변경된 해당 소스 코드도 함께 업데이트하여 올린다. 
 
@@ -2054,7 +2054,122 @@ document.getElementById('output').textContent = JSON.stringify(filteredData, nul
   ```
 
   
-   - [x] 240502(목) 오늘 작업한 내용: 
+  - [x] 240502(목) 오늘 작업한 내용: 
+  detail.html 화면에서 서버에서 정보를 가져와 테이블에서 출력시
+  화면에서 보여지는 테이블 스타일 너무 각지고 단조로워 보여기에
+  테이블태그와 버튼태그를 CSS속성을 정의하여 시각적으로 보다 깔끔하고 세련되고 밝은 이미지를 표현하기위해 적용한 테이블 스타일, 버튼 스타일로 만들어 index.css 파일로 속성들을 정의하여
+  head 섹션에 <link  href="저장된 파일경로"> 태그를 사용해 css 파일로 옯겨 놓았다. 결과는 나름 괜찬은 편안한 그린계열 색생의 테이블로 스타일이 적용되어 나름 만족스럽다고 판단되었다. 
+  아래는 CSS 스타일 속성이 적용된 index.css 소스코드이다. 
+
+ ---detail.html---
+ ```html
+<link rel="stylesheet" type="text/css" 
+  href="../public/index.css">
+ ```
+
+---index.css
+ ```css
+/* 테이블 기본 스타일 */
+#dataTable {
+    width: 100%; /* 테이블의 너비를 페이지 전체로 설정 */
+    border-collapse: collapse; /* 테이블의 테두리를 겹쳐서 보이게 함 */
+    font-family: Arial, sans-serif; /* 글꼴 스타일 지정 */
+    background-color: #f8f8f8; /* 테이블 배경색 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 테이블에 그림자 효과 추가 */
+    margin: 20px 0; /* 상하 마진 지정 */
+}
+
+/* 테이블 헤더 스타일 */
+#dataTable thead {
+    background-color: #4CAF50; /* 헤더의 배경색 */
+    color: white; /* 헤더 글자 색상 */
+}
+
+#dataTable thead th {
+    padding: 15px; /* 헤더 셀의 내부 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 테이블 바디 스타일 */
+#dataTable tbody td {
+    padding: 12px; /* 바디 셀의 내부 여백 */
+    border-bottom: 1px solid #ddd; /* 셀 아래에 경계선 추가 */
+}
+
+/* 마우스 오버 시 행 스타일 변경 */
+#dataTable tbody tr:hover {
+    background-color: #e9e9e9; /* 마우스 오버 시 행의 배경색 변경 */
+}
+
+/* 첫 번째 열 스타일 */
+#dataTable tbody tr td:first-child {
+    font-weight: bold; /* 첫 번째 열의 텍스트를 굵게 표시 */
+}
+
+
+input[type="button"] {
+    padding: 10px 20px; /* 버튼 내부의 여백 설정 */
+    font-size: 16px; /* 글자 크기 */
+    font-family: Arial, sans-serif; /* 글꼴 설정 */
+    color: white; /* 글자 색상 */
+    background-color: #4CAF50; /* 배경 색상 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 모양을 손가락 모양으로 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+input[type="button"]:hover {
+    background-color: #45a049; /* 마우스를 올렸을 때 배경 색상 변경 */
+}
+
+input[type="button"]:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 변경 */
+    transform: translateY(2px); /* 클릭 시 약간 아래로 이동 */
+}
+
+/* 모든 버튼에 적용되는 기본 스타일 */
+input[type="button"], button {
+    padding: 10px 20px; /* 버튼 내부의 여백 설정 */
+    font-size: 16px; /* 글자 크기 */
+    font-family: Arial, sans-serif; /* 글꼴 설정 */
+    color: white; /* 글자 색상 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 모양을 손가락 모양으로 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 호버 효과 */
+input[type="button"]:hover, button:hover {
+    background-color: #45a049; /* 마우스를 올렸을 때 배경 색상 변경 */
+}
+
+/* 액티브 상태 효과 */
+input[type="button"]:active, button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 변경 */
+    transform: translateY(2px); /* 클릭 시 약간 아래로 이동 */
+}
+
+/* filterButton ID에 대한 특정 스타일 */
+#filterButton {
+    background-color: #007BFF; /* 버튼의 배경색을 블루로 설정 */
+}
+
+/* filterButton의 호버 효과를 조정 */
+#filterButton:hover {
+    background-color: #0056b3; /* 마우스를 올렸을 때 더 진한 블루로 변경 */
+}
+
+ ```
+
+  - [x] 240502(목) 오늘 작업한 내용: 
+
+
+
+
    
 
 
