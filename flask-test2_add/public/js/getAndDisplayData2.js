@@ -1,7 +1,7 @@
 async function getAndDisplayData2() {
     try {
         // 쿼리 스트링의 'data' 값을 JSON 객체로 파싱합니다.
-        const response = await fetch('http://localhost:5001/getData');
+        const response = await fetch('/getData2');
         const data = await response.json();
     
     

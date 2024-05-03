@@ -2176,6 +2176,73 @@ input[type="button"]:active, button:active {
 
 
 
+- [x] 240502(금) 오늘 작업한 내용: 
+ 원빈씨가 요청 코드구조를 원본 파일구조에서 리팩토링 작업을 진행, check box html 태그를 이용하여
+ 값을 const jsonData = response.json() 함수로 json 문자열 데이터를 받고, 각각 아래와 같이 체크박스 태그에 담아 채크한 정보만 출력하게 하였다. 아래는 관련 html 소스이다.  
+```html
+<h1> 건물면적, 용도별 허가정보들을 선택후 조회</h1>
+<div>
+<label><input type="checkbox" value="건물면적">건물면적</label>
+<label><input type="checkbox" value="용도지역">용도지역</label>
+<label><input type="checkbox" value="주소">법정동</label>
+<label><input type="checkbox" value="주소지역"> 주소지역</label>
+</div>
+
+<input type="button" id="filterButton" onclick="getDataAndCheckbox()" value="선택 정보 조회">
+
+<div id="dataContainer3">여기에 JSON type으로 정보 들어옴. </div> 
+<pre id="output"></pre>
+<button onclick="loadData()">선택 데이터 조회</button>
+<table id="dataTable3" border="1">
+    <thead>
+    <tr>
+        <th>건물면적</th>
+        <th>용도지역</th>
+        <th>법정동</th>
+        <th>주소지역</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+    
+    </tbody>
+    </table>
+</div>
+```
+해당 자바스크립트 소스는 다음과 같다. 
+```javascript
+async function loadData() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    // const selectedColumns = Array.from(checkboxes).map(checkbox => checkbox.value);
+    
+    const response = await fetch('/getData2');
+    const jsonData = await response.json();
+
+    const tbody = document.getElementById('dataTable3').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = ''; // 기존 데이터를 클리어합니다.
+
+    let selectedColumns = [];
+
+    checkboxes.forEach(chk => {
+        selectedColumns.push(chk.value);
+    });
+
+    jsonData.forEach(data => {
+        const row = tbody.insertRow();
+        selectedColumns.forEach(column => {
+            const cell = row.insertCell();
+            cell.textContent = data[column];
+        });
+    });
+
+  
+}    
+
+```
+이상입니다. 그리고 또한 주소검색, 부동산 거래 허가 정보를 조회 할수 있는 원본 서비스에서 내가 작업한 
+소스코드를 피펙토링하여 추가 하였고, 현재 수정중에 있으며, 새 주소로 위도 경도 검색이 현재 거래 매매 정보,
+년도별 허가 거래 정보 에서 둘다 데이터 조회가 가능하다. 이후 OpenAPI를 추가로 보완하여 작업을 지속할 예정입니다. 
+
 
 
    

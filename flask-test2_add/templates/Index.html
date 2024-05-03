@@ -10,7 +10,8 @@
     <script src="{{ url_for('static', filename='js/getAndDisplayGeoData.js') }}"></script>
     <script src="{{ url_for('static', filename='js/getAndDisplayData2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/getDataAndCheckbox.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/loadData.js') }}"></script>
+    
 </head>
 
 <body>
@@ -35,14 +36,14 @@
     <div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다. </div>
     <br><br><br><hr>
 </div>
-    <h1>부동산 연도별 허가 처리 정보</h1>
+    <h1>부동산 년도별 허가 처리</h1>
 
     <br><br><br><hr>
 
 <div>
 <div id="dataContainer2">여기에 div 컨데이너1 정보가 들어옵니다. </div>
 
-<h1>부동산 거래 허가 정보</h1>
+<h1>부동산 년도별 허가 정보</h1>
 <input type="button" onclick="getAndDisplayData2()" value="부동산 허가처리 정보 출력">
 <table id="dataTable" border="1">
 <thead>
@@ -64,16 +65,39 @@
 
 
 
-<h1> 부동산 건물면적, 용도별 처리정보등을 선택하여 조회</h1>
+<h1> 건물면적, 용도별 허가정보들을 선택후 조회</h1>
 <div>
-<label><input type="checkbox" value="건물면적"> 건물면적</label>
-<label><input type="checkbox" value="용도지역"> 용도지역</label>
-<label><input type="checkbox" value="주소"> 법정동</label>
+<!-- <label><input type="checkbox" value="번호">번호</label> -->
+<label><input type="checkbox" value="건물면적">건물면적</label>
+<label><input type="checkbox" value="용도지역">용도지역</label>
+<!-- <label><input type="checkbox" value="위도">위도</label> -->
+<!-- <label><input type="checkbox" value="경도">경도</label> -->
+<label><input type="checkbox" value="주소">법정동</label>
 <label><input type="checkbox" value="주소지역"> 주소지역</label>
 </div>
 <!-- <button id="filterButton" onclick="getDataAndCheckbox()">선택 정보 조회</button> -->
 <input type="button" id="filterButton" onclick="getDataAndCheckbox()" value="선택 정보 조회">
-<pre id="output"></pre> 
+
+<div id="dataContainer3">여기에 JSON type으로 정보 들어옴. </div> 
+<pre id="output"></pre>
+<button onclick="loadData()">선택 데이터 조회</button>
+<table id="dataTable3" border="1">
+    <thead>
+    <tr>
+        <!-- <th>번호</th> -->
+        <th>건물면적</th>
+        <th>용도지역</th>
+        <!-- <th>위도</th> -->
+        <!-- <th>경도</th> -->
+        <th>법정동</th>
+        <th>주소지역</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+    
+    </tbody>
+    </table>
 </div>
 
 </body>
