@@ -12,7 +12,7 @@ async function getAndDisplayData() {
         
         // 테이블 UI 선택
         const tableBody = document
-            .getElementById('dataTable')
+            .getElementById('dataTable2')
             .getElementsByTagName('tbody')[0];
 
         // 기존 데이터 삭제
