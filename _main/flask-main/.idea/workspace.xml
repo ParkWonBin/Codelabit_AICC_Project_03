@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e6a4c86-5afc-48ea-b764-ff5a8c292539" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../_ToDoList_1_jhoho0923.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../_ToDoList_1_jhoho0923.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/getData.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/getData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../flask-test2_add/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../flask-test2_add/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../flask-test2_add/appRoute.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../flask-test2_add/appRoute.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../flask-test2_add/env_template" beforeDir="false" afterPath="$PROJECT_DIR$/../../flask-test2_add/env_template" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +21,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2fu2QPOpt5jCYWEFUlNa2VMAbAD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,6 +34,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "jhoho0923",
+    "last_opened_file_path": "C:/Users/CDL/Desktop/Codelabit_AICC_Project_03/flask-test2_add",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -82,6 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1714636629957</updated>
       <workItem from="1714636635698" duration="626000" />
+      <workItem from="1714730030272" duration="425000" />
     </task>
     <servers />
   </component>

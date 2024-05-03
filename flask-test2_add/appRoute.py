@@ -16,6 +16,8 @@ def route_app(app):
     from api.getGeoData import getGeoData
     api.add_resource(getGeoData,'/getGeoData')
 
+    from api.testAPI import testAPI
+    api.add_resource(testAPI,'/testAPI')
     
 
     return api
