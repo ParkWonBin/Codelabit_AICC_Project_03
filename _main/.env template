@@ -1,0 +1,21 @@
+##########################
+# express ################
+EXPRESS_PORT=4000
+SESSION_SECRET=
+
+# DB #
+ORACLE_CLIENT=C:\wbpark\util\instantclient_21_13
+DB_USER=
+DB_PASSWORD=
+DB_CONNECTIONSTRING=localhost:1521/xe
+
+##########################
+# react ##################
+# 변수명은 "REACT_APP_"로 시작해야함.
+REACT_APP_KAKAO_JS=
+
+##########################
+# flask ##################
+FLASK_PORT=5000
+OPEN_API_ENCODING=
+OPEN_API_DECODING=
