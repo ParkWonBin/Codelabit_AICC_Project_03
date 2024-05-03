@@ -24,7 +24,7 @@ app.use(cors()); // react-express 요청 주고 받을 수 있도록 처리
 app.use(express.json());  // req.body로 json 읽도록
 app.use(express.urlencoded({ extended: true })); // req.body 로 form 읽도록
 
-app.use(express.static(path.join(__dirname, '/build')))
+app.use('/react',express.static(path.join(__dirname, '/build')))
 app.set('view engine', 'ejs');
 
 

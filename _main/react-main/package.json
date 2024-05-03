@@ -1,6 +1,7 @@
 {
   "name": "aicc",
   "version": "0.1.0",
+  "homepage": "/react",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
