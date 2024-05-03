@@ -13,10 +13,11 @@ function Chatbot() {
 
   return (
     <div className="chatbot-container">
-      <div className="chatbot-button-container">
-        <button onClick={toggleChatbot}>챗봇</button>
+       {!isChatbotOpen && (
+      <div className="chatbot-button-container" style={buttonContainerStyle} onClick={toggleChatbot}>
+        <span style={buttonTextStyle}>챗봇</span>
       </div>
-
+      )}
       {isChatbotOpen && (
         <div className="chatbot-chat-container" style={chatbotStyle}>
           <p>챗봇</p>
@@ -26,6 +27,16 @@ function Chatbot() {
     </div>
   );
 }
+
+const buttonContainerStyle = {
+  cursor: 'pointer',
+};
+
+const buttonTextStyle = {
+  fontSize: '16px',
+  fontWeight: 'bold',
+  color: '#555'
+};
 
 const chatbotStyle = {
   width: '300px',
@@ -42,15 +53,15 @@ const chatbotStyle = {
 
 const closeButtonStyle = {
   position: 'absolute',
-  top: '8px',
-  right: '8px',
+  top: '2px',
+  right: '-150px',
+  left: 'auto', 
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
-  fontSize: '18px',
+  fontSize: '24px',
   fontWeight: 'bold',
   color: '#555'
 };
-
 
 export default Chatbot;
