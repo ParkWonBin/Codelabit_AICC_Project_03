@@ -2,7 +2,7 @@ const router = require('express').Router();
 const axios = require('axios')
 
 router.get('/', async (req, res) => {
-    const url = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_API_KEY}&libraries=services,clusterer`;
+    const url = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JS}&libraries=services,clusterer`;
     
     try {
         const response = await axios.get(url);

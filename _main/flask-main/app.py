@@ -3,6 +3,7 @@ from appInitSetting import create_app
 from appRoute import route_app
 
 # .env 파일 로드
+import os
 from dotenv import load_dotenv
 load_dotenv()  
 
@@ -11,7 +12,7 @@ api = route_app(app)
 
 CONFIG = {
     'host': 'localhost',
-    'port': 5000, 
+    'port': os.getenv("FLASK_PORT"), 
     'debug': True
 }
 
