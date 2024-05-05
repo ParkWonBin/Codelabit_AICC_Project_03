@@ -1,0 +1,11 @@
+#footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5rem;
+    text-align: center; /* 텍스트를 가운데 정렬 */
+}

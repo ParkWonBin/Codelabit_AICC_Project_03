@@ -51,6 +51,7 @@ label {
   display: flex;
   justify-content: center;
   margin-top: 25px;
+  gap: 1rem;
 }
 
 /* 로그인, 회원가입 버튼 */

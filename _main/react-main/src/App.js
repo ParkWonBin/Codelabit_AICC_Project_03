@@ -1,49 +1,44 @@
-import React from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import './css/App.css';
 
-import { Map, MapMarker} from 'react-kakao-maps-sdk'
-
-import MapImage from './commponent/MapImage';
-import ChartImage from './commponent/ChartImage';
+import Navigation from './commponent/semantic/Navigation';
+import Main from './commponent/semantic/Main';
+import Footer from './commponent/semantic/Footer';
 import Chatbot from './commponent/chatbot';
-import LoginForm from './commponent/LoginForm';
 
 function App() {
+  const [getNavData, setNavData] = useState({
+    'title' : '부동산 데이터 조회 서비스',
+    'data' : [
+    {url:'/', name:'소개'},
+    {url:'/map', name:'지도'},
+    {url:'/static', name:'통계'},
+    {url:'/board', name:'게시판'},
+    {url:'/login', name:'로그인'}
+  ]})
 
-  return (
-      <div className="App">
-        {/* 네비게이션 */}
-        <nav className="navbar">
-          <h3>AICC 3차 프로젝트 1팀!</h3>
-          <ul>
-            <li><Link to="/map">MAP</Link></li>
-            <li><Link to="/chart">chart</Link></li>
-            <li><Link to="/login">Login</Link></li>
-          </ul>
-        </nav>
+  const [getUser,setUser] = useState({
+    isLogined:false,
+    userName:'',
+    kakaoAccess:{},
+    kakaoMyData:{}
+  })
 
-         {/* 메뉴별 화면 나오는곳 */}
-         <Routes>
-          <Route path="/map" element={<MapImage src="/MAP.jpg" />} />
-          <Route path="/chart" element={<ChartImage/>} />
-          <Route path="/login" element={<LoginForm/>} />
-        </Routes>
+  useEffect(()=>{
+    setNavData((prevData) => {
+      const newData = {...prevData};
+      newData.data[newData.data.length - 1].name = getUser.isLogined? '마이페이지': '로그인';
+      return newData;
+    });
 
-
-        <Chatbot />
-
-        <Map
-      center={{ lat: 33.5563, lng: 126.79581 }}
-      style={{ width: "100%", height: "360px" }}
-    >
-      <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
-        <div style={{color:"#000"}}>Hello World!</div>
-      </MapMarker>
-    </Map>
-
-      </div>
-  );
+  },[getUser])
+  
+  return <div className="App">        
+    <Navigation props={{getNavData}}/>
+    <Main props={{getUser, setUser}}/>
+    <Chatbot getUser={getUser}/>
+    <Footer/>
+  </div>;
 }
 
 export default App;

@@ -6,9 +6,7 @@ const db_userCreate = async(userId, userPw, userName)=>{
     let connection;    
     try {
         // 데이터베이스 연결 시도
-        console.log(dbconfig)
         connection = await oracledb.getConnection(dbconfig);
-        console.log(userId, userPw, userName)
 
         // 회원 등록 로직 (여기에서는 예시로만 표시)
         const sql = `

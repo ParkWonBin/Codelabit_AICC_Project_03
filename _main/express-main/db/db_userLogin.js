@@ -16,11 +16,20 @@ const db_userLogin = async(userId, userPw)=>{
     
     // db 연결 종료
     conn.close();
-
+    
     // 결과 반환
-    return {
-        isSucceed: result.rows.length > 0
-    };
+    if (result.rows.length>0){
+        return {
+            isSucceed: true,
+            id:result.rows[0][0],
+            name:result.rows[0][1]
+        }
+    }else{
+        return {
+            isSucceed: false,
+            name:''
+        };
+    }
 }
 
 // 함수 내보내기

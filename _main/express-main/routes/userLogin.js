@@ -10,12 +10,13 @@ router.post('/', async (req, res) =>{
     console.log({userId, userPw})
 
     result = await db_userLogin(userId, userPw)
+    console.log(result)
 
     if(result.isSucceed){
         req.session.userId = userId;
-        res.json({isSuccess:true, msg:'로그인 성공'});
+        res.json({...result, msg:'로그인 성공'});
     }else{
-        res.json({isSuccess:false, msg:'로그인 실패'})
+        res.json({...result, msg:'로그인 실패'})
     }
 });
 
