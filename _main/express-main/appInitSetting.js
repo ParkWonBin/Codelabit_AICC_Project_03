@@ -9,9 +9,8 @@ const session = require('express-session');
 const dbConfig = require('./dbconfig')
 const oracledb = require('oracledb');
 
-oracledb.initOracleClient({
-    libDir:process.env.ORACLE_CLIENT
-});
+oracledb.initOracleClient({ libDir:process.env.ORACLE_CLIENT });
+oracledb.autoCommit = true;
 
 oracledb.createPool(dbConfig)
     .then(() => console.log('Oracle DB에 연결되었습니다.'))

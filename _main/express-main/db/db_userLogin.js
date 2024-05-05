@@ -8,8 +8,9 @@ const db_userLogin = async(userId, userPw)=>{
 
     // 명령 생성 및 실행
     const sql = `
-    select user_id, user_pw from users 
-    where user_id = :userId and user_pw = :userPw`
+    select u_id, u_name from users 
+    where u_id = :userId and u_pw = :userPw`
+    
     const bind = {userId, userPw}
     const result = await conn.execute(sql,bind)
     

@@ -7,9 +7,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {userId, userPw, userPwConfirm} = req.body;
-
-    console.log({userId, userPw, userPwConfirm})
+    const {userId,userName, userPw, userPwConfirm} = req.body;
 
     // 비밀번호 확인
     if (userPw !== userPwConfirm) {
@@ -23,7 +21,7 @@ router.post('/', async (req, res) => {
     }
 
     // 회원 가입처리
-    const createUser = await db_userCreate(userId, userPw)
+    const createUser = await db_userCreate(userId, userPw, userName)
     if(createUser.isSucceed){
         // 가입 성공
         return res.status(200).json({msg:'회원 가입 성공'});

@@ -2,19 +2,21 @@ const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
 // db연결하여 회원가입하는 함수 정의
-const db_userCreate = async(userId, userPw)=>{
+const db_userCreate = async(userId, userPw, userName)=>{
     let connection;    
     try {
         // 데이터베이스 연결 시도
+        console.log(dbconfig)
         connection = await oracledb.getConnection(dbconfig);
+        console.log(userId, userPw, userName)
 
         // 회원 등록 로직 (여기에서는 예시로만 표시)
         const sql = `
         insert into 
-        users (idx, user_id, user_pw) 
-        values (user_seq.NEXTVAL, :userId, :userPw)
+        users (idx, u_id, u_name, u_pw) 
+        values (user_seq.NEXTVAL, :userId, :userName, :userPw)
         `
-        const bind = {userId, userPw};
+        const bind = {userId, userPw, userName};
 
         // db 명령 시도 후 저장
         await connection.execute(sql, bind);   

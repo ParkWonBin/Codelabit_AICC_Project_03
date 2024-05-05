@@ -7,7 +7,7 @@ const db_userCheckExist = async(userId)=>{
     const conn = await oracledb.getConnection(dbconfig);
 
     // 명령 생성 및 실행
-    const sql = `SELECT COUNT(*) FROM users WHERE user_id = :userId`
+    const sql = `SELECT COUNT(*) FROM users WHERE u_id = :userId`
     const bind = {userId}
     const result = await conn.execute(sql,bind)
     
