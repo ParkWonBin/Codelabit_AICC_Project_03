@@ -27,6 +27,7 @@ CREATE TABLE comments (
     c_content CLOB,
     c_author NUMBER,
     c_post NUMBER,
+    c_parent NUMBER,
     CONSTRAINT fk_comment_author
         FOREIGN KEY (c_author)
         REFERENCES users(idx)
@@ -34,10 +35,9 @@ CREATE TABLE comments (
     CONSTRAINT fk_comment_post
         FOREIGN KEY (c_post)
         REFERENCES posts(idx)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_comment_parent
+        FOREIGN KEY (c_parent)
+        REFERENCES comments(idx)
         ON DELETE SET NULL  
 );
-
--- READ
-select * from users;
-select * from posts;
-select * from comments;
