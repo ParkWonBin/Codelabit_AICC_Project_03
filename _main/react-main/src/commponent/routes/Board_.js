@@ -1,41 +1,73 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 import './Board_.css'
+const serverBaseURL = process.env.REACT_APP_EXPRESS_URL
+
+const getBoardData = async()=>{
+  const response = axios.get(`${serverBaseURL}/postReadBoard`, {
+    headers: {'Content-Type': 'application/json'}
+  });
+
+  return response
+}
 
 function Board(){
-    const [searchParams, ] = useSearchParams();
+    const navigate = useNavigate();
+
+    const [searchParams, _] = useSearchParams();
     const [getPageCnt, setPageCnt] = useState(5);
     const [getPostCnt, setPostCnt] = useState(10);
     const [getCurPage, setCurPage] = useState(1);
-    const [getPostList, setPostList] = useState([
-        {idx:1,title:'post_1',auther:'익명1',datetime:'2024.04.01'},
-        {idx:2,title:'post_2',auther:'익명2',datetime:'2024.04.02'},
-        {idx:3,title:'post_3',auther:'익명3',datetime:'2024.04.03'},
-        {idx:4,title:'post_4',auther:'익명4',datetime:'2024.04.04'},
-        {idx:5,title:'post_5',auther:'익명5',datetime:'2024.04.05'},
-        {idx:6,title:'post_6',auther:'익명6',datetime:'2024.04.06'},
-        {idx:7,title:'post_7',auther:'익명7',datetime:'2024.04.07'},
-        {idx:8,title:'post_8',auther:'익명8',datetime:'2024.04.08'},
-        {idx:9,title:'post_9',auther:'익명9',datetime:'2024.04.09'},
-        {idx:10,title:'post_10',auther:'익명10',datetime:'2024.04.10'},
-        {idx:11,title:'post_11',auther:'익명11',datetime:'2024.04.11'},
-        {idx:12,title:'post_12',auther:'익명12',datetime:'2024.04.12'},
-        {idx:13,title:'post_13',auther:'익명13',datetime:'2024.04.13'},
-        {idx:14,title:'post_14',auther:'익명14',datetime:'2024.04.14'},
-        {idx:15,title:'post_15',auther:'익명15',datetime:'2024.04.15'},
-        {idx:16,title:'post_16',auther:'익명16',datetime:'2024.04.16'},
-        {idx:17,title:'post_17',auther:'익명17',datetime:'2024.04.17'},
-        {idx:18,title:'post_18',auther:'익명18',datetime:'2024.04.18'},
-        {idx:19,title:'post_19',auther:'익명19',datetime:'2024.04.19'},
-        {idx:20,title:'post_20',auther:'익명20',datetime:'2024.04.20'},
-        {idx:21,title:'post_21',auther:'익명21',datetime:'2024.04.21'},
-        {idx:22,title:'post_22',auther:'익명22',datetime:'2024.04.22'},
-        {idx:23,title:'post_23',auther:'익명23',datetime:'2024.04.23'},
-        {idx:24,title:'post_24',auther:'익명24',datetime:'2024.04.24'},
-        {idx:25,title:'post_25',auther:'익명25',datetime:'2024.04.25'},
-    ])
+    const [getPostList, setPostList] = useState([]);
+    // const [getPostList, setPostList] = useState([
+    //     {idx:1,title:'post_1',author:'익명1',datetime:'2024.04.01'},
+    //     {idx:2,title:'post_2',author:'익명2',datetime:'2024.04.02'},
+    //     {idx:3,title:'post_3',author:'익명3',datetime:'2024.04.03'},
+    //     {idx:4,title:'post_4',author:'익명4',datetime:'2024.04.04'},
+    //     {idx:5,title:'post_5',author:'익명5',datetime:'2024.04.05'},
+    //     {idx:6,title:'post_6',author:'익명6',datetime:'2024.04.06'},
+    //     {idx:7,title:'post_7',author:'익명7',datetime:'2024.04.07'},
+    //     {idx:8,title:'post_8',author:'익명8',datetime:'2024.04.08'},
+    //     {idx:9,title:'post_9',author:'익명9',datetime:'2024.04.09'},
+    //     {idx:10,title:'post_10',author:'익명10',datetime:'2024.04.10'},
+    //     {idx:11,title:'post_11',author:'익명11',datetime:'2024.04.11'},
+    //     {idx:12,title:'post_12',author:'익명12',datetime:'2024.04.12'},
+    //     {idx:13,title:'post_13',author:'익명13',datetime:'2024.04.13'},
+    //     {idx:14,title:'post_14',author:'익명14',datetime:'2024.04.14'},
+    //     {idx:15,title:'post_15',author:'익명15',datetime:'2024.04.15'},
+    //     {idx:16,title:'post_16',author:'익명16',datetime:'2024.04.16'},
+    //     {idx:17,title:'post_17',author:'익명17',datetime:'2024.04.17'},
+    //     {idx:18,title:'post_18',author:'익명18',datetime:'2024.04.18'},
+    //     {idx:19,title:'post_19',author:'익명19',datetime:'2024.04.19'},
+    //     {idx:20,title:'post_20',author:'익명20',datetime:'2024.04.20'},
+    //     {idx:21,title:'post_21',author:'익명21',datetime:'2024.04.21'},
+    //     {idx:22,title:'post_22',author:'익명22',datetime:'2024.04.22'},
+    //     {idx:23,title:'post_23',author:'익명23',datetime:'2024.04.23'},
+    //     {idx:24,title:'post_24',author:'익명24',datetime:'2024.04.24'},
+    //     {idx:25,title:'post_25',author:'익명25',datetime:'2024.04.25'},
+    // ])
+    function handleLink(post_id) {
+        navigate(`/board/detail?post_id=${post_id}`);  // 이동하고자 하는 경로
+    }
 
+    // useEffect 에서는 async 쓸 수 없어서 이렇게 간접적으로 처리한다.
+    useEffect(()=>{
+        const fetchData = async () => {
+            try {
+                let res = await getBoardData(); 
+                console.log(res.data);
+                setPostList(res.data); 
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
+
+        // Call the async function
+        fetchData();
+    },[])
 
     useEffect(() => {
         const curPage = parseInt(searchParams.get('curPage') || 1, 10);
@@ -131,10 +163,10 @@ function Board(){
         </thead>
         <tbody>
             {getPostList.slice(startPostIdx,startPostIdx+getPostCnt).map((post,idx)=>{return(
-                <tr key={idx}>
+                <tr key={idx} onClick={()=>{handleLink(post.idx)}}>
                     <td key='0'>{post.idx}</td>
                     <td key='1'>{post.title}</td>
-                    <td key='2'>{post.auther}</td>
+                    <td key='2'>{post.author}</td>
                     <td key='3'>{post.datetime}</td>
                 </tr>)
             })}

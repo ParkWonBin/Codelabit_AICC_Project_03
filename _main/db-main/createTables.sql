@@ -1,7 +1,7 @@
 --- DROP
-DROP TABLE users;
-DROP TABLE posts;
-DROP TABLE comments;
+DROP TABLE comments CASCADE CONSTRAINTS;
+DROP TABLE posts CASCADE CONSTRAINTS;
+DROP TABLE users CASCADE CONSTRAINTS;
 
 --- CREATE
 CREATE TABLE users (
@@ -16,6 +16,7 @@ CREATE TABLE posts (
     p_title VARCHAR2(255),
     p_content CLOB,
     p_author NUMBER,
+    p_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_post_author
         FOREIGN KEY (p_author)
         REFERENCES users(idx)
@@ -28,6 +29,7 @@ CREATE TABLE comments (
     c_author NUMBER,
     c_post NUMBER,
     c_parent NUMBER,
+    c_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_comment_author
         FOREIGN KEY (c_author)
         REFERENCES users(idx)

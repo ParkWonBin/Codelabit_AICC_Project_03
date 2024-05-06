@@ -29,11 +29,10 @@ VALUES (comment_seq.NEXTVAL,
 
 INSERT INTO comments (idx, c_content, c_author, c_post, c_parent)
 SELECT comment_seq.NEXTVAL, 
-    'This is the second comment', 
+    'This is the comment on comment', 
     (SELECT idx FROM users WHERE u_id = 'user2'), 
     (SELECT idx FROM posts WHERE p_title = 'Post 2'),
-    idx
-FROM comments
-WHERE ROWNUM = 1;
+    (SELECT idx FROM comments WHERE ROWNUM = 1)
+FROM comments WHERE ROWNUM = 1;
 
-
+---------------------------------
