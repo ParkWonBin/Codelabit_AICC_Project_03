@@ -20,7 +20,8 @@ function About(){
   3. 쳇봇 :
       => 편의성, 서비스 안내
       - [React] [Chatbot] 기본적은 UI 적용
-      x [Flask] [API-OpenAI] 통해 GPT 연결
+      - [Flask] [API-OpenAI] GPT 연결하여 응답 표시
+      - [Flask] [API-OpenAI] GPT 과금 계산하여 표시
 
   4. 지도 
       => 검색 및 조회 서비스
@@ -30,8 +31,9 @@ function About(){
   5. 통계
       => 공공 데이터 조회 서비스
       - [React] [Chart] 화면에 차트 표시하기
+      - [Flask] 더미 데이터 불러오기
+      - [React] [API-Kakao-Map] 클릭한 데이터 위치로 이동
       x [Flask] [API-OpenAPI] 공공 데이터 불러오기
-      x [React] [API-Kakao-Map] 클릭한 데이터 위치로 이동
 `
 
 const styleDisplayPre = {fontWeight: 'bold', fontSize: '25px'}

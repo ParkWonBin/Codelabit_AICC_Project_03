@@ -18,6 +18,8 @@ def route_app(app):
 
     from api.testAPI import testAPI
     api.add_resource(testAPI,'/testAPI')
-    
+
+    from api.getGPTMessage import getGPTMessage
+    api.add_resource(getGPTMessage,'/getGPTMessage')    
 
     return api
