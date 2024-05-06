@@ -1,3 +1,7 @@
+DROP SEQUENCE user_seq;
+DROP SEQUENCE post_seq;
+DROP SEQUENCE comment_seq;
+
 CREATE SEQUENCE user_seq
     START WITH 1
     INCREMENT BY 1

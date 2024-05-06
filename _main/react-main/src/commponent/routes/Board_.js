@@ -7,11 +7,9 @@ import './Board_.css'
 const serverBaseURL = process.env.REACT_APP_EXPRESS_URL
 
 const getBoardData = async()=>{
-  const response = axios.get(`${serverBaseURL}/postReadBoard`, {
+  return axios.get(`${serverBaseURL}/postReadBoard`, {
     headers: {'Content-Type': 'application/json'}
   });
-
-  return response
 }
 
 function Board(){
