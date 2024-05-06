@@ -36,9 +36,7 @@ export function MapData(props) {
 
     try {
       const response = await axios.post(`${flaskBaseURL}/getGeoData`, { query: query }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: {'Content-Type': 'application/json'}
       });
 
       const data = response.data;
