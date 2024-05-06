@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom';
 
-import './Board.css'
+import './Board_.css'
 
 function Board(){
     const [searchParams, ] = useSearchParams();
