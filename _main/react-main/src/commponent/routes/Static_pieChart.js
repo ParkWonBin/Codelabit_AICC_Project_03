@@ -10,7 +10,7 @@ const PieChart = ({ props }) => {
   const chartData = {
     labels: pieLabels,
     datasets: [{
-      label: 'Class',
+      label: 'Data',
       data: pieValues,
       backgroundColor: pieColors,
       hoverOffset: 1
