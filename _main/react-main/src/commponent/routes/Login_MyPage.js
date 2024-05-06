@@ -20,7 +20,7 @@ function LoginResult({props}){
   return <>
   {// 프로필 사진 띄우기
   getUser.kakaoMyData.kakao_account
-  ? <img src={ getUser.kakaoMyData.kakao_account.profile.thumbnail_image_url } ></img>
+  ? <img src={ getUser.kakaoMyData.kakao_account.profile.thumbnail_image_url } alt='프로필사진' ></img>
   : <></>
   }      
   <h3>{getUser.userName}님 환영합니다.</h3>

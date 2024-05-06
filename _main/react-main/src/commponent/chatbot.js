@@ -18,7 +18,7 @@ function Chatbot() {
     userInput.value = ''
 
     // 내용 안쓰고 전송하면 요청 안보내기
-    if(userText.trim()==-''){
+    if(userText.trim()===''){
       return null
     }
 

@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import './Board.css'
 
 function Board(){
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, ] = useSearchParams();
     const [getPageCnt, setPageCnt] = useState(5);
     const [getPostCnt, setPostCnt] = useState(10);
     const [getCurPage, setCurPage] = useState(1);
@@ -39,7 +39,7 @@ function Board(){
 
     useEffect(() => {
         const curPage = parseInt(searchParams.get('curPage') || 1, 10);
-        const postCnt = parseInt(searchParams.get('postCnt') || 10, 10);
+        const postCnt = parseInt(searchParams.get('postCnt') || 5, 10);
         setCurPage(curPage);
         setPostCnt(postCnt);
     }, [searchParams]);
@@ -121,19 +121,21 @@ function Board(){
         <button className='sortBtn' onClick={sortOldestFirst}> 오래된순 </button>
     </p>
     <table id='PostBoard'>
-        <thead>
-            <th>idx.</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
+        <thead>         
+            <tr>
+                <th key='0'>idx.</th>
+                <th key='1'>제목</th>
+                <th key='2'>작성자</th>
+                <th key='3'>작성일</th>
+            </tr>
         </thead>
         <tbody>
-            {getPostList.slice(startPostIdx,startPostIdx+getPostCnt).map(post=>{return(
-                <tr>
-                    <td>{post.idx}</td>
-                    <td>{post.title}</td>
-                    <td>{post.auther}</td>
-                    <td>{post.datetime}</td>
+            {getPostList.slice(startPostIdx,startPostIdx+getPostCnt).map((post,idx)=>{return(
+                <tr key={idx}>
+                    <td key='0'>{post.idx}</td>
+                    <td key='1'>{post.title}</td>
+                    <td key='2'>{post.auther}</td>
+                    <td key='3'>{post.datetime}</td>
                 </tr>)
             })}
         </tbody>

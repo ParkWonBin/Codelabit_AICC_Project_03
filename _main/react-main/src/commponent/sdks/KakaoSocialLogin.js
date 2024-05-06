@@ -23,19 +23,18 @@ const KakaoSocialLogin = ({props}) => {
         console.log(error);
     };
 
-    const kakaoUnlink = async (accessToken)=>{
-        const url = 'https://kapi.kakao.com/v1/user/unlink'
-        const header = {headers: {'Authorization': `Bearer ${accessToken}`}
-      }
-        axios.post(url,{},header)
-        .then(response => {
-            alert("동의 철회 성공", response.data);
-        })
-        .catch(error => {
-            alert("동의 철회 실패", error);
-        });
-
-    }
+    // const kakaoUnlink = async (accessToken)=>{
+    //     const url = 'https://kapi.kakao.com/v1/user/unlink'
+    //     const header = {headers: {'Authorization': `Bearer ${accessToken}`}
+    //   }
+    //     axios.post(url,{},header)
+    //     .then(response => {
+    //         alert("동의 철회 성공", response.data);
+    //     })
+    //     .catch(error => {
+    //         alert("동의 철회 실패", error);
+    //     });
+    // }
 
     const kakaoGetData = async (accessToken) => {
         const kakaoURL = 'https://kapi.kakao.com/v2/user/me';
@@ -71,8 +70,6 @@ const KakaoSocialLogin = ({props}) => {
                 style={{
                     borderRadius: '28px',
                     padding: '14px 28px',
-                    backgroundColor: '#FEE500',
-                    color: '#191919',
                     fontSize: '18px',
                     fontWeight: 'bold'
                 }}
