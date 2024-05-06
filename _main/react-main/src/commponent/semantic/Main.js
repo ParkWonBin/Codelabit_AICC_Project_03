@@ -1,12 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import userEffect from 'react'
-
 import './Main.css'
 
 import About from '../routes/About'
 import Board from '../routes/Board'
 import MapData from '../routes/Map';
-import Static from '../routes/Static';
+import Static from '../routes/Static_';
 import Login from '../routes/Login_';
 
 export const Main = ({props})=>{
