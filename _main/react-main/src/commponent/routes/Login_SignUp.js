@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 // 로그인 입력 화면
-const LgoinSignUp = ()=>{
+const LgoinSignUp = ({props})=>{
+    const {setUser, setIsSignUp} = props
+
     const [getId, setId] = useState('');
     const [getName, setName] = useState('');
     const [getPassword, setPassword] = useState('');
@@ -13,9 +15,16 @@ const LgoinSignUp = ()=>{
         console.log('회원가입 시도');
         const CreateUser = await tryCreateUser(getId, getPassword,getPasswordConf, getName);
 
-        if (CreateUser.isSuccess){
-          // setLoginUserName(getId) // setLoginUserName 함수가 정의되어 있어야 함
+        if (CreateUser.isSucceed){
+            setUser({
+                isLogined: true,
+                userId: getId,
+                userName: getName,
+                kakaoAccess: {},
+                kakaoMyData: {}
+            })
         }
+        setIsSignUp(false)
         alert(JSON.stringify(CreateUser));
     };
 
@@ -32,11 +41,13 @@ const LgoinSignUp = ()=>{
                 userName: name,
                 userPw: pw,
                 userPwConfirm: pwConf,
+            }).catch(res=>{
+                console.log(res)
             });
 
-            return { isSuccess: true, ...res.data };
+            return { ...res.data };
         } catch (error) {
-            return { isSuccess: false, msg: '에러발생' };
+            return { isSuccess: false, msg:'에러발생' };
         }
     };
 

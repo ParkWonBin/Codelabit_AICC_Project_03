@@ -15,15 +15,14 @@ export const Login = ({props})=>{
   {! getUser.isLogined
    ? ! getIsSignUp
      ? <LoginAuth props={{setUser, setIsSignUp}}/>  
-     : <LoginSignUp setUser={setUser}/>
-   : <LoginMyPage props={{getUser,setUser}}/>
+     : <LoginSignUp props={{getUser,setUser,setIsSignUp}}/>
+   : <LoginMyPage props={{getUser,setUser,setIsSignUp}}/>
   }
   </div>
 
-{ getUser.kakaoAccess?.access_token
+{ getUser.isLogined
   ?<pre style={{margin:'25px'}}>
-    {'kakaoAccess = '+JSON.stringify(getUser.kakaoAccess,null,4)+"\n\n"}
-    {'kakaoMyData = '+JSON.stringify(getUser.kakaoMyData,null,4)}
+    {'getUser = '+JSON.stringify(getUser,null,4)}
    </pre>
   :<></>
 }

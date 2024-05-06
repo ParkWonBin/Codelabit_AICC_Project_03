@@ -12,8 +12,9 @@ app.use('/dev', require('./routes/dev'));
 app.use('/index', require('./routes/index'));
 app.use('/api/kakao/maps', require('./api/kakoMaps'));
 
-app.use('/userCreate', require('./routes/userCreate'));
 app.use('/userLogin', require('./routes/userLogin'));
+app.use('/userCreate', require('./routes/userCreate'));
+app.use('/userDelete', require('./routes/userDelete'));
 // app.use('/userPwChange', require('./routes/userPwChange'));
 // app.use('/userDelete', require('./routes/userDelete'));
 // app.use('/postMain', require('./routes/postMain'));

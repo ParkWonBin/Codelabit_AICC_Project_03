@@ -37,6 +37,7 @@ function LoginAuth({props}){
     if (Login.isSucceed){
       const LoginData = {
         isLogined:true,
+        userId:Login.id,
         userName:Login.name,
         kakaoAccess:{},
         kakaoMyData:{}

@@ -19,6 +19,7 @@ function App() {
 
   const [getUser,setUser] = useState({
     isLogined:false,
+    userId:'',
     userName:'',
     kakaoAccess:{},
     kakaoMyData:{}

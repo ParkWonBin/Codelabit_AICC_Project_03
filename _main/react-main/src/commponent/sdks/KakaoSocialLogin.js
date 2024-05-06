@@ -52,6 +52,7 @@ const KakaoSocialLogin = ({props}) => {
             setUser(data=>{return {
                 ...data,
                 isLogined: true, 
+                userId:'',
                 userName: kakaoResponse.data.kakao_account.profile.nickname,
                 kakaoMyData: kakaoResponse.data}})
         

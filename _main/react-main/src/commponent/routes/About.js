@@ -7,8 +7,7 @@ function About(){
   1. 로그인 :
       => 회원관리, 개인화 서비스
      - [Express] [API-Kakao-OAuth] 소셜 로그인
-     - [Express] 로그인, 회원가입 (생성/조회)
-     x [Express] 회원정보 (수정/삭제)
+     - [Express] 로그인, 회원가입, 회원탈퇴 (생성/조회/삭제)
 
   2. 게시판 :
       => 커뮤니티, 회원간 소통 창구

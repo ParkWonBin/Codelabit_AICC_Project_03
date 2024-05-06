@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const serverBaseURL = process.env.REACT_APP_EXPRESS_URL;
+
 function LoginResult({props}){
-  const {getUser,setUser} = props
+  const {getUser,setUser,setIsSignUp} = props
 
   const logout = ()=>{
     setUser({
@@ -16,6 +18,37 @@ function LoginResult({props}){
     kakaoUnlink(getUser.kakaoAccess.access_token) // 동의 철회 요청
     logout() // 이후 로그아웃 처리
   }
+  const handleDeleteUser=async()=>{
+    console.log('회원탈퇴 시도');
+    const DeleteUser = await tryDeleteUser(getUser.userId);
+    if (DeleteUser.isSucceed){
+      
+      setUser({
+          isLogined: false,
+          userId: '',
+          userName: '',
+          kakaoAccess: {},
+          kakaoMyData: {}
+      })
+      setIsSignUp(false)
+  }
+  setIsSignUp(false)
+  alert(JSON.stringify(DeleteUser));
+
+  }
+
+  const tryDeleteUser = async ()=>{
+    try {
+        let res = await axios.post(`${serverBaseURL}/userDelete`, {
+            headers: { 'Content-Type': 'application/json' },
+            userId: getUser.userId
+        });
+
+        return { isSuccess: true, ...res.data };
+    } catch (error) {
+        return { isSuccess: false, msg: '에러발생' };
+    }
+};
 
   return <>
   {// 프로필 사진 띄우기
@@ -33,8 +66,16 @@ function LoginResult({props}){
 
   <div className="button-container">
     <button onClick={logout}>로그아웃</button>
-    {getUser.kakaoAccess?.access_token ?<button onClick={unlink}>연동해제</button> :<></>}
-    <button>회원탈퇴</button>
+    
+    {getUser.kakaoAccess?.access_token 
+    ?<>
+      <button onClick={unlink}>회원탈퇴</button>
+      <button onClick={unlink}>연동해제</button> 
+     </>
+    :<>
+      <button onClick={handleDeleteUser}>회원탈퇴</button>
+     </>
+    }
   </div>
 </>
 }
