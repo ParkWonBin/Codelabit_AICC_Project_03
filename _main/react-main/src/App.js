@@ -4,7 +4,7 @@ import './css/App.css';
 import Navigation from './commponent/semantic/Navigation';
 import Main from './commponent/semantic/Main';
 import Footer from './commponent/semantic/Footer';
-import Chatbot from './commponent/chatbot';
+import Chatbot from './commponent/Chatbot';
 
 function App() {
   const [getNavData, setNavData] = useState({
@@ -36,8 +36,8 @@ function App() {
   return <div className="App">        
     <Navigation props={{getNavData}}/>
     <Main props={{getUser, setUser}}/>
-    <Chatbot getUser={getUser}/>
     <Footer/>
+    <Chatbot getUser={getUser}/>
   </div>;
 }
 
