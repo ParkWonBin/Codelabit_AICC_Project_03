@@ -17,11 +17,15 @@
     padding: 5px 10px; /* 패딩 조정 */
     width: 6rem;
     cursor: pointer; /* 마우스 오버시 커서 변경 */
-    /* background-color: #FEE500;
-    font-weight: bolder;
-    font-size: large;
-    color: #191919;
-    border: 2px solid #191919; */
+    color: #FEE500;
+    background-color: #715253;
+    border: 2px solid #715253;
+    font-weight: bold;
+    font-size: 15px;
+  }
+  #postWrite:hover {
+    color: #715253;
+    background-color: #FEE500;
   }
 
   #postCntInput, #pageCntInput, #curPageInput {
@@ -76,6 +80,9 @@
   
   #PostBoardContainer ul li.curPage{
     background-color: #FEE500;
+    color: #715253;
+    font-weight: bolder;
+    border: 2px solid #715253;
   }
   #PostBoardContainer ul li a {
     color: inherit;
