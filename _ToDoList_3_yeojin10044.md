@@ -13,6 +13,7 @@ Role : FrontEnd
 
 ---
 ## Done
+- [x] 240507(화) React : React 챗봇 데이터 불러오기, 배열다루기
 - [x] 240503(금) React : 챗봇 x표시 기능
 - [x] 240503(금) React : React 챗봇 데이터 불러오기, 배열
 - [x] 240502(목) React : 로그인폼 css 수정하기
