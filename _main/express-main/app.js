@@ -15,18 +15,14 @@ app.use('/api/kakao/maps', require('./api/kakoMaps'));
 app.use('/userLogin', require('./routes/userLogin'));
 app.use('/userCreate', require('./routes/userCreate'));
 app.use('/userDelete', require('./routes/userDelete'));
-app.use('/postCreate', require('./routes/postCreate'));
 app.use('/postReadBoard', require('./routes/postReadBoard'));
 app.use('/postReadDetail', require('./routes/postReadDetail'));
-
+app.use('/postCreate', require('./routes/postCreate'));
+app.use('/postUpdate', require('./routes/postUpdate'));
+app.use('/postDelete', require('./routes/postDelete'));
 
 
 // app.use('/userPwChange', require('./routes/userPwChange'));
-// app.use('/userDelete', require('./routes/userDelete'));
-// app.use('/postMain', require('./routes/postMain'));
-// app.use('/postUpdate', require('./routes/postUpdate'));
-// app.use('/postDelete', require('./routes/postDelete'));
-// app.use('/postRead', require('./routes/postRead'));
 // app.use('/myPage', require('./routes/myPage'));
 
 

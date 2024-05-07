@@ -84,7 +84,8 @@
     display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
-    width: 65%;
+    width: 100%;
+    gap: 2rem;
 }
 /* 버튼 스타일 정의 */
 .button {

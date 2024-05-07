@@ -9,18 +9,10 @@ INSERT INTO users (idx, u_id, u_name, u_pw)
 VALUES (user_seq.NEXTVAL, :userId, :userName, :userPw)
 RETURNING idx INTO :idx
 `;
-
-const bind = {
-    userId,
-    userName,
-    userPw,
+const bind = {userId, userName, userPw,
     idx: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
 };
-
-// db 명령 시도 후 저장
 const result = await connection.execute(sql, bind, { autoCommit: true });
-
-// 회원 등록 성공, idx 값을 가져옴
 const newUserIdx = result.outBinds.idx[0]; 
 ```
 

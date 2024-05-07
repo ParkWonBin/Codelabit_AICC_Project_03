@@ -1,5 +1,38 @@
 # react 
 
+## router로 움직이기
+- 이동할 때는 <Link> 테그 쓰기
+- 함수로 이동할 때는 useNavigate 쓰기
+- useNavigate,useLocation 로 이동할 떄 변수도 넘길 수 있다.
+### 이동 및 변수 예시
+```js
+// 출발 시 변수 넣기
+import { useNavigate } from 'react-router-dom';
+function Component() {
+    const navigate = useNavigate();
+    const handleNavigation = () => {
+        // state 객체에서 데이터 전달
+        navigate('/next-page', { 
+            state: { userId: 1, userInfo: 'User Details' } 
+        });
+    };
+    return (<button onClick={handleNavigation}>Go</button>);
+}
+```
+```js
+import { useLocation } from 'react-router-dom';
+// 도착 시 변수 받기
+function NextPage() {
+    const location = useLocation();
+    const { userId, userInfo } = location.state; 
+    // state 객체에서 데이터 추출
+    return (<div>
+    <h1>User ID: {userId}</h1>
+    <p>User Info: {userInfo}</p>
+</div>);
+}
+
+```
 
 ## API key 숨기기
 ### kakao API

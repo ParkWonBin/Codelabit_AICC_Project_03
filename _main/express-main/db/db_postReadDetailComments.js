@@ -1,7 +1,7 @@
 const oracledb = require('oracledb');
 const dbconfig = require("../dbconfig");
 
-const db_postReadDetail = async (postId) => {
+const db_postReadDetail = async (postIdx) => {
     let conn;
 
     try {
@@ -10,7 +10,7 @@ const db_postReadDetail = async (postId) => {
         
         
         
-        const bind = {postId};
+        const bind = {postIdx};
         const sql = `
 SELECT 
     c.idx, 
@@ -26,7 +26,7 @@ FROM
 JOIN 
     users u ON c.c_author = u.idx
 WHERE 
-    c.c_post = :postId
+    c.c_post = :postIdx
 `
         const commentsDataraw = await conn.execute(
             sql, bind, { 

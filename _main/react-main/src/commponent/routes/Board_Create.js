@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-import './Board_Create.css'
+import './Board_CreateUpdate.css'
 const serverBaseURL = process.env.REACT_APP_EXPRESS_URL
 
 
@@ -39,10 +39,10 @@ const BoardCreate = ({props})=>{
 
 
     const handleSubmitBtn = async ()=>{
-      // 
+      // 게시글 등록
       const res = await postCreate(getTitle,getContent,getUser.userIdx)
       if(res.isSucceed){
-        alert('게시글 등록 성공!')
+        // alert('게시글 등록 성공!')
         navigate(`/board/detail?post_idx=${res.postIdx}`)
       }else{
         alert('게시글 등록 실패!')

@@ -1,7 +1,7 @@
 const oracledb = require('oracledb');
 const dbconfig = require("../dbconfig");
 
-const db_postReadDetail = async (postId) => {
+const db_postReadDetail = async (postIdx) => {
     let conn;
 
     try {
@@ -9,7 +9,7 @@ const db_postReadDetail = async (postId) => {
         conn = await oracledb.getConnection(dbconfig);
         
         // 명령 생성 및 실행
-        const bind = {postId};
+        const bind = {postIdx};
         const sql = `
 SELECT 
     p.idx, 
@@ -24,7 +24,7 @@ FROM
 JOIN 
     users u ON p.p_author = u.idx
 WHERE 
-    p.idx = :postId
+    p.idx = :postIdx
 `        
         const postDataraw = await conn.execute(
             sql, bind,{ 

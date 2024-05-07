@@ -1,5 +1,21 @@
 # express
 
+### 행추가하고 바로 idx 받아올 떄
+outBind 라는 게 있다.
+```js
+const sql = `
+INSERT INTO users (idx, u_id, u_name, u_pw)
+VALUES (user_seq.NEXTVAL, :userId, :userName, :userPw)
+RETURNING idx INTO :idx
+`;
+const bind = {userId, userName, userPw,
+    idx: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+};
+const result = await connection.execute(sql, bind, { autoCommit: true });
+const newUserIdx = result.outBinds.idx[0]; 
+```
+
+
 ## API key 숨기기
 ### dotenv
 #### 환경변수 설정

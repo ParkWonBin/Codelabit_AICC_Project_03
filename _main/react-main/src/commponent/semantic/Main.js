@@ -6,7 +6,7 @@ import MapData from '../routes/Map';
 import Board from '../routes/Board_'
 import BoardDetail from '../routes/Board_Detail';
 import BoardCreate from '../routes/Board_Create';
-import BoardEdit from '../routes/Board_Edit';
+import BoardUpdate from '../routes/Board_Update';
 import Static from '../routes/Static_';
 import Login from '../routes/Login_';
 
@@ -21,7 +21,7 @@ export const Main = ({props})=>{
     <Route path="/board" element={<Board/>} />
     <Route path="/board/create" element={<BoardCreate props={{getUser}}/>} />
     <Route path="/board/detail" element={<BoardDetail props={{getUser}}/>} />
-    <Route path="/board/edit" element={<BoardEdit props={{getUser}}/>} />
+    <Route path="/board/update" element={<BoardUpdate props={{getUser}}/>} />
     <Route path="/login" element={<Login props={{getUser, setUser}}/>} />
   </Routes>
   </main>

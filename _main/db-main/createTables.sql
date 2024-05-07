@@ -6,7 +6,7 @@ DROP TABLE users CASCADE CONSTRAINTS;
 --- CREATE
 CREATE TABLE users (
     idx NUMBER PRIMARY KEY,
-    u_id VARCHAR2(100),
+    u_id VARCHAR2(100) UNIQUE,
     u_name VARCHAR2(100),
     u_pw VARCHAR2(255)
 );
