@@ -33,10 +33,11 @@ function LoginAuth({props}){
   const handleLogin = async () => {
     // console.log('로그인 시도');
     const Login = await tryLogin(getId, getPassword);
-    console.log(Login.name);
+    // console.log(Login.name);
     if (Login.isSucceed){
       const LoginData = {
         isLogined:true,
+        userIdx:Login.idx,
         userId:Login.id,
         userName:Login.name,
         kakaoAccess:{},

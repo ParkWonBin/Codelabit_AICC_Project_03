@@ -14,10 +14,10 @@ const LgoinSignUp = ({props})=>{
     const handleSignUp = async () => {
         console.log('회원가입 시도');
         const CreateUser = await tryCreateUser(getId, getPassword,getPasswordConf, getName);
-
         if (CreateUser.isSucceed){
             setUser({
                 isLogined: true,
+                userIdx: CreateUser.userIdx,
                 userId: getId,
                 userName: getName,
                 kakaoAccess: {},
@@ -25,7 +25,6 @@ const LgoinSignUp = ({props})=>{
             })
         }
         setIsSignUp(false)
-        alert(JSON.stringify(CreateUser));
     };
 
 

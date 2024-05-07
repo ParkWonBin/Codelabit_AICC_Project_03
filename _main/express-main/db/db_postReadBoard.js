@@ -28,6 +28,8 @@ const db_postReadBoard = async () => {
          GROUP BY 
              c_post
         ) c ON p.idx = c.c_post  
+    WHERE 
+        p.p_author IS NOT NULL
     ORDER BY 
         p.p_created DESC
 `;

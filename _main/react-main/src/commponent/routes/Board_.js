@@ -15,7 +15,7 @@ const getBoardData = async()=>{
 function Board(){
     const navigate = useNavigate();
 
-    const [searchParams, _] = useSearchParams();
+    const [searchParams, ] = useSearchParams();
     const [getPageCnt, setPageCnt] = useState(5);
     const [getPostCnt, setPostCnt] = useState(10);
     const [getCurPage, setCurPage] = useState(1);
@@ -47,8 +47,8 @@ function Board(){
     //     {idx:24,title:'post_24',author:'익명24',datetime:'2024.04.24'},
     //     {idx:25,title:'post_25',author:'익명25',datetime:'2024.04.25'},
     // ])
-    function handleLink(post_id) {
-        navigate(`/board/detail?post_id=${post_id}`);  // 이동하고자 하는 경로
+    const handleLinkVisitPost = (post_idx)=>{
+        navigate(`/board/detail?post_idx=${post_idx}`);  // 이동하고자 하는 경로
     }
 
     // useEffect 에서는 async 쓸 수 없어서 이렇게 간접적으로 처리한다.
@@ -115,7 +115,7 @@ function Board(){
     
     <div id='postHeaderContainer'>
       <h3 id = 'postHeader'>게시판</h3>
-      <button id='postWrite'>글쓰기</button>
+      <button id='postWrite' onClick={()=>{navigate(`/board/create`)}}>글쓰기</button>
     </div>
     <p> 현재 페이지는 
         <input 
@@ -161,7 +161,7 @@ function Board(){
         </thead>
         <tbody>
             {getPostList.slice(startPostIdx,startPostIdx+getPostCnt).map((post,idx)=>{return(
-                <tr key={idx} onClick={()=>{handleLink(post.idx)}}>
+                <tr key={idx} onClick={()=>{handleLinkVisitPost(post.idx)}}>
                     <td key='0'>{post.idx}</td>
                     <td key='1'>{post.title}</td>
                     <td key='2'>{post.author}</td>

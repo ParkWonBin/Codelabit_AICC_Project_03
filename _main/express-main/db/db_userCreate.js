@@ -10,18 +10,25 @@ const db_userCreate = async(userId, userPw, userName)=>{
 
         // 회원 등록 로직 (여기에서는 예시로만 표시)
         const sql = `
-        insert into 
-        users (idx, u_id, u_name, u_pw) 
-        values (user_seq.NEXTVAL, :userId, :userName, :userPw)
-        `
-        const bind = {userId, userPw, userName};
+        INSERT INTO users (idx, u_id, u_name, u_pw)
+        VALUES (user_seq.NEXTVAL, :userId, :userName, :userPw)
+        RETURNING idx INTO :idx
+        `;
+        const bind = {
+            userId,
+            userName,
+            userPw,
+            idx: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+        };
 
         // db 명령 시도 후 저장
-        await connection.execute(sql, bind);   
-        await connection.commit();
-        
-        // 회원 등록 성공
-        return { isSucceed: true, error: null };
+        const result = await connection.execute(sql, bind);
+
+        // 회원 등록 성공, idx 값을 가져옴
+        const userIdx = result.outBinds.idx[0]; 
+
+        // 결과값 반환
+        return { isSucceed: true, error: null, userIdx };
     } catch (err) {
         return { isSucceed: false, error: err.message };
     } finally {

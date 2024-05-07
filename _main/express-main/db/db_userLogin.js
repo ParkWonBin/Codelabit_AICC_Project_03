@@ -8,7 +8,7 @@ const db_userLogin = async(userId, userPw)=>{
 
     // 명령 생성 및 실행
     const sql = `
-    select u_id, u_name from users 
+    select u_id, u_name, idx from users 
     where u_id = :userId and u_pw = :userPw`
     
     const bind = {userId, userPw}
@@ -22,7 +22,8 @@ const db_userLogin = async(userId, userPw)=>{
         return {
             isSucceed: true,
             id:result.rows[0][0],
-            name:result.rows[0][1]
+            name:result.rows[0][1],
+            idx:result.rows[0][2]
         }
     }else{
         return {

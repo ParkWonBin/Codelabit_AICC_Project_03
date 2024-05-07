@@ -22,13 +22,14 @@ router.post('/', async (req, res) => {
 
     // 회원 가입처리
     const createUser = await db_userCreate(userId, userPw, userName)
+    console.log( createUser )
     if(createUser.isSucceed){
         // 가입 성공
-        return res.status(200).json({isSucceed:true, msg:'회원 가입 성공'});
+        return res.status(200).json({...createUser, isSucceed:true, msg:'회원 가입 성공'});
     }else{
         // 에러 발생
         console.log(createUser.error)
-        return res.status(200).json({isSucceed:false, msg: createUser.error});    
+        return res.status(200).json({...createUser, isSucceed:false, msg: createUser.error});    
     }
 });
 

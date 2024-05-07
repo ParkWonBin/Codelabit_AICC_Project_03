@@ -33,7 +33,7 @@ const getBoardDetailComments = async(postId)=>{
 
 
 function BoardDetail({props}){
-  const {getUser} = props
+  const {getUser} = props // 나중에 수정/삭제 버튼을 위함
   const [searchParams, ] = useSearchParams();
   const [getPostData, setPostData] = useState({})
   const [getCommentsData, setCommentsData] = useState([])
@@ -41,7 +41,7 @@ function BoardDetail({props}){
 
   // 페이지 들어오자마자 데이터 요청
   useEffect(() => {
-    const postId = parseInt(searchParams.get('post_id') );
+    const postId = parseInt(searchParams.get('post_idx') );
     // useEffect 에서는 async 함수 못쓰기 때문에 정의 후 실행.
     const fetchData = async()=>{ 
       try{
@@ -94,6 +94,10 @@ function BoardDetail({props}){
       <div className="post-author">
           <strong style={{display: 'inline-block'}}>
               @{comment.idx} : {comment.authorName}({comment.authorId})
+              {comment.authorId === getUser.userId
+              ?<>[수정][삭제]</>
+              :<></>
+              }
           </strong>
       </div>
       <p>{comment.content}</p>
@@ -117,6 +121,10 @@ function BoardDetail({props}){
 
       <div className="post-content">
         <h2 className="post-title">제목 : {getPostData.title}</h2>
+        {getPostData.authorId === getUser.userId
+          ?<>[수정][삭제]</>
+          :<></>
+        }
         <p className="post-author">작성자: {getPostData.authorName}({getPostData.authorId})</p>
         <p className="post-date">작성일: {getPostData.created}</p>
         <hr />
