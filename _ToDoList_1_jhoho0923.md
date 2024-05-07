@@ -2357,6 +2357,7 @@ if __name__ == "__main__":
 수정보완된 소스 구문 (하단 설명 참조.)
 # 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
 custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+
 # 필요한 형식으로 변환
 deal_ymd = time.strftime("%Y%m", custom_time)
 
