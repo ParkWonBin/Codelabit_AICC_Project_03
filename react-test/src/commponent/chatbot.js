@@ -45,7 +45,7 @@ function Chatbot() {
     // 데이터를 불러오는 비동기 함수
     const fetchData = async () => {
       try {
-        const response = await fetch('URL_HERE'); // URL_HERE에 실제 데이터를 가져올 URL을 입력해주세요.
+        const response = await fetch('URL_HERE'); // URL_HERE에 실제 데이터를 
         const data = await response.json();
         console.log(data); // 불러온 데이터 콘솔에 출력 또는 적절히 활용
       } catch (error) {
