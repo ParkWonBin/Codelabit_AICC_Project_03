@@ -8,6 +8,9 @@ pip install python-dotenv
 
 # geopy 패키지 설치(새주소->위경도 변환)
 pip install geopy
+
+# 요청 처리 관련 패키지 설치
+pip install requests
 ```
 ### 환경변수 가져오기
 
