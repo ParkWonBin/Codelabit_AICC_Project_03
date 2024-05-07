@@ -18,6 +18,8 @@ def route_app(app):
 
     from api.testAPI import testAPI
     api.add_resource(testAPI,'/testAPI')
-    
+
+    from api.addData import addData
+    api.add_resource(addData,'/addData')
 
     return api

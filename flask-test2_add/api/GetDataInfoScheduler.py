@@ -16,6 +16,8 @@ class GetDataInfoScheduler:
 
         # 필요한 형식으로 변환
         deal_ymd = time.strftime("%Y%m", custom_time)
+
+        # 가장 최근날짜로 형식전환
         # deal_ymd = time.strftime("%Y%m")
         
         print(deal_ymd)
@@ -45,6 +47,8 @@ class GetDataInfoScheduler:
             
             # 필요한 형식으로 변환
             deal_ymd = time.strftime("%Y%m", custom_time)
+
+            # 가장 최근날짜로 형식전환
             # deal_ymd = time.strftime("%Y%m")
             self.budong_info_collector(deal_ymd)
             print('수집완료')
@@ -88,3 +92,5 @@ if __name__ == "__main__":
     print('<부동산 거래 정보 데이터수집 스케줄러 프로그램 ver1.0>')
     scheduler = GetDataInfoScheduler()
     scheduler.run_menu()
+
+

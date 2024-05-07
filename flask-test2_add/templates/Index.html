@@ -11,6 +11,7 @@
     <script src="{{ url_for('static', filename='js/getAndDisplayData2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/getDataAndCheckbox.js') }}"></script>
     <script src="{{ url_for('static', filename='js/loadData.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/addData.js') }}"></script>
     
 </head>
 
@@ -93,6 +94,48 @@
     </tbody>
     </table>
 </div>
+<div>
+    <h1>데이터 추가</h1>
+{#    <form id="dataForm">#}
+        <label for="area">건물면적:</label>
+        <input type="text" id="area" name="area" placeholder="건물면적 입력"><br><br>
+
+        <label for="usage">용도지역:</label>
+        <input type="text" id="usage" name="usage" placeholder="용도지역 입력"><br><br>
+
+        <label for="latitude">위도:</label>
+        <input type="text" id="latitude" name="latitude" placeholder="위도 입력"><br><br>
+
+        <label for="longitude">경도:</label>
+        <input type="text" id="longitude" name="longitude" placeholder="경도 입력"><br><br>
+
+        <label for="address">주소:</label>
+        <input type="text" id="address" name="address" placeholder="주소 입력"><br><br>
+
+        <label for="region">주소지역:</label>
+        <input type="text" id="region" name="region" placeholder="주소지역 입력"><br><br>
+
+        <button type="button" onclick="addData()">데이터 추가</button>
+{#    </form>#}
+
+    <table id="inputTable" border="1">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>건물면적</th>
+            <th>용도지역</th>
+            <th>위도</th>
+            <th>경도</th>
+            <th>주소</th>
+            <th>주소지역</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+        </tbody>
+    </table>
+</div>
+
 
 </body>
 </html>
