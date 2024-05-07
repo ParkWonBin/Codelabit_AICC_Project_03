@@ -14,9 +14,9 @@ export const Login = ({props})=>{
   <div className='login-form-container'>
   {! getUser.isLogined
    ? ! getIsSignUp
-     ? <LoginAuth props={{setUser, setIsSignUp}}/>  
-     : <LoginSignUp props={{getUser,setUser,setIsSignUp}}/>
-   : <LoginMyPage props={{getUser,setUser,setIsSignUp}}/>
+     ? <LoginAuth props={{getUser, setUser, setIsSignUp}}/>  
+     : <LoginSignUp props={{getUser, setUser, setIsSignUp}}/>
+   : <LoginMyPage props={{getUser, setUser, setIsSignUp}}/>
   }
   </div>
 

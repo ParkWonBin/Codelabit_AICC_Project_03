@@ -40,6 +40,7 @@ const LgoinSignUp = ({props})=>{
                 userName: name,
                 userPw: pw,
                 userPwConfirm: pwConf,
+                kakaoId:null
             }).catch(res=>{
                 console.log(res)
             });

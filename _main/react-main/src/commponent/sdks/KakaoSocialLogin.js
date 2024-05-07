@@ -1,14 +1,16 @@
 import KakaoLogin from "react-kakao-login";
 import axios from 'axios';
 
+const serverBaseURL = process.env.REACT_APP_EXPRESS_URL;
+
 const KakaoSocialLogin = ({props}) => {
-    const {setUser} = props
+    const {getUser, setUser} = props
 
     const kakaoClientId = process.env.REACT_APP_KAKAO_JS; // 환경변수 사용
 
     const kakaoOnSuccess = async (data) => {
         const accessToken = data.response.access_token; // 엑세스 토큰
-        alert(`data.response = ${JSON.stringify(data.response)}`);
+        // alert(`data.response = ${JSON.stringify(data.response)}`);
         
         // 액세스 토큰 넣기
         setUser(userData=>{return {...userData, 
@@ -16,7 +18,9 @@ const KakaoSocialLogin = ({props}) => {
         }})
 
         // kakaoUnlink(accessToken); // 동의 철회
-        kakaoGetData(accessToken); // 동의 요청
+        // 동의 요청
+        kakaoGetData(accessToken)
+            .then(res=>handleCreateUser(res))
     };
 
     const kakaoOnFailure = (error) => {
@@ -38,15 +42,11 @@ const KakaoSocialLogin = ({props}) => {
 
     const kakaoGetData = async (accessToken) => {
         const kakaoURL = 'https://kapi.kakao.com/v2/user/me';
-        const headers = {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        };
+        const headers = {headers: {'Authorization': `Bearer ${accessToken}`}};
 
         try {
             const kakaoResponse = await axios.get(kakaoURL, headers);
-            console.log(`kakaoResponse = ${JSON.stringify(kakaoResponse.data)}`)
+            // console.log(`kakaoResponse = ${JSON.stringify(kakaoResponse.data)}`)
 
             // 마이데이터 넣기
             setUser(data=>{return {
@@ -55,12 +55,81 @@ const KakaoSocialLogin = ({props}) => {
                 userId:'',
                 userName: kakaoResponse.data.kakao_account.profile.nickname,
                 kakaoMyData: kakaoResponse.data}})
-        
-
+            return kakaoResponse.data
         } catch (error) {
             console.error('Failed to fetch user data:', error);
         }
     };
+
+    const handleCreateUser=async(res)=>{
+        // 보안상 문제가 있지만, 로그인 테스트용 구현
+        const kakaoId = res.id
+        const userName = res.kakao_account.profile.nickname
+        const userId = `kakao_${kakaoId}`
+        const userPw = `${userName}_${kakaoId}`
+        // alert(JSON.stringify({userId,userPw,userName,kakaoId}))
+
+        // 로그인 시도
+        const Login = await tryLogin(userId, userPw);
+        if (Login.isSucceed){
+            setUser(data=>{
+                return {
+                    ...data,
+                    isLogined:true,
+                    userIdx:Login.idx,
+                    userId:Login.id,
+                    userName:Login.name,
+                }
+            })
+            return null
+        }
+
+        // 안되면 계정 생성 시도
+        const CreateUser = await tryCreateUser(userId, userPw,userPw, userName, kakaoId);
+        if (CreateUser.isSucceed){
+            setUser(data=>{
+                return {
+                    ...data,
+                    isLogined: true,
+                    userIdx: CreateUser.userIdx,
+                    userId: userId,
+                    userName: userName
+                }
+            })
+        }
+    }
+    async function tryLogin(id,pw){
+        try {
+          let res = await axios.post(`${serverBaseURL}/userLogin`, {
+            headers: {'Content-Type': 'application/json'},
+            userId: id,
+            userPw: pw,
+          });
+          return res.data
+        } catch (error) {
+          return {isSucceed:false, msg:'로그인 시도 실패'} 
+        } 
+      };
+
+    async function tryCreateUser(id, pw, pwConf, name, kakaoId) {
+        try {
+            let res = await axios.post(`${serverBaseURL}/userCreate`, {
+                headers: { 'Content-Type': 'application/json' },
+                userId: id,
+                userName: name,
+                userPw: pw,
+                userPwConfirm: pwConf,
+                kakaoId
+            }).catch(res=>{
+                console.log(res)
+            });
+
+            return { ...res.data };
+        } catch (error) {
+            return { isSuccess: false, msg:'에러발생' };
+        }
+    };
+
 
     return (
         <>

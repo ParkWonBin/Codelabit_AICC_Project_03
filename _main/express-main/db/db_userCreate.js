@@ -2,16 +2,17 @@ const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
 // db연결하여 회원가입하는 함수 정의
-const db_userCreate = async(userId, userPw, userName)=>{
+const db_userCreate = async(userId, userPw, userName, kakaoId)=>{
     let connection;    
     try {
         // 데이터베이스 연결 시도
         connection = await oracledb.getConnection(dbconfig);
 
+        
         // 회원 등록 로직 (여기에서는 예시로만 표시)
         const sql = `
-        INSERT INTO users (idx, u_id, u_name, u_pw)
-        VALUES (user_seq.NEXTVAL, :userId, :userName, :userPw)
+        INSERT INTO users (idx, u_id, u_name, u_pw${kakaoId?', u_kakaoId':''})
+        VALUES (user_seq.NEXTVAL, :userId, :userName, :userPw${kakaoId?`, ${kakaoId}`:''})
         RETURNING idx INTO :idx
         `;
         const bind = {

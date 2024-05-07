@@ -25,7 +25,7 @@ async function tryLogin(id,pw){
 
 // 로그인 입력 화면
 function LoginAuth({props}){
-  const {setUser, setIsSignUp} = props
+  const {getUser, setUser, setIsSignUp} = props
   const [getId, setId] = useState('');
   const [getPassword, setPassword] = useState('');
 
@@ -68,7 +68,7 @@ function LoginAuth({props}){
     <div className='button-container'>
       <button className='login-button' onClick={handleLogin}>로그인</button>
       <button className='signup-button' onClick={()=>{setIsSignUp(true)}}>회원<br/>가입</button>
-      <KakaoSocialLogin props={{setUser}}/>
+      <KakaoSocialLogin props={{setUser, getUser}}/>
     </div>
 </div>
 }
