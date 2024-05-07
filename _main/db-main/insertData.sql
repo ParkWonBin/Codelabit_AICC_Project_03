@@ -28,11 +28,13 @@ VALUES (comment_seq.NEXTVAL,
 );
 
 INSERT INTO comments (idx, c_content, c_author, c_post, c_parent)
-SELECT comment_seq.NEXTVAL, 
-    'This is the comment on comment', 
-    (SELECT idx FROM users WHERE u_id = 'user2'), 
-    (SELECT idx FROM posts WHERE p_title = 'Post 2'),
-    (SELECT idx FROM comments WHERE ROWNUM = 1)
-FROM comments WHERE ROWNUM = 1;
+SELECT comment_seq.NEXTVAL,
+       'This is the comment on comment',
+       (SELECT idx FROM users WHERE u_id = 'user2'),
+       p.idx,
+       (SELECT idx FROM comments WHERE c_post = p.idx AND ROWNUM = 1)
+FROM posts p
+WHERE p_title = 'Post 2'
+AND ROWNUM = 1;
 
 ---------------------------------

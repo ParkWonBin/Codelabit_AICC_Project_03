@@ -16,6 +16,10 @@ app.use('/userLogin', require('./routes/userLogin'));
 app.use('/userCreate', require('./routes/userCreate'));
 app.use('/userDelete', require('./routes/userDelete'));
 app.use('/postReadBoard', require('./routes/postReadBoard'));
+app.use('/postReadDetail', require('./routes/postReadDetail'));
+
+
+
 // app.use('/userPwChange', require('./routes/userPwChange'));
 // app.use('/userDelete', require('./routes/userDelete'));
 // app.use('/postMain', require('./routes/postMain'));

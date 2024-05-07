@@ -9,8 +9,9 @@ const session = require('express-session');
 const dbConfig = require('./dbconfig')
 const oracledb = require('oracledb');
 
-oracledb.initOracleClient({ libDir:process.env.ORACLE_CLIENT });
-oracledb.autoCommit = true;
+oracledb.initOracleClient({ libDir:process.env.ORACLE_CLIENT }); // db 연결에 필요
+oracledb.fetchAsString = [ oracledb.CLOB ]; // 게시글 CLOB 읽는데 필요
+oracledb.autoCommit = true; // 자동 저장
 
 oracledb.createPool(dbConfig)
     .then(() => console.log('Oracle DB에 연결되었습니다.'))
