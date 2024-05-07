@@ -8,8 +8,6 @@ const db_postReadDetail = async (postIdx) => {
         // db 연결
         conn = await oracledb.getConnection(dbconfig);
         
-        
-        
         const bind = {postIdx};
         const sql = `
 SELECT 

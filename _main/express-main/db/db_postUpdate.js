@@ -1,7 +1,7 @@
 const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
-// db연결하여 게시글 등록하는 함수 정의
+// db연결하여 게시글 수정하는 함수 정의
 const db_postUpdate = async(title,content,userIdx,postIdx)=>{
     let connection;    
     try {
@@ -17,7 +17,7 @@ const db_postUpdate = async(title,content,userIdx,postIdx)=>{
         const bind = { title, content, postIdx, userIdx };
         
 
-        // db 명령 시도 후 저장
+        // db 명령 시도 
         const result = await connection.execute(sql, bind);   
  
 

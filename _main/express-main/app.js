@@ -20,7 +20,8 @@ app.use('/postReadDetail', require('./routes/postReadDetail'));
 app.use('/postCreate', require('./routes/postCreate'));
 app.use('/postUpdate', require('./routes/postUpdate'));
 app.use('/postDelete', require('./routes/postDelete'));
-
+app.use('/commentCreate', require('./routes/commentCreate'));
+app.use('/commentDelete', require('./routes/commentDelete'));
 
 // app.use('/userPwChange', require('./routes/userPwChange'));
 // app.use('/myPage', require('./routes/myPage'));

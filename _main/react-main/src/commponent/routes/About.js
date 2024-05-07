@@ -14,8 +14,7 @@ function About(){
       - [Express] 동적으로 목록 표시 및 정렬 
       - [Express] 상세화면 : 게시글 (조회), 댓글 (조회)
       - [Express] 게시글 (생성/수정/삭제)
-      x [Express] 댓글-대댓글 (생성)
-      x [Express] 댓글-대댓글 (수정/삭제)
+      - [Express] 댓글-대댓글 (생성/삭제)
 
   3. 쳇봇 :
       => 편의성, 서비스 안내
@@ -33,7 +32,7 @@ function About(){
       - [React] [Chart] 화면에 차트 표시하기
       - [Flask] 더미 데이터 불러오기
       - [React] [API-Kakao-Map] 클릭한 데이터 위치로 이동
-      x [Flask] [API-OpenAPI] 공공 데이터 불러오기
+      x [Flask] [API-OpenAPI] 공공 데이터 불러오기(더미)
 `
 
 const styleDisplayPre = {fontWeight: 'bold', fontSize: '25px'}

@@ -1,7 +1,7 @@
 const oracledb = require('oracledb');
 const dbconfig =require("../dbconfig")
 
-// db연결하여 회원가입하는 함수 정의
+// db연결하여 회원 탈퇴하는 함수 정의
 const db_userDelete = async(userId)=>{
     let connection;    
     try {
@@ -14,9 +14,8 @@ const db_userDelete = async(userId)=>{
         `
         const bind = {userId};
 
-        // db 명령 시도 후 저장
+        // db 명령 시도 
         await connection.execute(sql, bind);   
-        await connection.commit();
         
         // 회원 탈퇴 성공
         console.log('회원 탈퇴 성공 : '+userId)

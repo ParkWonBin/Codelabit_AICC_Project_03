@@ -24,7 +24,8 @@ const getBoardDetailComments = async(postIdx)=>{
   let result = {}
   try {
     result = axios.post(`${serverBaseURL}/postReadDetail/comments`,
-     {postIdx},{headers: {'Content-Type': 'application/json'}}
+     {postIdx},
+     {headers: {'Content-Type': 'application/json'}}
     );
   } catch (error) {
     console.log(error)
@@ -36,8 +37,35 @@ const postDelete = async(postIdx, userIdx)=>{
   let result = {}
   try {
     result = axios.post(`${serverBaseURL}/postDelete`,
-     {postIdx, userIdx},{headers: {'Content-Type': 'application/json'}}
+     {postIdx, userIdx},
+     {headers: {'Content-Type': 'application/json'}}
     );
+  } catch (error) {
+    console.log(error)
+  }    
+  return result
+}
+
+const commentDelete = async(postIdx,commentIdx)=>{
+  let result = {}
+  try {
+    result = axios.post(`${serverBaseURL}/commentDelete`,
+     {postIdx,commentIdx},
+     {headers: {'Content-Type': 'application/json'}}
+    );
+  } catch (error) {
+    console.log(error)
+  }    
+  return result
+}
+
+const commentCreate = async(content, userIdx, postIdx, parentIdx)=>{
+  let result = {}
+  try {
+    result = axios.post(`${serverBaseURL}/commentCreate`,
+     {content, userIdx, postIdx, parentIdx},
+     {headers: {'Content-Type': 'application/json'}}
+    ).then(res=>res.data);
   } catch (error) {
     console.log(error)
   }    
@@ -100,6 +128,26 @@ function BoardDetail({props}){
     setCommentTree(buildCommentTree());
   }, [getCommentsData]);
 
+  const handleDeleteComment = async(commentIdx)=>{
+
+    const shouldDelete = window.confirm('정말로 댓글을 삭제하시겠습니까?')
+    if(!shouldDelete){return null}
+
+    const postIdx = parseInt(searchParams.get('post_idx'));
+    const res = await commentDelete(postIdx,commentIdx).then(res=>res.data)
+    if(res.isSucceed){
+      alert('댓글이 삭제되었습니다.')
+      setCommentsData(comments=>{
+        return comments.filter((comment)=>{
+          return comment.idx !== commentIdx
+        })
+      })
+    }else{
+      alert(JSON.stringify(res))
+    }
+
+  }
+
 
   // Recursive function to render comments and their nested children
   const renderComments = (comments) => {
@@ -109,7 +157,7 @@ function BoardDetail({props}){
           <strong style={{display: 'inline-block'}}>
               @{comment.idx} : {comment.authorName}({comment.authorId})
               {comment.authorId === getUser.userId
-              ?<>[수정][삭제]</>
+              ?<botton className='commentDeleteBtn' onClick={()=>{handleDeleteComment(comment.idx)}} >삭제</botton>
               :<></>
               }
           </strong>
@@ -143,6 +191,43 @@ function BoardDetail({props}){
     if(res.isSucceed){
       alert('게시글이 삭제되었습니다.')
       navigator('/board')
+    }else{
+      alert(JSON.stringify(res))
+    }
+  }
+
+  const extractNumFromAtChar = (text) => {
+    const matches = text.match(/@(\d+)/g); // '@' 다음 숫자들을 모두 찾음
+    if (!matches) return null;
+  
+    // matches 배열에서 각 항목의 숫자 부분만 추출
+    const idxArray = matches.map(m => parseInt(m.slice(1).trim()));
+  
+    // getCommentsData 배열에서 유효한 idx 찾기
+    const validIdx = idxArray.find(idx => getCommentsData.some(comment => comment.idx === idx));
+    return validIdx || null;
+  };
+
+  const handleCommentCreate = async()=>{
+    // 로그인 안돼있으면 반려
+    if(!getUser.isLogined){ navigator('/login'); return null }
+
+    // 내용 없으면 반려
+    const content = document.getElementById('commentTextarea').value
+    if(content.trim()===''){return null}
+    document.getElementById('commentTextarea').value = ''
+    
+    const userIdx = getUser.userIdx
+    const postIdx = parseInt(searchParams.get('post_idx'));
+    const parentIdx = extractNumFromAtChar(content)
+
+    console.log({content, userIdx, postIdx, parentIdx})
+    const res = await commentCreate(content, userIdx, postIdx, parentIdx)
+    if(res.isSucceed){
+      // alert('댓글 생성 완료')
+      getBoardDetailComments(postIdx).then(res=>{
+        setCommentsData(res.data)
+      })
     }else{
       alert(JSON.stringify(res))
     }
@@ -187,8 +272,8 @@ function BoardDetail({props}){
       </div>
 
       <div id="commentForm" >
-        <textarea name="comment" rows="4" cols="50" placeholder="댓글을 입력하세요"></textarea>
-        <button type="submit">댓글 등록</button>
+        <textarea id='commentTextarea' rows="4" cols="50" placeholder="댓글을 입력하세요"></textarea>
+        <button onClick={handleCommentCreate} >댓글 등록</button>
       </div>
   </div>
 
