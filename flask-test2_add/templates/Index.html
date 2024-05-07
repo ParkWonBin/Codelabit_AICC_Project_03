@@ -67,15 +67,12 @@
 
 <h1> 건물면적, 용도별 허가정보들을 선택후 조회</h1>
 <div>
-<!-- <label><input type="checkbox" value="번호">번호</label> -->
 <label><input type="checkbox" value="건물면적">건물면적</label>
 <label><input type="checkbox" value="용도지역">용도지역</label>
-<!-- <label><input type="checkbox" value="위도">위도</label> -->
-<!-- <label><input type="checkbox" value="경도">경도</label> -->
 <label><input type="checkbox" value="주소">법정동</label>
 <label><input type="checkbox" value="주소지역"> 주소지역</label>
 </div>
-<!-- <button id="filterButton" onclick="getDataAndCheckbox()">선택 정보 조회</button> -->
+
 <input type="button" id="filterButton" onclick="getDataAndCheckbox()" value="선택 정보 조회">
 
 <div id="dataContainer3">여기에 JSON type으로 정보 들어옴. </div> 
@@ -84,11 +81,8 @@
 <table id="dataTable3" border="1">
     <thead>
     <tr>
-        <!-- <th>번호</th> -->
         <th>건물면적</th>
         <th>용도지역</th>
-        <!-- <th>위도</th> -->
-        <!-- <th>경도</th> -->
         <th>법정동</th>
         <th>주소지역</th>
     </tr>

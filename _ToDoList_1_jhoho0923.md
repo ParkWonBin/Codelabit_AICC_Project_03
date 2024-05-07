@@ -2235,6 +2235,7 @@ async function loadData() {
         });
     });
 
+
   
 }    
 
@@ -2252,12 +2253,114 @@ async function loadData() {
 
 - [x] 240502(금) 오늘 작업한 내용:  
   스케줄러를 통해 데이터를 시간대 별로 받아와 OpenAPI 정보를 json으로 받아와 적용하려고 하는데, get함수를 필요한 클래스에 접근을 하는 방법을 몰라 실패하였다. 담주 교육시간에 알아볼 예정이다. 
-  담주 작업시간에 원빈씨에게 문의 해봐야겠다..
+  담주 작업시간에 작업할 예정.
   
 
 
+- [x] 240507(화) 오늘 작업한 내용:  
+현재 시간 current times 으로 값을 받아 오는 것을 고민하다가 임의로 202403 값으로 날짜 데이터 값을 입력하고, testAPI 클래스를 불러서 사용하는것 까지 성공하였습니다. 스케줄러 실행시 공공API 값이 json 데이터로 load() 되어 대량의 데이터가 넘어 오는 것을 확인 할 수 가 있었습니다. 
+작용소스코드를 업데이트 합니다.(스케줄러 python 클래스명 변경 ===>  GetDataInfoScheduler.py )
 
-   
+```python
+import requests
+import time
+import json
+import pandas as pd
+import threading
+from testAPI import testAPI
+
+class GetDataInfoScheduler:
+    def __init__(self):
+        self.api = testAPI()
+        self.running = False
+
+    def budong_info_collector(self, deal_ymd):
+        # 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+        custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+
+        # 필요한 형식으로 변환
+        deal_ymd = time.strftime("%Y%m", custom_time)
+        # deal_ymd = time.strftime("%Y%m")
+        
+        print(deal_ymd)
+        try:
+            raw_str_json = self.api.get(deal_ymd)
+            print(raw_str_json)
+
+            if raw_str_json:
+                raw_json = json.loads(raw_str_json)
+            # 다른 데이터 처리 로직 추가
+            return raw_json
+        except json.JSONDecodeError:
+            print("JSON decoding 실패")
+        except Exception as e:
+            print(f"오류 발생: {str(e)}")
+
+    def budong_data_info_collector(self):
+        # print('\n부동산 정보 수집 스케줄러 동작\n')
+        # while self.running:
+        #     self.budong_info_collector()
+        #     print('수집완료')
+        #     time.sleep(3600)  # 1시간 주기로 데이터 수집
+        print('\n부동산 정보 수집 스케줄러 동작\n')
+        while self.running:
+            # 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+            custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+            
+            # 필요한 형식으로 변환
+            deal_ymd = time.strftime("%Y%m", custom_time)
+            # deal_ymd = time.strftime("%Y%m")
+            self.budong_info_collector(deal_ymd)
+            print('수집완료')
+            time.sleep(3600)  # 1시간 주기로 데이터 수집
+
+    def start_scheduler(self):
+        self.running = True
+        t = threading.Thread(target=self.budong_data_info_collector, daemon=True)
+        t.start()
+
+    def stop_scheduler(self):
+        self.running = False
+        print("스케줄러 종료 중...")
+
+    def print_main_menu(self):
+        print('\n1. 부동산 허가 거래정보 예측 데이터 수집 시작')
+        print(' 2. 업데이트 예정')
+        print('3. 스케줄러 종료')
+        print('* 엔터: 메뉴 업데이트\n')
+
+    def run_menu(self):
+        while True:
+            self.print_main_menu()
+            print('아래행에 메뉴입력: ', end=' ')
+            selection = input().strip()
+            if selection == '':
+                continue
+            elif selection.isdigit():
+                menu_num = int(selection)
+                if menu_num == 1:
+                    self.start_scheduler()
+                elif menu_num == 2:
+                    print('업데이트 예정중입니다.')
+                elif menu_num == 3:
+                    self.stop_scheduler()
+                    break
+                elif menu_num == 0:
+                    continue
+
+if __name__ == "__main__":
+    print('<부동산 거래 정보 데이터수집 스케줄러 프로그램 ver1.0>')
+    scheduler = GetDataInfoScheduler()
+    scheduler.run_menu()
+```
+
+수정보완된 소스 구문 (하단 설명 참조.)
+# 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+# 필요한 형식으로 변환
+deal_ymd = time.strftime("%Y%m", custom_time)
+
+
 
 
 
