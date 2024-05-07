@@ -1675,6 +1675,7 @@ async function getAndDisplayData() {
     } catch (error) {
         console.error("Error parsing JSON from URL:", error);
     }
+
     
 }
 
@@ -1692,8 +1693,675 @@ async function getAndDisplayData() {
 
 
 
+- [x] 240502(목) 오늘 작업한 내용: 
+  map.html 에서 flask 서버에 api 요청시 데이터를 가지고 올 순 있었다. 확인해보니 위도, 경도 데이터가 값이 동일한 값이라 flask 서버에 있는 getData 클래스에서거래 허가 처리 정보 openAPI를 응답받아 실 데이터 값으로 다시 임의로 집어넣고 돌려서 웹 페이지 화면단에서 다시 정상적인 위도, 경도 정보 출력을 확인 할 수 있었다. 
+  참고자료 차원에서 개선된 소스코드도 여기에 올린다. 
+
+-- address_server.py
+```python
+
+from flask import Flask, request, jsonify, render_template, make_response
+from geopy.geocoders import Nominatim
+from flask_cors import CORS
+from flask_restful import Api, Resource, reqparse
+from flask import current_app
+import requests
+import json
+import random  # random 모듈 추가
+
+
+class testAPI(Resource):
+    def get(self):
+        # 0. 기본 변수 가져오기
+        url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
+        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
+        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+
+        # 1. 요청정보 만들기
+        url = url
+        params = {
+           'serviceKey': access_key, 
+           'LAWD_CD': '11110', 
+           'DEAL_YMD': '202305',
+           '_type': 'json'
+        }
+
+        # 2. 해당 요청정보로 데이터를 가져온다.
+        
+        response = requests.get(url, params=params)
+        dataOpenAPI =  json.loads(requests.get(url, params=params).text)
+        # dataOpenAPI =  json.loads(response.text)
+        # return response.text
+
+        print(f'response =====>  {response}')
+
+        data = response.json()
+        print(f'data =====>  {data}')
+
+        # 3. 가져온 데이터를 사용해서 결과물을 만든다.
+        # resultJson ={'data':[]}
+        # for i in range(len(dataOpenAPI['response']['body']['items']['item'])):
+        #     resultJson['data'].append({
+        #     # '건물면적' : dataOpenAPI['response']['body']['items']['item'][i]['건물면적'],
+        #     '주소' : dataOpenAPI['response']['body']['items']['item']['법정동'],
+        #     '주소지역' : dataOpenAPI['response']['body']['items']['item'][i]['시군구'],
+        #     '용도지역' : dataOpenAPI['response']['body']['items']['item'][i]['용도지역']
+        # })
+
+        # 4. 결과물을 고객?에게 전달해준다. (리턴)
+        # return resultJson
+
+        resultJson ={'data':[]}
+        items = dataOpenAPI.get('response', {}).get('body', {}).get('items', {}).get('item', [])
+        
+        geolocator = Nominatim(user_agent='chiricuto')
+        for item in items:
+            location = geolocator.geocode(item.get('법정동'))
+
+            # print(f'AAAAAAA:',addr)  
+            # latitude = location.latitude
+            # longitude = location.longitude 
+            # print(f'위도:',latitude)  
+            # print(f'경도:',longitude)  
+        
+            # try:
+            resultJson['data'].append({
+                '건물면적': item.get('건물면적'),
+                '주소': item.get('법정동'),
+                '주소지역': item.get('시군구'),
+                '용도지역': item.get('용도지역'),
+                '위도':location.latitude,
+                '경도':location.longitude
+            })
+            # except KeyError as e:
+                # continue  # 또는 로그 찍기 등의 예외 처리
+        # 결과를 JSON 문자열로 변환하여 반환
+        # return json.dumps(resultJson, ensure_ascii=False)
+        return jsonify(resultJson)
+        
+
+
+# class GeocordResource(Resource):
+#     def get(self):
+#         return searchAddress(request.args.get('address'))
+
+# def searchAddress(address):
+#     apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+#     apiurl = "https://api.vworld.kr/req/search?"
+#     params = {
+#         "service": "search",
+#         "request": "search",
+#         "crs": "EPSG:4326",
+#         "query": address,
+#         "type": "address",
+#         "category": "road",
+#         "format": "json",
+#         "key": apikey,
+#     }
+    
+#     response = requests.get(apiurl, params=params)
+#     print(response)
+
+#     data = response.json()
+#     print(data)
+
+
+#     result = {'data':[]}
+#     if data.get('response') and data['response'].get('result') and data['response']['result'].get('items'):
+#         for x in data['response']['result']['items']:
+#             result['data'].append({
+#                 '주소': x['address']['road'],
+#                 '위도': x['point']['y'],
+#                 '경도': x['point']['x']
+#             })
+#     else:
+#         result['error'] = 'No results found'
+
+#     return result
+
+class BudongInfo(Resource):
+           
+    def get(self):
+        
+        item = ["청운동", "통의동", "체부동", "당주동", "신문로1가", "청진동", "수송동", "삼청동", "계동", "돈의동"]
+        result = {'info': item}  # 모든 이름을 'info' 키에 리스트로 저장
+        return result
+
+        # temp =  ["상철", "영희", "철수", "미자", "준호", "수진", "태영", "지원", "민수", "서연"]
+        # result ={'info':[]}
+        # for i in temp:
+
+            # 랜덤하게 이름 선택
+            # budong_info = random.choice(i)
+            # Api(app).add_resource(BudongInfo,'/budong_info')
+            #  top_product = i
+        # return {"name": top_product}
+        #    info = {"name": i}
+        # return info
+
+class getData(Resource):
+    def get(self):
+        data =  [
+                    
+            {"번호":1, "건물면적": 52.89,   "용도지역": "제3종일반주거",  "위도": 37.58446,      "경도": 126.99869,        "주소": " 명륜2가","주소지역": "종로구"},
+            {"번호":2, "건물면적": 267.31,  "용도지역": "준주거",       "위도": 37.57595,      "경도": 127.01313,        "주소": " 창신동","주소지역": "종로구"},
+            {"번호":3, "건물면적": 40.45,   "용도지역": "일반상업",       "위도": 37.57595,     "경도": 127.01313,        "주소": " 창신동","주소지역": "종로구"},
+            {"번호":4, "건물면적": 452.3,   "용도지역": "제2종일반주거",   "위도": 37.57595,     "경도": 127.01313,         "주소": " 창신동","주소지역": "종로구"},
+            {"번호":5, "건물면적": 201.65,  "용도지역": "일반상업",      "위도": 37.57595,      "경도": 127.01313,         "주소": " 창신동","주소지역": "종로구"},
+            {"번호":6, "건물면적": 67.8,    "용도지역": "일반상업",        "위도": 37.57595,    "경도": 127.01313,         "주소": " 창신동","주소지역": "종로구"},
+            {"번호":7, "건물면적": 29.22,   "용도지역": "제2종일반주거",  "위도": 37.609029,     "경도": 126.9573925,       "주소": " 구기동","주소지역": "종로구"},
+            {"번호":8, "건물면적": 38.93,   "용도지역": "제3종일반주거", "위도": 37.5768977,     "경도": 126.958787012829,  "주소": "무악동","주소지역":"종로구"}
+        ]
+        return data
+
+class Detail(Resource):
+    def get(self):
+        # return {"data": data}, 200
+        html = render_template('detail.html')
+        
+        # make_response를 사용하여 응답 객체 생성
+        response = make_response(html)
+
+        response.headers['Content-Type'] = 'text/html'
+        
+        return response
+
+
+def route_app(app):
+   
+    # 경로없이 들어오면 정적 파일 보여주기
+    Api(app).add_resource(testAPI,'/')
+    # api.add_resource(GeocordResource, '/getGeocord')
+    Api(app).add_resource(BudongInfo,'/budong_info')
+    Api(app).add_resource(getData,'/getData')
+    Api(app).add_resource(Detail,'/detail')
+    
+    
+def create_app():
+    # Flask 객체 초기화
+    app = Flask(__name__, template_folder='templates')
+
+    # 정적 파일 디렉토리 설정
+    app.static_folder = 'public'
+    
+    # URL 경로의 prefix 제거
+    app.static_url_path = ''
+
+    # CORS 적용
+    CORS(app)  
+
+    return app
+
+
+app = create_app()
+route_app(app)
+
+
+# app.run : Flask 서버 구동, 기본 포트 5000번
+if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
+    port = 5000
+    print( f"서버 실행 |  http://localhost:{port}")
+    app.run(host= '0.0.0.0',
+        port= port, 
+        debug= True)
+
+
+```
+
+ - [x] 240502(목) 오늘 작업한 내용: 
+  이번엔 화면에서 선택박스를 클릭하여 JSON 데이터로 응답 받은
+  부동산 허가면적, 용도지역, 위도, 경도, 주소, 주소지역에 관련한 정보를 원하는 데이터만 택하여 정보를 출력 할수 있게 끔 기능을 추가했다. 지난번 원빈씨가 알려준 콜백함수, promise 객체, then 함수등, 해당 개념과 제어순서에 관해 파악을 하였고, 또한 서버에 요청하는 함수들 중에서 Fetch(), AJAX(jQuery), Axi(React) 이 함수들의 수행기능등 비동기 방식으로 요청 정보를 수행할 수 있는 통신방식에 대하여 분석하였고, fetch()함수와 awit를 함께 사용하여 비동기 방식으로 Json 정보를 불러와  이벤르리스너 호출 실행시 콜백함수?로 콜하여 익명함수에 async를 정의해 fetch() 에서 받은 서버요청 주소를 response로 받아 response.json()을 호출하여 해당정보를 이상없이 출력하였다. 그리고 이에 따른  소스 코드를 개선 하였다. 변경된 해당 소스 코드도 함께 업데이트하여 올린다. 
+
+  ---detail.html ---
+  ```html 
+
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Data Receiver</title>
+</head>
+<body>
+
+<!--<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력" >-->
+<div id="dataContainer">여기에 div 컨데이너1 정보가 들어옵니다. </div>
+<!--<div id="dataContainer1">여기에 div 컨데이너2 = {{ dict1 }}</div>-->
+<h1>부동산 거래 허가 정보</h1>
+<input type="button" onclick="getAndDisplayData()" value="여기에 데이터 출력">
+<table id="dataTable" border="1">
+<thead>
+<tr>
+    <th>번호</th>
+    <th>건물면적</th>
+    <th>용도지역</th>
+    <th>위도</th>
+    <th>경도</th>
+    <th>주소</th>
+    <th>주소지역</th>
+</tr>
+</thead>
+<tbody>
+<!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+
+</tbody>
+</table>
+
+<script type="text/javascript">
+// 비동기 프로그래밍 키워드 : (async, await)
+// 서버에 요청하는 함수(모듈) : Fetch(JS) , AJAX(jquery) , Axios(React) | 전처리 편하게 해주는 정도의 차이. 기타 세부기능의 차이
+// => 본질 : 다른 서버에 뭔가를 요청하고. 응답을 받아오는 함수. (서버가 계산해서 던져주면 받음.)
+// 키워드 : 콜백함수, promise 객체, then 함수
+
+// function 더하기(x,y){
+//     return x+y
+// }
+//
+// function abc(a,b,c){
+//    return c(a,b);
+// }
+//
+// const test = abc(1,2,더하기)
+//
+
+async function getAndDisplayData() {
+try {
+    // 쿼리 스트링의 'data' 값을 JSON 객체로 파싱합니다.
+    const response = await fetch('http://localhost:5000/getData');
+    const data = await response.json();
+
+
+    // 기존 행을 삭제
+    const tableBody = document
+        .getElementById('dataTable')
+        .getElementsByTagName('tbody')[0];
+
+        // JSON 데이터를 테이블 행으로 변환
+    tableBody.innerHTML = '';
+    data.forEach(item => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = item.번호;
+        row.insertCell(1).textContent = item.건물면적;
+        row.insertCell(2).textContent = item.용도지역;
+        row.insertCell(3).textContent = item.위도;
+        row.insertCell(4).textContent = item.경도;
+        row.insertCell(5).textContent = item.주소;
+        row.insertCell(6).textContent = item.주소지역;
+    });
+
+    const dataContainer = document.getElementById('dataContainer')
+    dataContainer.innerText = dataContainer.innerText + " " + JSON.stringify(data)
+
+
+    } catch (error) {
+        console.error("Error parsing JSON from URL:", error);
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', async function() {
+
+try {
+    const response = await fetch('http://localhost:5000/getData');
+    const jsonData = await response.json();
+    console.log('jsonData Array ==>', jsonData );
+
+    document.getElementById('filterButton').addEventListener('click', function() {
+    let selectedColumns = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    checkboxes.forEach(chk => {
+        selectedColumns.push(chk.value);
+    });
+
+    const filteredData = jsonData.map(item => {
+        let filteredItem = {};
+        selectedColumns.forEach(key => {
+            if (item.hasOwnProperty(key)) {
+                filteredItem[key] = item[key];
+            }
+    });
+        return filteredItem;
+    });
+
+document.getElementById('output').textContent = JSON.stringify(filteredData, null, 2);
+
+    });
+        } catch (error) {
+    console.error("Error parsing JSON from URL:", error);
+    }
+});
+</script>
+
+<h1> 부동산 건물면적, 용도별 처리정보를 체크박스로 선택하여 원하는 정보를 출력(JSON타입)</h1>
+<div>
+<label><input type="checkbox" value="건물면적"> 건물면적</label>
+<label><input type="checkbox" value="용도지역"> 용도지역</label>
+<label><input type="checkbox" value="주소"> 법정동</label>
+<label><input type="checkbox" value="주소지역"> 주소지역</label>
+</div>
+<button id="filterButton">선택 정보 조회</button>
+<pre id="output"></pre>
+</body>
+</html>
+
+
+  ```
 
   
+  - [x] 240502(목) 오늘 작업한 내용: 
+  detail.html 화면에서 서버에서 정보를 가져와 테이블에서 출력시
+  화면에서 보여지는 테이블 스타일 너무 각지고 단조로워 보여기에
+  테이블태그와 버튼태그를 CSS속성을 정의하여 시각적으로 보다 깔끔하고 세련되고 밝은 이미지를 표현하기위해 적용한 테이블 스타일, 버튼 스타일로 만들어 index.css 파일로 속성들을 정의하여
+  head 섹션에 <link  href="저장된 파일경로"> 태그를 사용해 css 파일로 옯겨 놓았다. 결과는 나름 괜찬은 편안한 그린계열 색생의 테이블로 스타일이 적용되어 나름 만족스럽다고 판단되었다. 
+  아래는 CSS 스타일 속성이 적용된 index.css 소스코드이다. 
+
+ ---detail.html---
+ ```html
+<link rel="stylesheet" type="text/css" 
+  href="../public/index.css">
+ ```
+
+---index.css
+ ```css
+/* 테이블 기본 스타일 */
+#dataTable {
+    width: 100%; /* 테이블의 너비를 페이지 전체로 설정 */
+    border-collapse: collapse; /* 테이블의 테두리를 겹쳐서 보이게 함 */
+    font-family: Arial, sans-serif; /* 글꼴 스타일 지정 */
+    background-color: #f8f8f8; /* 테이블 배경색 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 테이블에 그림자 효과 추가 */
+    margin: 20px 0; /* 상하 마진 지정 */
+}
+
+/* 테이블 헤더 스타일 */
+#dataTable thead {
+    background-color: #4CAF50; /* 헤더의 배경색 */
+    color: white; /* 헤더 글자 색상 */
+}
+
+#dataTable thead th {
+    padding: 15px; /* 헤더 셀의 내부 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 테이블 바디 스타일 */
+#dataTable tbody td {
+    padding: 12px; /* 바디 셀의 내부 여백 */
+    border-bottom: 1px solid #ddd; /* 셀 아래에 경계선 추가 */
+}
+
+/* 마우스 오버 시 행 스타일 변경 */
+#dataTable tbody tr:hover {
+    background-color: #e9e9e9; /* 마우스 오버 시 행의 배경색 변경 */
+}
+
+/* 첫 번째 열 스타일 */
+#dataTable tbody tr td:first-child {
+    font-weight: bold; /* 첫 번째 열의 텍스트를 굵게 표시 */
+}
+
+
+input[type="button"] {
+    padding: 10px 20px; /* 버튼 내부의 여백 설정 */
+    font-size: 16px; /* 글자 크기 */
+    font-family: Arial, sans-serif; /* 글꼴 설정 */
+    color: white; /* 글자 색상 */
+    background-color: #4CAF50; /* 배경 색상 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 모양을 손가락 모양으로 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+input[type="button"]:hover {
+    background-color: #45a049; /* 마우스를 올렸을 때 배경 색상 변경 */
+}
+
+input[type="button"]:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 변경 */
+    transform: translateY(2px); /* 클릭 시 약간 아래로 이동 */
+}
+
+/* 모든 버튼에 적용되는 기본 스타일 */
+input[type="button"], button {
+    padding: 10px 20px; /* 버튼 내부의 여백 설정 */
+    font-size: 16px; /* 글자 크기 */
+    font-family: Arial, sans-serif; /* 글꼴 설정 */
+    color: white; /* 글자 색상 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 모양을 손가락 모양으로 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 호버 효과 */
+input[type="button"]:hover, button:hover {
+    background-color: #45a049; /* 마우스를 올렸을 때 배경 색상 변경 */
+}
+
+/* 액티브 상태 효과 */
+input[type="button"]:active, button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 효과 변경 */
+    transform: translateY(2px); /* 클릭 시 약간 아래로 이동 */
+}
+
+/* filterButton ID에 대한 특정 스타일 */
+#filterButton {
+    background-color: #007BFF; /* 버튼의 배경색을 블루로 설정 */
+}
+
+/* filterButton의 호버 효과를 조정 */
+#filterButton:hover {
+    background-color: #0056b3; /* 마우스를 올렸을 때 더 진한 블루로 변경 */
+}
+
+ ```
+
+- [x] 240502(목) 오늘 작업한 내용: 
+ 1. git 강의
+2. python 강의
+3. 제 골격에 코드추가
+4. 만든 코드를 구조 개선하기
+   등을 학습한다.
+   현재 주소 검색을 포함한 데이터 해당 정보를 출력하는 허가정보를 출력하는 서비스를 추가하였고, 관련 소스를 업데이트 및 리팩토링, 리뉴얼등의 작업을 거쳐 파일구조를 변경할
+   예정이다.
+
+
+
+- [x] 240502(금) 오늘 작업한 내용: 
+ 원빈씨가 요청 코드구조를 원본 파일구조에서 리팩토링 작업을 진행, check box html 태그를 이용하여
+ 값을 const jsonData = response.json() 함수로 json 문자열 데이터를 받고, 각각 아래와 같이 체크박스 태그에 담아 채크한 정보만 출력하게 하였다. 아래는 관련 html 소스이다.  
+```html
+<h1> 건물면적, 용도별 허가정보들을 선택후 조회</h1>
+<div>
+<label><input type="checkbox" value="건물면적">건물면적</label>
+<label><input type="checkbox" value="용도지역">용도지역</label>
+<label><input type="checkbox" value="주소">법정동</label>
+<label><input type="checkbox" value="주소지역"> 주소지역</label>
+</div>
+
+<input type="button" id="filterButton" onclick="getDataAndCheckbox()" value="선택 정보 조회">
+
+<div id="dataContainer3">여기에 JSON type으로 정보 들어옴. </div> 
+<pre id="output"></pre>
+<button onclick="loadData()">선택 데이터 조회</button>
+<table id="dataTable3" border="1">
+    <thead>
+    <tr>
+        <th>건물면적</th>
+        <th>용도지역</th>
+        <th>법정동</th>
+        <th>주소지역</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 데이터 행은 여기에 동적으로 추가됩니다 -->
+    
+    </tbody>
+    </table>
+</div>
+```
+해당 자바스크립트 소스는 다음과 같다. 
+```javascript
+async function loadData() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    // const selectedColumns = Array.from(checkboxes).map(checkbox => checkbox.value);
+    
+    const response = await fetch('/getData2');
+    const jsonData = await response.json();
+
+    const tbody = document.getElementById('dataTable3').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = ''; // 기존 데이터를 클리어합니다.
+
+    let selectedColumns = [];
+
+    checkboxes.forEach(chk => {
+        selectedColumns.push(chk.value);
+    });
+
+    jsonData.forEach(data => {
+        const row = tbody.insertRow();
+        selectedColumns.forEach(column => {
+            const cell = row.insertCell();
+            cell.textContent = data[column];
+        });
+    });
+
+
+  
+}    
+
+```
+이상입니다. 그리고 또한 주소검색, 부동산 거래 허가 정보를 조회 할수 있는 원본 서비스에서 내가 작업한 
+소스코드를 피펙토링하여 추가 하였고, 현재 수정중에 있으며, 새 주소로 위도 경도 검색이 현재 거래 매매 정보,
+년도별 허가 거래 정보 에서 둘다 데이터 조회가 가능하다. 이후 OpenAPI를 추가로 보완하여 작업을 지속할 예정입니다. 
+
+- [x] 240502(금) 오늘 작업한 내용: 
+  OpenAPI를 request 요청으로 받아와 json으로 데이터를 변환하여 url 요청시 해당데이터를 응답받는것을
+  호가인 했는데, 원본api 데이터에는 "번호": 1 키 즉 넘버링이 존재하지 않아, 반복문을 돌리기 전에 i = 1 번홀르 초기화 하여 반복문안에 번호를 i 번째로 받아와 반복문이 실행이 되면 루프를 빠져나와 i += 1 즉 1식 증가 시켜 각 데이터 행에 번호를 추가하여 번호 필드값이 순서대로 나올수 있도록 처리했다. 
+
+- [x] 240502(금) 오늘 작업한 내용: 
+  OpenAPI 의 인증키 값을 소스코드내에서 보안상 노출 되지 않도록 .env 에 인증키를 저장하여, os.getenv(변수명)으로 불러와 소스에 적용하였다. 
+
+- [x] 240502(금) 오늘 작업한 내용:  
+  스케줄러를 통해 데이터를 시간대 별로 받아와 OpenAPI 정보를 json으로 받아와 적용하려고 하는데, get함수를 필요한 클래스에 접근을 하는 방법을 몰라 실패하였다. 담주 교육시간에 알아볼 예정이다. 
+  담주 작업시간에 작업할 예정.
+  
+
+
+- [x] 240507(화) 오늘 작업한 내용:  
+현재 시간 current times 으로 값을 받아 오는 것을 고민하다가 임의로 202403 값으로 날짜 데이터 값을 입력하고, testAPI 클래스를 불러서 사용하는것 까지 성공하였습니다. 스케줄러 실행시 공공API 값이 json 데이터로 load() 되어 대량의 데이터가 넘어 오는 것을 확인 할 수 가 있었습니다. 
+작용소스코드를 업데이트 합니다.(스케줄러 python 클래스명 변경 ===>  GetDataInfoScheduler.py )
+
+```python
+import requests
+import time
+import json
+import pandas as pd
+import threading
+from testAPI import testAPI
+
+class GetDataInfoScheduler:
+    def __init__(self):
+        self.api = testAPI()
+        self.running = False
+
+    def budong_info_collector(self, deal_ymd):
+        # 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+        custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+
+        # 필요한 형식으로 변환
+        deal_ymd = time.strftime("%Y%m", custom_time)
+        # deal_ymd = time.strftime("%Y%m")
+        
+        print(deal_ymd)
+        try:
+            raw_str_json = self.api.get(deal_ymd)
+            print(raw_str_json)
+
+            if raw_str_json:
+                raw_json = json.loads(raw_str_json)
+            # 다른 데이터 처리 로직 추가
+            return raw_json
+        except json.JSONDecodeError:
+            print("JSON decoding 실패")
+        except Exception as e:
+            print(f"오류 발생: {str(e)}")
+
+    def budong_data_info_collector(self):
+        # print('\n부동산 정보 수집 스케줄러 동작\n')
+        # while self.running:
+        #     self.budong_info_collector()
+        #     print('수집완료')
+        #     time.sleep(3600)  # 1시간 주기로 데이터 수집
+        print('\n부동산 정보 수집 스케줄러 동작\n')
+        while self.running:
+            # 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+            custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+            
+            # 필요한 형식으로 변환
+            deal_ymd = time.strftime("%Y%m", custom_time)
+            # deal_ymd = time.strftime("%Y%m")
+            self.budong_info_collector(deal_ymd)
+            print('수집완료')
+            time.sleep(3600)  # 1시간 주기로 데이터 수집
+
+    def start_scheduler(self):
+        self.running = True
+        t = threading.Thread(target=self.budong_data_info_collector, daemon=True)
+        t.start()
+
+    def stop_scheduler(self):
+        self.running = False
+        print("스케줄러 종료 중...")
+
+    def print_main_menu(self):
+        print('\n1. 부동산 허가 거래정보 예측 데이터 수집 시작')
+        print(' 2. 업데이트 예정')
+        print('3. 스케줄러 종료')
+        print('* 엔터: 메뉴 업데이트\n')
+
+    def run_menu(self):
+        while True:
+            self.print_main_menu()
+            print('아래행에 메뉴입력: ', end=' ')
+            selection = input().strip()
+            if selection == '':
+                continue
+            elif selection.isdigit():
+                menu_num = int(selection)
+                if menu_num == 1:
+                    self.start_scheduler()
+                elif menu_num == 2:
+                    print('업데이트 예정중입니다.')
+                elif menu_num == 3:
+                    self.stop_scheduler()
+                    break
+                elif menu_num == 0:
+                    continue
+
+if __name__ == "__main__":
+    print('<부동산 거래 정보 데이터수집 스케줄러 프로그램 ver1.0>')
+    scheduler = GetDataInfoScheduler()
+    scheduler.run_menu()
+```
+
+수정보완된 소스 구문 (하단 설명 참조.)
+# 2024년 3월 1일 0시 0분 0초를 나타내는 time 객체 생성
+custom_time = time.struct_time((2024, 3, 1, 0, 0, 0, 0, 0, -1))
+
+# 필요한 형식으로 변환
+deal_ymd = time.strftime("%Y%m", custom_time)
+
+
 
 
 
