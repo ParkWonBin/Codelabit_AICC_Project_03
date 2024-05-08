@@ -114,7 +114,7 @@
     padding: 10px;
     margin: 5px 10px;
     overflow-wrap: break-word; /* Breaks words if needed to fit container */
-
+    cursor: pointer;
 }
 #chatMessageList .user{
     background-color: #ffff00;

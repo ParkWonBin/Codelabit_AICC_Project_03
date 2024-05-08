@@ -13,6 +13,17 @@ function Chatbot() {
   ]);
 
   
+  ////////////////////// 클릭하면 읽어주기 기능
+  const handleSpeak = (text) => {
+    const cutIndex = text.indexOf('\n토큰 사용량:');
+    if (cutIndex > -1) {
+        text= text.slice(0, cutIndex).trim()
+    }
+
+    const speech = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(speech);
+};
+
   ////////////////////// 음성인식 기능 관련
   const textAreaRef = React.createRef(); // 커서 추적을 위함
   const [getChatbotInput, setChatbotInput] = useState('');
@@ -160,7 +171,11 @@ cost:${response.data.cost}`
         <div id='chatMessageList'>
         {getMessages.map((item, index) => {
           if (item.role === 'system') {return <></>;}
-          return <pre key={index} className={`message ${item.role}`}>{item.content}</pre>;
+          return <pre 
+            key={index} 
+            className={`message ${item.role}`}
+            onClick={() => handleSpeak(item.content)}
+            >{item.content}</pre>
         })}
         </div>
       </div>
