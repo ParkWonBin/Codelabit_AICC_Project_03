@@ -1,0 +1,25 @@
+##########################
+# express ################
+EXPRESS_PORT=
+SESSION_SECRET=
+
+# DB #
+ORACLE_CLIENT=/usr/lib/oracle/21/client64/lib
+DB_USER=
+DB_PASSWORD=
+DB_CONNECTIONSTRING=본인AWS내부IP:1521/xe
+
+##########################
+# react ##################
+# 변수명은 "REACT_APP_"로 시작해야함.
+REACT_APP_KAKAO_JS=
+REACT_APP_KAKAO_REST=
+REACT_APP_EXPRESS_URL=https://aicc3.wbpark.app
+REACT_APP_FLASK_URL=https://aicc3flask.wbpark.app
+
+##########################
+# flask ##################
+FLASK_PORT=
+OPEN_AI_KEY=
+OPEN_API_ENCODING=
+OPEN_API_DECODING=
