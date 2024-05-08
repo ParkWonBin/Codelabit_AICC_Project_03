@@ -12,20 +12,83 @@ function Chatbot() {
     {role:'assistant',content:'코드랩 쳇봇입니다.\n무엇을 도와드릴까요?'}
   ]);
 
+  
+  ////////////////////// 음성인식 기능 관련
+  const textAreaRef = React.createRef(); // 커서 추적을 위함
+  const [getChatbotInput, setChatbotInput] = useState('');
+  // 음성 인식 객체 생성 및 설정
+  let isrecording = false
+  const recognition = new window.webkitSpeechRecognition || window.SpeechRecognition();
+  recognition.continuous = true; // 연속적인 결과를 반환하도록 설정  
+  recognition.lang = 'ko-KR'; // 사용자의 언어 설정
+  
+  const handleRecordBtn =()=>{
+    if(!isrecording){
+      recognition.start();
+      isrecording = true
+      document.getElementById('recognition').innerText = '녹음중지'
+      document.getElementById('recognition').classList.add('isrecording')
+    }else{
+      recognition.stop();
+      isrecording =false
+      document.getElementById('recognition').innerText = '녹음시작'
+      document.getElementById('recognition').classList.remove('isrecording')
+    }
+  }
+  recognition.onstart = function() {
+    console.log("음성 인식이 시작되었습니다.");
+  };
+  recognition.onend = function() {
+    console.log("음성 인식 서비스가 종료되었습니다.");
+  }; 
+  recognition.onerror = function(event) {
+    console.error("음성 인식 에러 발생:", event.error);
+  };
+  recognition.onresult = function(event) {
+    var transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+        transcript += event.results[i][0].transcript;
+    }
+    console.log(`인식된 내용 추가 : ${transcript}`)
+    insertAtCursor(transcript);
+  };
+  
+  const insertAtCursor = (text) => {
+    const chatbotInput = getChatbotInput
+    const textarea = textAreaRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const before = chatbotInput.substring(0, start);
+    const after = chatbotInput.substring(end, chatbotInput.length);
+  
+    setChatbotInput(before + text + after); // 새로운 텍스트 삽입 후 상태 업데이트
+    // 커서 위치 업데이트
+    setTimeout(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + text.length;
+      textarea.focus();
+    }, 0);
+  };
+
+
+
+
+  ////////////////////
   const toggleChatbot = async() => {
     setIsChatbotOpen(!isChatbotOpen);
   };
+  const handleInputChange = (e)=>{
+    setChatbotInput(e.target.value);
+  }
 
-  const sendMessage = async ()=>{
-    // 입력한 내용 받아오기
-    const userInput = document.getElementById('chatInput')
-    const userText = userInput.value
-    userInput.value = ''
-
+  const sendMessage = async ()=>{  
     // 내용 안쓰고 전송하면 요청 안보내기
-    if(userText.trim()===''){
+    if(getChatbotInput.trim()===''){
       return null
     }
+    
+    // 입력한 내용 받아오기  
+    const userText = getChatbotInput
+    setChatbotInput('')
 
     // 일단 화면에 내용을 표시하기
     setMessages(data=>{
@@ -103,8 +166,15 @@ cost:${response.data.cost}`
       </div>
 
     <div key='2' id="chatInputContainer">
-      <textarea id="chatInput" placeholder="메시지를 입력하세요..."></textarea>
-      <button id="chatSendBtn" onClick={sendMessage}>전송</button>
+      <button key='1' id='recognition' className='recognition' onClick={handleRecordBtn}>녹음시작</button>
+      <textarea 
+        ref={textAreaRef}
+        id="chatInput" 
+        placeholder="메시지를 입력하세요..." 
+        value={getChatbotInput}
+        onChange={handleInputChange}
+      />
+      <button key='2' id="chatSendBtn" onClick={sendMessage}>전송</button>
     </div>
 </div>)}
 

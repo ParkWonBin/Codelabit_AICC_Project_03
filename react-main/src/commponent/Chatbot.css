@@ -74,6 +74,25 @@
     background-color: #715253;
     color: #ffff00;
 }
+
+.recognition {
+    flex: 1; /* 나머지 20%의 공간 차지 */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: 2px;
+    margin-right: 2px;
+    background-color: #715253;
+    color: #ffff00;
+}
+
+.isrecording, .recognition:hover{
+    color: #715253;
+    background-color: #ffff00;
+}
+
 #chatbot #chatSendBtn:hover {
     background-color: #ffff00;
     font-weight: bolder;
