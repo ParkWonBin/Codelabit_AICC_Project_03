@@ -8,6 +8,9 @@ app.get('/react/*',(req,res)=>res.redirect('/react'))
 // app.use('/react',express.static(path.join(__dirname, '/build'))) 
 // appInitSetting 에서 이미 수행한 내용.
 
+app.get('/',(req,res)=>{res.render('main')})
+app.get('/flask',(req,res)=>{res.redirect(process.env.REACT_APP_FLASK_URL)})
+
 app.use('/dev', require('./routes/dev'));
 app.use('/index', require('./routes/index'));
 app.use('/api/kakao/maps', require('./api/kakoMaps'));
@@ -28,5 +31,5 @@ app.use('/commentDelete', require('./routes/commentDelete'));
 
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}/index`)
+    console.log(`Server is running on http://localhost:${PORT}`)
 });

@@ -11,9 +11,9 @@ app = create_app()
 api = route_app(app)
 
 CONFIG = {
-    'host': 'localhost',
+    'host': '0.0.0.0', 
     'port': os.getenv("FLASK_PORT"), 
-    'debug': True
+    'debug': False
 }
 
 # app.run : Flask 서버 구동, 기본 포트 5000번
