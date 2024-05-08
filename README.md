@@ -165,26 +165,26 @@ erDiagram
 | `KakaoSocialLogin.js`| 카카오 소셜 로그인 - 사용자 생성     | `/userCreate`                             | Express   |
 
 ## Express 구조
-| 엔드포인트                  | 요청 메소드 | 관련파일            | 주요내용                       | db 함수(파일명)               |
-|--------------------------|-----------|-------------------|------------------------------|----------------------------|
-| `/dev`                   | GET       | `dev.js`           | 개발용 테스트 페이지           | 없음                        |
-| `/index`                 | GET       | `index.js`         | 메인 페이지                   | 없음                        |
-| `/api/kakao/maps`        | 사용 안함 | `kakaoMaps.js`     | 카카오 맵 API 라우터           | 없음                        |
-| `/userLogin`             | GET, POST | `userLogin.js`     | 사용자 로그인 페이지 및 처리    | `db_userLogin.js`          |
-| `/userCreate`            | GET, POST | `userCreate.js`    | 사용자 생성 페이지 및 처리      | `db_userCreate.js`         |
-| `/userDelete`            | POST      | `userDelete.js`    | 사용자 삭제                    | `db_userDelete.js`         |
-| `/postReadBoard`         | GET       | `postReadBoard.js` | 게시판 목록 조회               | `db_postReadBoard.js`      |
-| `/postReadDetail/post`   | POST      | `postReadDetail.js`| 게시글 상세 정보 조회          | `db_postReadDetailPost.js` |
-| `/postReadDetail/comments`| POST      | `postReadDetail.js`| 게시글 댓글 정보 조회          | `db_postReadDetailComments.js` |
-| `/postCreate`            | POST      | `postCreate.js`    | 게시글 생성                    | `db_postCreate.js`         |
-| `/postUpdate`            | POST      | `postUpdate.js`    | 게시글 수정                    | `db_postUpdate.js`         |
+| 엔드포인트                 | 요청 메소드 | 관련파일           | 주요내용                      | db 함수(파일명)                |
+|---------------------------|------------|--------------------|------------------------------|-------------------------------|
+| `/dev`                    | GET        | `dev.js`           | 개발용 테스트 페이지           | 없음                          |
+| `/index`                  | GET        | `index.js`         | 메인 페이지                   | 없음                          |
+| `/api/kakao/maps`         | 사용 안함   | `kakaoMaps.js`     | 카카오 맵 API 라우터          | 없음                          |
+| `/userLogin`              | GET, POST  | `userLogin.js`     | 사용자 로그인 페이지 및 처리   | `db_userLogin.js`             |
+| `/userCreate`             | GET, POST  | `userCreate.js`    | 사용자 생성 페이지 및 처리     | `db_userCreate.js`            |
+| `/userDelete`             | POST       | `userDelete.js`    | 사용자 삭제                   | `db_userDelete.js`            |
+| `/postReadBoard`          | GET        | `postReadBoard.js` | 게시판 목록 조회              | `db_postReadBoard.js`          |
+| `/postReadDetail/post`    | POST       | `postReadDetail.js`| 게시글 상세 정보 조회          | `db_postReadDetailPost.js`    |
+| `/postReadDetail/comments`| POST       | `postReadDetail.js`| 게시글 댓글 정보 조회          | `db_postReadDetailComments.js`|
+| `/postCreate`             | POST       | `postCreate.js`    | 게시글 생성                   | `db_postCreate.js`            |
+| `/postUpdate`             | POST       | `postUpdate.js`    | 게시글 수정                   | `db_postUpdate.js`            |
 
-## Flask 구조
-| 엔드포인트       | 요청 메소드 | 연결된 API 파일       |
-|----------------|-----------|--------------------|
-| `/`            | GET       | `Index.py` (정적 페이지) |
-| `/getData`     | GET       | `getData.py`       |
-| `/getData2`    | GET       | `getData2.py`      |
-| `/testAPI`     | GET       | `testAPI.py`       |
-| `/getGeoData`  | POST       | `getGeoData.py`    |
-| `/getGPTMessage` | POST     | `getGPTMessage.py` |
+ ## Flask 구조
+| 엔드포인트        | 요청 메소드 | 연결된 API 파일     |
+|------------------|------------|--------------------|
+| `/`              | GET        | `Index.py`         |
+| `/getData`       | GET        | `getData.py`       |
+| `/getData2`      | GET        | `getData2.py`      |
+| `/testAPI`       | GET        | `testAPI.py`       |
+| `/getGeoData`    | POST       | `getGeoData.py`    |
+| `/getGPTMessage` | POST       | `getGPTMessage.py` |
