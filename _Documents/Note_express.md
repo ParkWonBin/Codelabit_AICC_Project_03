@@ -1,5 +1,17 @@
 # express
 
+### Express CORS 설정
+```js
+const cors = require('cors'); 
+const path = require('path');
+const express = require('express');
+
+const app = express();
+app.use(cors()); // react-express 요청 주고 받을 수 있도록 처리
+app.use(express.json());  // req.body로 json 읽도록
+app.use(express.urlencoded({ extended: true })); // req.body 로 form 읽도록
+```
+
 ### 행추가하고 바로 idx 받아올 떄
 outBind 라는 게 있다.
 ```js
