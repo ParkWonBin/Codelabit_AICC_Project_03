@@ -19,8 +19,8 @@ class testAPI(Resource):
            'serviceKey': access_key, 
            'LAWD_CD': '11110', 
             # 'DEAL_YMD': '202305',
-            # 'DEAL_YMD': '202403',
-            'DEAL_YMD': deal_ymd,
+            'DEAL_YMD': '202403',
+            # 'DEAL_YMD': deal_ymd,
            '_type': 'json'
         }
 

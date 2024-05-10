@@ -31,3 +31,5 @@ async function getAndDisplayData2() {
             console.error("Error parsing JSON from URL:", error);
         }
     }
+
+    
