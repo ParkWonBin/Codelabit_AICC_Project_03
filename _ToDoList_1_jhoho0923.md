@@ -2402,4 +2402,31 @@ deal_ymd = time.strftime("%Y%m", custom_time)
  그래서 높은 알파값일 때는 러프하고 단순한 모델을.
  낮은 알파값에서는 세밀하고 깨잘깨잘한 패턴의 데이터에서 적절하다 할 수 있습니다.
 
-   
+
+- [x] 240517(금) 오늘 작업한 내용:  
+ # 필요한 라이브러리 임포트
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# 데이터셋 로드
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# 데이터셋을 훈련 세트와 테스트 세트로 분할
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# DecisionTreeClassifier 모델 생성
+dt_model = DecisionTreeClassifier(random_state=42)
+
+# 모델 훈련
+dt_model.fit(X_train, y_train)
+
+# 예측 수행
+y_pred = dt_model.predict(X_test)
+
+# 정확도 계산
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Decision Tree Accuracy: {accuracy:.4f}")  
