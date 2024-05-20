@@ -2430,3 +2430,12 @@ y_pred = dt_model.predict(X_test)
 # 정확도 계산
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Decision Tree Accuracy: {accuracy:.4f}")  
+
+
+- [x] 240520(월) 오늘 작업한 내용: 
+ML/DL 심화
+심층신경망 리뷰 및 심화 (Dropout, 조기종료 이슈등)
+합성곱(CNN)
+데이터 증폭
+문제유형별 레시피 (선형회귀, 2진분류, 다중분류)
+연습문제
