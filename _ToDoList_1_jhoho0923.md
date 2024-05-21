@@ -2463,5 +2463,6 @@ TF-IDF 이론
 
 24년 5월 리엑트 컴퍼런스 
 (리엑트19 신버전 변경사항 요약)
+
 https://youtu.be/gGKp_xQya6o?si=oAX98Jku3ftUWnNW
 
