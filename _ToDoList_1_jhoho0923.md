@@ -2493,6 +2493,8 @@ soup = BeautifulSoup()
 시나리오에 존재하는 문제점 및 잠재 요구사항을 도출
 잠재 요구사항으로부터 프로젝트 기능 도출
 
+
+
 - [x] 240528(화) 오늘 작업한 내용:
                          * 페르소나 분석 기법이란 무엇인가?
 페르소나 분석 기법의 주요 특징과 단계
@@ -2547,3 +2549,87 @@ soup = BeautifulSoup()
 이 룰 수 있다.
 마케팅 전략 수립합니다: 확실하고 정확환 사용자의 세분화를 통하여 보다 효율적인 효과적 마케팅 전략을 수립할 수 있다.
 페르소나 분석 기법은 사용자의 보이스를 대변하며 더욱 더 나은 사용자 경험(UX: User Experience)을 제공하고, 관련 프로덕트나 Service's success Potential 효과를 높이는 중요한 게획 도구이다.
+
+
+- [x] 240529(수) 오늘 작업한 내용:
+npm 
+
+Atomic 
+-----------
+Next-Auth
+MSW
+React-Query
+i18 
+
+------------------------
+Android 13 ver.
+ios 13 
+
+Sketch => Figma
+
+Spring boot --->   JPA 
+Mybatis 
+
+보일러 플레이트 
+기획자 
+개발 - FE, 
+
+Cloud <----->  on Demand 
+Aus  -->
+GCP --->
+AZURA? 
+
+CI / CD : 계속적인 리소스 배포 
+
+Demon(백그라운드)를 만들어 백그라운드( Backend)  서버에서 계속 떠있게 만들어야함.
+Node.js 에서 싱글스레드 기반이라 ( 복합 멀티 스레드 프로세싱 시스템이 안된다. )
+
+엣지(Edge) 크라우딩 시스템: 
+
+FrameWork 프레임워크 들 
+Carael -----> php
+Spring ---->  Java 
+Express ----> JavaScript 
+Djanggo  
+
+Middle Ware (미들 웨어) 
+
+Spring 에서 사용하는 thymeleaf (타임리프) 뷰 사이드 엔진 
+AS-IS 개발 방법론 
+Restful 
+SSR (서버사이드 랜더링): php, jsp
+CSR (클라이언트 사이즈 랜더링) :  javaScript
+Common JS ====>> require(" ") 모듈 같은 
+ECMA Script 표준 React [javaScript 라이브러리], express [javaScrip 프레임워크]
+개발사에서 이런 스펙과 사향을 가지고.. 
+WSC (웹표준) 
+프로그램언어를 배우려면 인터넷 강의(유튜브 강의)에서 배워라!
+RevitMQ, kafka : MSA (마이크로 소프트웨어 아키택처)
+EBS 
+Sass ==>  DataDog, Maxy, Jennifer 
+전자정부프레임워크 (egov framework) : 정부정책에 의거 Java 개발자를 대거 영입하기 위함이었다. 
+그래서 자바 공화국이라고 할 정도로.
+마이그레이션 
+Java, (C#)Unity, C++, C, js, python, Ruby, php, kotlin 
+롤업(library), 웹팩(webpack) BABEL(Cross-browsing)  
+Dependences, devDependences, polyfill (인터섹션  옵저버 Es6 에서 돌아가는 것을 Es5로 다운 그레이 호환되게 할 수 있는 devDependences )
+esint : 코드 컨벤션을 유지해 주는 devDependences
+- AI, FE(FrontEnd)JavaScript Bible[자바스크립트 바이블] , BE(BackEnd)Java SQL, Kotlin(App), 
+Infra (DevOps) AWS
+CLI os(centOs)
+DNS  2.0
+HTTP 1.1 
+TCP/ IP/ UDP/ FTP
+Scope가 넓어진다. 
+
+
+
+
+* 법률 상담 서비스를 만들때 필요한 중요 포인트 사항 *
+로그인, 캡차? 두가지 인증 관문을 거쳐야 하니깐, 웹 데이터를 접근해서 가지고 오니, 웹 사이트
+사례조사 GPT에 학습시켜 통게를 내보도록 한다. 
+
+
+
+
+
