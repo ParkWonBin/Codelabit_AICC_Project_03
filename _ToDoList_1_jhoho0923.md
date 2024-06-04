@@ -197,7 +197,7 @@ class GeocordResource(Resource):
         return searchAddress(request.args.get('address'))
 
 def searchAddress(address):
-    apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+    apikey = "이곳에 인증키"
     apiurl = "https://api.vworld.kr/req/search?"
     params = {
         "service": "search",
@@ -307,8 +307,8 @@ class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
         url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
-        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
-        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+        access_key = '이곳에 인증키'
+        # access_key2 = '이곳에 인증키'
 
         # 1. 요청정보 만들기
         url = url
@@ -416,17 +416,18 @@ if __name__ == "__main__":
 
 이상임.   
 - [x] 240418(금) 오늘 작업한 내용:    
-지난번 실패햤던 <script src='?'> 로 api 가지고 와서 지도를 브라우저화면에 출력하는 작업이 스크립트가 로드가 안되면서 연달이
-실행에 실패하였는데, 동일한 소스를 파이썬 내장서버를 사용하여 url을
-호춯하였더니 카카오 지도를 출력하는 작업을 성공하였다.(성공한 호스트 주소: http://localhost:8000/map.html) 이유는 아마도
-서버 보안 문제로 알맞는 서버를 사용하여 api 데이터를 가져와야먼 하는것이 아닐까 추측해봄. (이유를 아직도 잘 모르겠다..)
+  지난번 실패했던 ```javascript <script src='?'>``` 로 api가지고 와서 지도를 브라우저화면에 출력하는 작업이 스크립트가 로드가 안되면서 연달이
+  실행에 실패하였는데, 동일한 소스를 파이썬 내장서버를 사용하여 url을
+  호춯하였더니 카카오 지도를 출력하는 작업을 성공하였다.(성공한 호스트 주소: http://localhost:8000/map.html) 이유는 아마도
+  서버 보안 문제로 알맞는 서버를 사용하여 api 데이터를 가져와야먼 하는것이 아닐까 추측해봄. (이유를 아직도 잘 모르겠다..)
+
 - [x] 240418(금) 오늘 작업한 내용:
-카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
-이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 이벤트까지도 안전하게 작업을 수행할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
-적용한 소스코드이다. 
+  카카오 API를 이용해서 카카오 지도 데이터와 마커를 표시해서 위도 경도 위치정보를 표시하는 일련의 작업들을 수행했다.      
+  이벤트를 html태그 어디에다가 적용하는지 메세지를 어느 div태그에 뿌리는지 알수 없어서 태그 하나를 열어 id='result'로 적용하니 카카오 맵 API 위 경도 위치 정보를 마커가 표시되며 이벤트까지도 안전하게 작업을 수행할 수 있었다. (단 현재는 테스트로 파이선 내장 http 서버를 사용하여 html 파일을 로드해 출력한 React로 옮기는 이전단계의 작업임.)
+  적용한 소스코드이다. 
 
 
-```html
+```javascript
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1482,7 +1483,7 @@ class testAPI(Resource):
 #         return searchAddress(request.args.get('address'))
 
 # def searchAddress(address):
-#     apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+#     apikey = "이곳에 인증키"
 #     apiurl = "https://api.vworld.kr/req/search?"
 #     params = {
 #         "service": "search",
@@ -1714,8 +1715,8 @@ class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
         url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
-        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
-        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+        access_key = '이곳에 인증키'
+        # access_key2 = '이곳에 인증키'
 
         # 1. 요청정보 만들기
         url = url
@@ -1786,7 +1787,7 @@ class testAPI(Resource):
 #         return searchAddress(request.args.get('address'))
 
 # def searchAddress(address):
-#     apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
+#     apikey = "이곳에 인증키"
 #     apiurl = "https://api.vworld.kr/req/search?"
 #     params = {
 #         "service": "search",
@@ -2496,7 +2497,7 @@ soup = BeautifulSoup()
 
 
 - [x] 240528(화) 오늘 작업한 내용:
-                         * 페르소나 분석 기법이란 무엇인가?
+* 페르소나 분석 기법이란 무엇인가?
 페르소나 분석 기법의 주요 특징과 단계
 목표 설정:
 
@@ -2560,7 +2561,6 @@ Next-Auth
 MSW
 React-Query
 i18 
-
 ------------------------
 Android 13 ver.
 ios 13 
@@ -2677,7 +2677,26 @@ Scope가 넓어진다.
 페르소나 기법을 활용하여 채용 담당자 김현수는 개발자의 기술적 역량뿐만 아니라, 문화 적합성, 최신 기술에 대한 이해, 커뮤니케이션 및 문제 해결 능력을 종합적으로 평가할 수 있습니다. 이를 통해 단순히 기술적으로 뛰어난 개발자뿐만 아니라, 팀에 잘 융화되고 회사의 가치를 공유하는 최적의 인재를 선발할 수 있습니다.
 
 
+- [x] 2400604(화) 오늘 작업한 내용:
+  # Rect 관련해서 알아주면 좋은것들 
+  ## 총정리: 
+   -app (전역설정 Provider, Router, Client 같은 HOC가 slice가 됨)
+   -pages [주소별 페이지, 각각의 주소별 페이지가 slice] 
+   -widgets [feature의 묶음/ 어떻게 묶을진믄 재사용 여부에 따라]
+   -features (행동, 동사가 slice, api, segment에서는 해당 행동을 요청함.)
+   -entities (데이터, 데이터가 slice, api, segment에서는 데이터를 조회)
+   -shared (공유 컴포넌트/ slice 없음 ex) 버튼 같은 작은애들)
 
+   # React에서 레이어 표현구조 
+   ![Test Image](./flask-test2_add/public/img/React_레이어_구조.png)
+   React를 TypeScript로 만들어 새로운 프로젝트를 생성하여 인터넷 강의를
+   기초로 typescript project를 코드를 따라서 스모크 테스트를 진행하여 봄.
+   
+
+   
+
+   
+   
 
 
 
