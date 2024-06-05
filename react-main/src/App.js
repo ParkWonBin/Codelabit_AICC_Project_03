@@ -24,7 +24,7 @@ function App() {
     kakaoAccess:{},
     kakaoMyData:{}
   })
-
+  
   useEffect(()=>{
     setNavData((prevData) => {
       const newData = {...prevData};

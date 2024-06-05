@@ -10,6 +10,7 @@ class testAPI(Resource):
     def get(self, deal_ymd):
         # 0. 기본 변수 가져오기
         url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
+        # 이곳에 인증키
         access_key = os.getenv("OPEN_API_KEY_DECODING") 
         
 
