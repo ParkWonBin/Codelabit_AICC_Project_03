@@ -4,18 +4,12 @@ from flask_restful import Api, Resource, reqparse
 from flask import current_app
 import requests
 import json
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-# apiKey =  os.getenv("apiKey")
-# access_key =  os.getenv("access_key")
 
 class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
-        apiKey =  os.getenv("apiKey")
-        access_key =  os.getenv("access_key")
+        apiKey = 'http://apis.data.go.kr/5080000/polcsttnCctvSttuService/getPolcsttnCctvSttu'
+        access_key = '3eOGOAEPOiPqau/C6kf/oHmEnfPCHl13BZoim0o1ruznUU/CNzVrcIBXINoMdMz05a2lcyoAG0EuBsjlaLRHSA=='
 
         # 1. 요청정보 만들기
         url = apiKey
@@ -50,7 +44,7 @@ class GeocordResource(Resource):
         return searchAddress(request.args.get('address'))
 
 def searchAddress(address):
-    apikeyAddr = os.getenv("apikeyAddr")
+    apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
     apiurl = "https://api.vworld.kr/req/search?"
     params = {
         "service": "search",
@@ -60,7 +54,7 @@ def searchAddress(address):
         "type": "address",
         "category": "road",
         "format": "json",
-        "key": apikeyAddr,
+        "key": apikey,
     }
     
     response = requests.get(apiurl, params=params)
@@ -113,6 +107,12 @@ route_app(app)
 
 # app.run : Flask 서버 구동, 기본 포트 5000번
 if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
     port = 4000
     print( f"서버 실행 |  http://localhost:{port}")
     app.run(host= '0.0.0.0',

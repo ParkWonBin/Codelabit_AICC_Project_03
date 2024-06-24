@@ -1,11 +1,8 @@
 import requests
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
 
 def searchAddress(address):
-    apikeyAddr = os.getenv("apikeyAddr")
+    apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
     apiurl = "https://api.vworld.kr/req/search?"
     params = {
         "service": "search",
@@ -15,7 +12,7 @@ def searchAddress(address):
         "type": "address",
         "category": "road",
         "format": "json",
-        "key": apikeyAddr,
+        "key": apikey,
     }
     
     response = requests.get(apiurl, params=params)

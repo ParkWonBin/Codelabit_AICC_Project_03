@@ -6,24 +6,19 @@ from flask import current_app
 import requests
 import json
 import random  # random 모듈 추가
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-# apiKey =  os.getenv("apiKey")
-# access_key =  os.getenv("access_key")
 
 class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
-        url = os.getenv("url")
-        access_keyA = os.getenv("access_keyA")
-        # access_keyB = os.getenv("access_keyB")
+        url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
+        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
+        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
 
         # 1. 요청정보 만들기
         url = url
         params = {
-           'serviceKey': access_keyA, 
+           'serviceKey': access_key, 
            'LAWD_CD': '11110', 
            'DEAL_YMD': '202305',
            '_type': 'json'
@@ -89,7 +84,7 @@ class testAPI(Resource):
 #         return searchAddress(request.args.get('address'))
 
 # def searchAddress(address):
-#     apikeyAddr = os.getenv("apikeyAddr")
+#     apikey = "652EC099-CCB3-350E-AE95-1C0262EBC36B"
 #     apiurl = "https://api.vworld.kr/req/search?"
 #     params = {
 #         "service": "search",
@@ -200,6 +195,12 @@ route_app(app)
 
 # app.run : Flask 서버 구동, 기본 포트 5000번
 if __name__ == "__main__":
+    # serverConfig = {
+    #     'host': 'localhost',
+    #     'port': 4000, 
+    #     'debug': True
+    # }
+
     port = 4000
     print( f"서버 실행 |  http://localhost:{port}")
     app.run(host= '0.0.0.0',
