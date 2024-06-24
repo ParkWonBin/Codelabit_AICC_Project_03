@@ -6,14 +6,16 @@ from flask import current_app
 import requests
 import json
 import random  # random 모듈 추가
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 class testAPI(Resource):
     def get(self):
         # 0. 기본 변수 가져오기
-        url = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcNrgTrade'
-        access_key = '68raIsLdC4XXFhjBlvluVMt+3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA=='
-        # access_key2 = '68raIsLdC4XXFhjBlvluVMt%2B3UTguCEPFuYMoCNKbJPeIMVejtK1JojcJCcz78KXkSh0BIV4DdqqREyNIkM7yA%3D%3D'
+        apiKey =  os.getenv("apiKey")
+        access_key =  os.getenv("access_key")
 
         # 1. 요청정보 만들기
         url = url

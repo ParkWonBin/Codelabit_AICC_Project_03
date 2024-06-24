@@ -2691,6 +2691,9 @@ Scope가 넓어진다.
    ![Test Image](./flask-test2_add/public/img/React_레이어_구조.png)
    React를 TypeScript로 만들어 새로운 프로젝트를 생성하여 인터넷 강의를
    기초로 typescript project를 코드를 따라서 스모크 테스트를 진행하여 봄.
+
+
+   
    
 
    
